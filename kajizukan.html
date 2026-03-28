@@ -371,92 +371,6 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
 
 </div>
 
-<!-- PENALTY -->
-<div class="fanfare-overlay" id="penaltyOverlay">
-  <div style="font-size:3rem;margin-bottom:16px;">💪</div>
-  <div class="fanfare-text" id="penaltyEx" style="font-size:1.3rem;"></div>
-  <div class="fanfare-sub">Sはかせのまえで<br>やりとげるのじゃ！<br>おわったらSはかせに<br>PWをもらうのじゃ！</div>
-  <button class="fanfare-btn" onclick="showPwInput()" style="background:#ff6666;box-shadow:0 4px 0 #aa2222;">おわった！PWをいれる</button>
-</div>
-
-<!-- PW INPUT -->
-<div class="fanfare-overlay" id="pwOverlay">
-  <div style="font-size:2rem;margin-bottom:12px;">🔐</div>
-  <div class="fanfare-text" style="font-size:.9rem;margin-bottom:16px;">SはかせからPWをきいて<br>にゅうりょくするのじゃ</div>
-  <input id="pwInput" type="number" placeholder="000000"
-    style="width:200px;background:#111;border:2px solid #444;border-radius:6px;padding:12px 14px;font-family:DotGothic16,monospace;font-size:1.6rem;color:white;letter-spacing:6px;text-align:center;outline:none;margin-bottom:12px;"/>
-  <button class="fanfare-btn" onclick="checkPw()">けっていする！</button>
-  <div id="pwWrong" style="font-family:DotGothic16,monospace;font-size:.7rem;color:#ff6666;margin-top:10px;min-height:20px;letter-spacing:2px;text-align:center;"></div>
-</div>
-
-<!-- BADGE -->
-<div class="badge-overlay" id="badgeOverlay">
-  <div class="badge-title" id="badgeTitle">バッジをてにいれた！</div>
-  <div class="badge-display">
-    <div class="badge-number" id="badgeNumber">3</div>
-    <div class="badge-area-name" id="badgeAreaName">さゆさんのしま</div>
-  </div>
-  <div class="badge-sub" id="badgeSub"></div>
-  <button class="badge-btn" onclick="closeBadge()">つづける</button>
-</div>
-
-<!-- QR SCAN MODAL -->
-<div id="qrScanModal">
-  <div class="qr-scan-header">📷 QRコードをよみとるのじゃ</div>
-  <div class="qr-scan-video-wrap">
-    <video id="qrVideo" autoplay playsinline muted></video>
-    <div class="qr-scan-overlay">
-      <div class="qr-scan-corner tl"></div>
-      <div class="qr-scan-corner tr"></div>
-      <div class="qr-scan-corner bl"></div>
-      <div class="qr-scan-corner br"></div>
-      <div class="qr-scan-line"></div>
-    </div>
-  </div>
-  <div class="qr-scan-status" id="qrScanStatus">カメラをQRコードに　むけるのじゃ…</div>
-  <button class="qr-scan-close" onclick="closeQrScan()">とじる</button>
-</div>
-
-<!-- スキャンFABボタン -->
-<button class="scan-fab" id="scanFab" onclick="openQrScan()">📷</button>
-
-<!-- PW入力overlay -->
-<div class="fanfare-overlay" id="readyPwOverlay" style="z-index:150;">
-  <div style="font-size:2rem;margin-bottom:12px;">🔐</div>
-  <div class="fanfare-text" style="font-size:.9rem;margin-bottom:6px;">げんじつの　Sさんの　ところに　いこう！</div>
-  <div class="fanfare-sub">せつめいが　おわったら<br>SさんからPWをもらって<br>にゅうりょくするのじゃ！</div>
-  <input id="readyPwInput" type="text" placeholder="PWをにゅうりょく"
-    style="width:240px;background:#111;border:2px solid #2a3a5a;border-radius:6px;
-    padding:12px;font-family:'DotGothic16',monospace;font-size:1rem;color:white;
-    letter-spacing:2px;text-align:center;outline:none;margin-bottom:12px;"/>
-  <button class="fanfare-btn" onclick="checkReadyPw()">けっていする！</button>
-  <div id="readyPwWrong" style="font-family:'DotGothic16',monospace;font-size:.65rem;color:#ff6666;margin-top:8px;min-height:16px;letter-spacing:2px;text-align:center;"></div>
-</div>
-
-<!-- かばん -->
-<div class="bag-overlay" id="bagOverlay">
-  <div class="bag-title">🎒 かばん</div>
-  <div class="bag-hp-info" id="bagHpInfo">HP: 10 / 10</div>
-  <div class="bag-items">
-    <div class="bag-item" onclick="useBagItem('squat',5)">
-      <div class="bag-item-name">💪 スクワット10かい</div>
-      <div class="bag-item-effect">HP +5　かいふく</div>
-    </div>
-    <div class="bag-item" onclick="useBagItem('pushup',7)">
-      <div class="bag-item-name">🤸 うでたて10かい</div>
-      <div class="bag-item-effect">HP +7　かいふく</div>
-    </div>
-    <div class="bag-item" onclick="useBagItem('massage',10)">
-      <div class="bag-item-name">🙌 かたもみ30びょう</div>
-      <div class="bag-item-effect">HP +10　かいふく（まんたん）</div>
-    </div>
-  </div>
-  <button class="bag-close" onclick="closeBag()">とじる</button>
-</div>
-
-<!-- かばんFAB -->
-<button class="bag-fab" id="bagFab" onclick="openBag()">🎒</button>
-
 <!-- FANFARE -->
 <div class="fanfare-overlay" id="fanfare">
   <div class="fanfare-icon" id="fanfareIcon">✨</div>
@@ -766,7 +680,7 @@ function renderBadgeRow(){
 
 function goToDex(){
   if(penaltyActive && !isHakase){
-    document.getElementById('penaltyOverlay').classList.add('show');
+    // penaltyOverlay廃止
     return;
   }
   // HPアイコン更新
@@ -1375,8 +1289,8 @@ window.onload=function(){
         document.getElementById('quizHint').textContent='';
         document.getElementById('quizChoices').innerHTML='';
       }
-      document.getElementById('penaltyEx').textContent=savedEx||'スクワット10かい！';
-      document.getElementById('penaltyOverlay').classList.add('show');
+      // penaltyEx廃止
+      // penaltyOverlay廃止
       return;
     }
     goToDex();
@@ -1404,8 +1318,8 @@ window.onload=function(){
       document.getElementById('quizHint').textContent='';
       document.getElementById('quizChoices').innerHTML='';
     }
-    document.getElementById('penaltyEx').textContent=savedEx||'スクワット10かい！';
-    document.getElementById('penaltyOverlay').classList.add('show');
+    // penaltyEx廃止
+    // penaltyOverlay廃止
     return;
   }
 
@@ -1676,7 +1590,11 @@ function showStarterMessage(){
   let idx=0;
   function showFinalLine(){
     if(idx>=finalLines.length){
-      waitForHakaseReady();
+      // ボタンを完全に隠してからoverlay表示
+      document.getElementById('openingBtn').style.display='none';
+      document.getElementById('openingBtn').onclick=null;
+      document.getElementById('openingNext').style.display='none';
+      setTimeout(waitForHakaseReady, 300);
       return;
     }
     const currentIdx = idx;
@@ -1731,7 +1649,7 @@ function showPenalty(ex){
   localStorage.setItem('kaji_penalty_entry',currentEntry.id);
   localStorage.setItem('kaji_penalty_entry_bak',currentEntry.id);
   document.getElementById('penaltyEx').textContent=ex;
-  document.getElementById('penaltyOverlay').classList.add('show');
+  // penaltyOverlay廃止
 }
 
 function showPwInput(){
