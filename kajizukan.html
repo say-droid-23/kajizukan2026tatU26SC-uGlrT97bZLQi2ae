@@ -466,6 +466,8 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
 </div>
 
 <script>
+const isHakase=new URLSearchParams(window.location.search).get('hakase')==='1';
+const isStarted=localStorage.getItem('kaji_started')==='1';
 const typeColors={mizu:"type-mizu",honoo:"type-honoo",kusa:"type-kusa",denki:"type-denki",goosuto:"type-goosuto",koori:"type-koori",kakutou:"type-kakutou",iwa:"type-iwa",hagane:"type-hagane",esupaa:"type-esupaa",noormal:"type-noormal",doku:"type-doku",hikou:"type-hikou",fearii:"type-fearii",dragon:"type-dragon",aku:"type-aku",mushi:"type-mushi",jimen:"type-jimen"};
 const typeNames={mizu:"みず",honoo:"ほのお",kusa:"くさ",denki:"でんき",goosuto:"ゴースト",koori:"こおり",kakutou:"かくとう",iwa:"いわ",hagane:"はがね",esupaa:"エスパー",noormal:"ノーマル",doku:"どく",hikou:"ひこう",fearii:"フェアリー",dragon:"ドラゴン",aku:"あく",mushi:"むし",jimen:"じめん"};
 
@@ -1284,8 +1286,7 @@ makeStars();
 
 function getUrlId(){return new URLSearchParams(window.location.search).get('id');}
 
-const isHakase=new URLSearchParams(window.location.search).get('hakase')==='1';
-const isStarted=localStorage.getItem('kaji_started')==='1';
+
 
 function skipOpening(){
   // オープニングスキップ→御三家選択へ
@@ -1699,6 +1700,9 @@ function showStarterMessage(){
 }
 
 function waitForHakaseReady(){
+  // openingBtnのonclickを無効化
+  const btn = document.getElementById('openingBtn');
+  if(btn) btn.onclick = null;
   document.getElementById('readyPwOverlay').classList.add('show');
 }
 
