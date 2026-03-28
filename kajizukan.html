@@ -225,6 +225,25 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
 .scan-fab{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#1e4080,#2a5298);border:2px solid var(--silver);color:white;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);z-index:50;display:none;align-items:center;justify-content:center;}
 .scan-fab.show{display:flex;}
 
+/* かばん */
+.bag-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+.bag-overlay.show{display:flex;animation:fadeIn .3s ease;}
+.bag-title{font-family:var(--pixel);font-size:.9rem;color:var(--yellow);letter-spacing:3px;margin-bottom:6px;}
+.bag-hp-info{font-family:var(--pixel);font-size:.7rem;color:var(--lightblue);letter-spacing:2px;margin-bottom:20px;}
+.bag-items{width:100%;max-width:340px;display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.bag-item{background:#0d1a2e;border:2px solid #2a3a5a;border-radius:8px;padding:14px 16px;cursor:pointer;transition:border-color .15s,background .15s;}
+.bag-item:active{background:#1a3a6b;border-color:var(--lightblue);}
+.bag-item-name{font-family:var(--pixel);font-size:.8rem;color:var(--silver);letter-spacing:2px;margin-bottom:4px;}
+.bag-item-effect{font-family:var(--pixel);font-size:.6rem;color:var(--lightblue);letter-spacing:1px;}
+.bag-close{background:transparent;border:2px solid #333;color:#666;font-family:var(--pixel);font-size:.7rem;padding:10px 24px;border-radius:4px;cursor:pointer;letter-spacing:2px;}
+
+/* かばんボタン（FABの横） */
+.bag-fab{position:fixed;bottom:24px;left:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#6a3a1a,#a05a2a);border:2px solid var(--yellow);color:white;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);z-index:50;display:none;align-items:center;justify-content:center;}
+.bag-fab.show{display:flex;}
+
+/* HP0のクイズロック */
+.hp-zero-msg{font-family:var(--pixel);font-size:.72rem;color:#ff6666;letter-spacing:2px;text-align:center;padding:12px;line-height:1.8;}
+
 /* FANFARE */
 .fanfare-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;}
 .fanfare-overlay.show{display:flex;animation:fadeIn .3s ease;}
@@ -401,6 +420,30 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
 <!-- スキャンFABボタン -->
 <button class="scan-fab" id="scanFab" onclick="openQrScan()">📷</button>
 
+<!-- かばん -->
+<div class="bag-overlay" id="bagOverlay">
+  <div class="bag-title">🎒 かばん</div>
+  <div class="bag-hp-info" id="bagHpInfo">HP: 10 / 10</div>
+  <div class="bag-items">
+    <div class="bag-item" onclick="useBagItem('squat',5)">
+      <div class="bag-item-name">💪 スクワット10かい</div>
+      <div class="bag-item-effect">HP +5　かいふく</div>
+    </div>
+    <div class="bag-item" onclick="useBagItem('pushup',7)">
+      <div class="bag-item-name">🤸 うでたて10かい</div>
+      <div class="bag-item-effect">HP +7　かいふく</div>
+    </div>
+    <div class="bag-item" onclick="useBagItem('massage',10)">
+      <div class="bag-item-name">🙌 かたもみ30びょう</div>
+      <div class="bag-item-effect">HP +10　かいふく（まんたん）</div>
+    </div>
+  </div>
+  <button class="bag-close" onclick="closeBag()">とじる</button>
+</div>
+
+<!-- かばんFAB -->
+<button class="bag-fab" id="bagFab" onclick="openBag()">🎒</button>
+
 <!-- FANFARE -->
 <div class="fanfare-overlay" id="fanfare">
   <div class="fanfare-icon" id="fanfareIcon">✨</div>
@@ -523,22 +566,22 @@ function handleQrUrl(url){
       if(false){
         // (demo分岐は上で処理済み)
       } else {
-        // 解除QR
+        // かいふくQR
         const usedCodes=JSON.parse(localStorage.getItem('kaji_used_unlock')||'[]');
         if((now-tsNum)<=60000 && !usedCodes.includes(unlock)){
           usedCodes.push(unlock);
           localStorage.setItem('kaji_used_unlock',JSON.stringify(usedCodes));
-          localStorage.removeItem('kaji_penalty');
-          localStorage.removeItem('kaji_penalty_ex');
-          localStorage.removeItem('kaji_penalty_hint');
-          localStorage.removeItem('kaji_penalty_entry');
-          localStorage.removeItem('kaji_penalty_heal');
-          penaltyActive=false;
-          playerHP=Math.min(MAX_HP, playerHP+currentHeal);
+          // heal量をURLから取得
+          const healAmount = parseInt(params.get('heal')||'5');
+          playerHP=Math.min(MAX_HP, playerHP+healAmount);
+          localStorage.setItem('kaji_starter', JSON.stringify({id: playerPokemon?playerPokemon.id:'', hp:playerHP}));
+          localStorage.removeItem('kaji_heal_pending');
           updateHPBar();
-          const savedId=localStorage.getItem('kaji_penalty_entry_bak');
-          if(savedId) showQuiz(savedId);
-          else goToDex();
+          // かいふく演出
+          document.getElementById('fanfareIcon').textContent='💊';
+          document.getElementById('fanfareText').innerHTML='HPが　かいふくしたのじゃ！';
+          document.getElementById('fanfareSub').innerHTML='HP: '+playerHP+' / '+MAX_HP;
+          document.getElementById('fanfare').classList.add('show');
         } else {
           alert('このQRはきれんまたはつかいずみじゃ！');
         }
@@ -547,6 +590,52 @@ function handleQrUrl(url){
   } catch(e){
     console.log('QR parse error:', e);
   }
+}
+
+
+// ===== かばん・かいふく =====
+let pendingHealAmount = 0;
+const HEAL_ITEMS = {
+  squat:   {name:'スクワット10かい', heal:5},
+  pushup:  {name:'うでたて10かい',   heal:7},
+  massage: {name:'かたもみ30びょう', heal:10},
+};
+
+function openBag(){
+  const info = document.getElementById('bagHpInfo');
+  if(info) info.textContent = 'HP: '+playerHP+' / '+MAX_HP;
+  document.getElementById('bagOverlay').classList.add('show');
+}
+
+function closeBag(){
+  document.getElementById('bagOverlay').classList.remove('show');
+}
+
+function useBagItem(itemKey, healAmount){
+  closeBag();
+  pendingHealAmount = healAmount;
+  const item = HEAL_ITEMS[itemKey];
+  // かいふくQR待機状態にする
+  localStorage.setItem('kaji_heal_pending', healAmount);
+  // メッセージをオープニング風に表示
+  showHealMessage(item);
+}
+
+function showHealMessage(item){
+  document.getElementById('hakaseChar').style.opacity='1';
+  document.getElementById('openingBox').style.opacity='1';
+  document.getElementById('openingNext').style.display='none';
+  document.getElementById('openingText').innerHTML =
+    'Sさんのまえで<br>'+item.name+'を　やってみせて！<br><br>'+
+    '<span style="color:#7ab8e8;font-size:.65rem;">おわったら　SさんにかいふくQRを<br>だしてもらうのじゃ！</span>';
+  document.getElementById('openingBtn').style.display='block';
+  document.getElementById('openingBtn').style.opacity='1';
+  document.getElementById('openingBtn').textContent='もどる';
+  document.getElementById('openingBtn').onclick=()=>{
+    localStorage.removeItem('kaji_heal_pending');
+    goToDex();
+  };
+  showScreen('openingScreen');
 }
 
 // ===== バッジシステム =====
@@ -687,6 +776,7 @@ function goToDex(){
   showScreen('dexScreen');
   setTimeout(showBadgeIfPending, 400);
   document.getElementById('scanFab').classList.add('show');
+  document.getElementById('bagFab').classList.add('show');
 }
 
 function renderDex(){
@@ -779,6 +869,13 @@ function showQuiz(id){
     choicesEl.appendChild(btn);
   });
   showScreen('quizScreen');
+  // HP0チェック
+  if(playerHP <= 0 && !isHakase){
+    document.getElementById('quizChoices').innerHTML =
+      '<div class="hp-zero-msg">HPが　0じゃ！<br>かばんから　かいふくしてから<br>ちょうせんするのじゃ！</div>';
+    document.getElementById('quizResult').textContent='';
+    document.getElementById('quizHint').textContent='';
+  }
 }
 
 function selectAnswer(selected,correct,hint,choices){
@@ -1154,7 +1251,7 @@ const finalQuiz = {
 };
 
 let seen = JSON.parse(localStorage.getItem('kaji_seen2')||'[]');
-let penaltyActive=localStorage.getItem('kaji_penalty')==='1';
+let penaltyActive=false; // ペナルティ廃止
 let currentHeal=parseInt(localStorage.getItem('kaji_penalty_heal')||'5');
 let caught = JSON.parse(localStorage.getItem('kaji_caught2')||'[]');
 let currentEntry = null;

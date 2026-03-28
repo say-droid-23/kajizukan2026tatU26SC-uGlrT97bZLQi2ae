@@ -69,7 +69,7 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;padding:
 
 <!-- QRカード -->
 <div class="card">
-  <div class="card-title">🔬 かいじょQRせいせい</div>
+  <div class="card-title">💊 かいふくQRせいせい</div>
   <div class="qr-card">
     <div class="qr-label">▶ このQRをあいてにみせるのじゃ（1ぷんゆうこう）</div>
     <div class="qr-wrap">
@@ -85,7 +85,11 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;padding:
     </div>
     <div class="timer-text" id="timerText"></div>
   </div>
-  <button class="gen-btn" onclick="generateQR()">🎲 あたらしいかいじょQRをせいせい</button>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+    <button class="gen-btn" onclick="generateHealQR(5)" style="background:linear-gradient(135deg,#1a4a2a,#2a6a3a);">💪 スクワット10かい（HP+5）</button>
+    <button class="gen-btn" onclick="generateHealQR(7)" style="background:linear-gradient(135deg,#1a3a4a,#2a5a6a);">🤸 うでたて10かい（HP+7）</button>
+    <button class="gen-btn" onclick="generateHealQR(10)" style="background:linear-gradient(135deg,#3a1a4a,#5a2a6a);">🙌 かたもみ30びょう（HP+10）</button>
+  </div>
 </div>
 
 <!-- デモバトルQR -->
@@ -226,7 +230,8 @@ function startDemoTimer(){
   }, 500);
 }
 
-function generateQR(){
+function generateHealQR(healAmount){
+  if(typeof currentTs === 'undefined') currentTs = null;
   // タイマーをクリア
   if(timerInterval) clearInterval(timerInterval);
 
