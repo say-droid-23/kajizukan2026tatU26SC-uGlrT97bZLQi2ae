@@ -197,6 +197,27 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
 .badge-mini{width:32px;height:32px;border-radius:50%;border:2px solid #2a3a5a;background:#111;display:flex;align-items:center;justify-content:center;font-family:var(--pixel);font-size:.7rem;color:#333;}
 .badge-mini.earned{border-color:var(--gold);background:radial-gradient(circle at 35% 35%,#2a4a8a,#0d1a2e);color:var(--gold);box-shadow:0 0 8px rgba(200,168,75,.4);}
 
+/* QR SCANNER */
+#qrScanModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+#qrScanModal.show{display:flex;}
+.qr-scan-header{font-family:var(--pixel);font-size:.8rem;color:var(--silver);letter-spacing:2px;margin-bottom:16px;}
+.qr-scan-video-wrap{position:relative;width:260px;height:260px;border:3px solid var(--lightblue);border-radius:8px;overflow:hidden;background:#000;}
+#qrVideo{width:100%;height:100%;object-fit:cover;}
+.qr-scan-overlay{position:absolute;inset:0;pointer-events:none;}
+.qr-scan-corner{position:absolute;width:24px;height:24px;border-color:var(--yellow);border-style:solid;}
+.qr-scan-corner.tl{top:8px;left:8px;border-width:3px 0 0 3px;}
+.qr-scan-corner.tr{top:8px;right:8px;border-width:3px 3px 0 0;}
+.qr-scan-corner.bl{bottom:8px;left:8px;border-width:0 0 3px 3px;}
+.qr-scan-corner.br{bottom:8px;right:8px;border-width:0 3px 3px 0;}
+.qr-scan-line{position:absolute;left:10%;right:10%;height:2px;background:var(--yellow);opacity:.7;animation:scanLine 2s ease-in-out infinite;}
+@keyframes scanLine{0%,100%{top:10%;}50%{top:85%;}}
+.qr-scan-status{font-family:var(--pixel);font-size:.65rem;color:var(--lightblue);letter-spacing:2px;margin-top:12px;min-height:20px;}
+.qr-scan-close{margin-top:16px;background:transparent;border:2px solid #444;color:#888;font-family:var(--pixel);font-size:.7rem;padding:10px 24px;border-radius:4px;cursor:pointer;letter-spacing:2px;}
+
+/* スキャンボタン */
+.scan-fab{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#1e4080,#2a5298);border:2px solid var(--silver);color:white;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);z-index:50;display:none;align-items:center;justify-content:center;}
+.scan-fab.show{display:flex;}
+
 /* FANFARE */
 .fanfare-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;}
 .fanfare-overlay.show{display:flex;animation:fadeIn .3s ease;}
@@ -353,6 +374,26 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
   <button class="badge-btn" onclick="closeBadge()">つづける</button>
 </div>
 
+<!-- QR SCAN MODAL -->
+<div id="qrScanModal">
+  <div class="qr-scan-header">📷 QRコードをよみとるのじゃ</div>
+  <div class="qr-scan-video-wrap">
+    <video id="qrVideo" autoplay playsinline muted></video>
+    <div class="qr-scan-overlay">
+      <div class="qr-scan-corner tl"></div>
+      <div class="qr-scan-corner tr"></div>
+      <div class="qr-scan-corner bl"></div>
+      <div class="qr-scan-corner br"></div>
+      <div class="qr-scan-line"></div>
+    </div>
+  </div>
+  <div class="qr-scan-status" id="qrScanStatus">カメラをQRコードに　むけるのじゃ…</div>
+  <button class="qr-scan-close" onclick="closeQrScan()">とじる</button>
+</div>
+
+<!-- スキャンFABボタン -->
+<button class="scan-fab" id="scanFab" onclick="openQrScan()">📷</button>
+
 <!-- FANFARE -->
 <div class="fanfare-overlay" id="fanfare">
   <div class="fanfare-icon" id="fanfareIcon">✨</div>
@@ -364,6 +405,133 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
 <script>
 const typeColors={mizu:"type-mizu",honoo:"type-honoo",kusa:"type-kusa",denki:"type-denki",goosuto:"type-goosuto",koori:"type-koori",kakutou:"type-kakutou",iwa:"type-iwa",hagane:"type-hagane",esupaa:"type-esupaa",noormal:"type-noormal",doku:"type-doku",hikou:"type-hikou",fearii:"type-fearii",dragon:"type-dragon",aku:"type-aku",mushi:"type-mushi",jimen:"type-jimen"};
 const typeNames={mizu:"みず",honoo:"ほのお",kusa:"くさ",denki:"でんき",goosuto:"ゴースト",koori:"こおり",kakutou:"かくとう",iwa:"いわ",hagane:"はがね",esupaa:"エスパー",noormal:"ノーマル",doku:"どく",hikou:"ひこう",fearii:"フェアリー",dragon:"ドラゴン",aku:"あく",mushi:"むし",jimen:"じめん"};
+
+
+// ===== QRスキャン =====
+let qrScanStream = null;
+let qrScanInterval = null;
+
+async function openQrScan(){
+  const modal = document.getElementById('qrScanModal');
+  modal.classList.add('show');
+  document.getElementById('qrScanStatus').textContent='カメラをQRコードに　むけるのじゃ…';
+  try {
+    qrScanStream = await navigator.mediaDevices.getUserMedia({
+      video:{facingMode:'environment'}
+    });
+    const video = document.getElementById('qrVideo');
+    video.srcObject = qrScanStream;
+    video.play();
+    startQrDecode(video);
+  } catch(e){
+    document.getElementById('qrScanStatus').textContent='カメラのきょかが　ひつようじゃ…';
+  }
+}
+
+function startQrDecode(video){
+  if(qrScanInterval) clearInterval(qrScanInterval);
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  qrScanInterval = setInterval(()=>{
+    if(video.readyState !== video.HAVE_ENOUGH_DATA) return;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    ctx.drawImage(video, 0, 0);
+    try {
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      // BarcodeDetector APIを使用
+      if('BarcodeDetector' in window){
+        const detector = new BarcodeDetector({formats:['qr_code']});
+        detector.detect(canvas).then(barcodes=>{
+          if(barcodes.length > 0){
+            const url = barcodes[0].rawValue;
+            closeQrScan();
+            handleQrUrl(url);
+          }
+        });
+      }
+    } catch(e){}
+  }, 300);
+}
+
+function closeQrScan(){
+  document.getElementById('qrScanModal').classList.remove('show');
+  if(qrScanInterval){ clearInterval(qrScanInterval); qrScanInterval=null; }
+  if(qrScanStream){ qrScanStream.getTracks().forEach(t=>t.stop()); qrScanStream=null; }
+}
+
+function handleQrUrl(url){
+  try {
+    const urlObj = new URL(url);
+    const id = urlObj.searchParams.get('id');
+    const unlock = urlObj.searchParams.get('unlock');
+    const ts = urlObj.searchParams.get('ts');
+    const demo = urlObj.searchParams.get('demo');
+
+    if(id){
+      const e = entries.find(x=>x.id===id);
+      if(e){
+        if(caught.includes(id)) showDetail(id);
+        else showQuiz(id);
+        return;
+      }
+      // starterのid
+      const starter = starters.find(s=>'starter_'+s.id===id);
+      if(starter){
+        if(caught.includes(id)) {
+          // starter図鑑表示
+          showStarterDetail(id);
+        } else {
+          showQuiz(id);
+        }
+        return;
+      }
+    }
+
+    if(unlock && ts){
+      const now = Date.now();
+      const tsNum = parseInt(ts);
+      if(demo==='1'){
+        // デモバトルQR
+        const usedCodes=JSON.parse(localStorage.getItem('kaji_used_demo')||'[]');
+        if((now-tsNum)<=60000 && !usedCodes.includes(unlock)){
+          usedCodes.push(unlock);
+          localStorage.setItem('kaji_used_demo',JSON.stringify(usedCodes));
+          if(id){
+            const e=entries.find(x=>x.id===id)||starters.find(s=>'starter_'+s.id===id);
+            if(e) showQuiz(id);
+          }
+        } else if((now-tsNum)>60000){
+          alert('このQRはきれんしているのじゃ！SさんにあたらしいQRをもらうのじゃ！');
+        } else {
+          alert('このQRはもうつかわれたのじゃ！');
+        }
+      } else {
+        // 解除QR
+        const usedCodes=JSON.parse(localStorage.getItem('kaji_used_unlock')||'[]');
+        if((now-tsNum)<=60000 && !usedCodes.includes(unlock)){
+          usedCodes.push(unlock);
+          localStorage.setItem('kaji_used_unlock',JSON.stringify(usedCodes));
+          localStorage.removeItem('kaji_penalty');
+          localStorage.removeItem('kaji_penalty_ex');
+          localStorage.removeItem('kaji_penalty_hint');
+          localStorage.removeItem('kaji_penalty_entry');
+          localStorage.removeItem('kaji_penalty_heal');
+          penaltyActive=false;
+          playerHP=Math.min(MAX_HP, playerHP+currentHeal);
+          updateHPBar();
+          const savedId=localStorage.getItem('kaji_penalty_entry_bak');
+          if(savedId) showQuiz(savedId);
+          else goToDex();
+        } else {
+          alert('このQRはきれんまたはつかいずみじゃ！');
+        }
+      }
+    }
+  } catch(e){
+    console.log('QR parse error:', e);
+  }
+}
 
 // ===== バッジシステム =====
 let earnedBadges = JSON.parse(localStorage.getItem('kaji_badges')||'[]');
@@ -452,6 +620,7 @@ function goToDex(){
   renderBadgeRow();
   showScreen('dexScreen');
   setTimeout(showBadgeIfPending, 400);
+  document.getElementById('scanFab').classList.add('show');
 }
 
 function renderDex(){
@@ -940,10 +1109,10 @@ window.onload=function(){
   if(isDemo && unlockCode && unlockTs){
     const now=Date.now();
     const ts=parseInt(unlockTs);
-    const usedCodes=JSON.parse(localStorage.getItem('kaji_used_unlock')||'[]');
+    const usedCodes=JSON.parse(localStorage.getItem('kaji_used_demo')||'[]');
     if((now-ts)<=60000 && !usedCodes.includes(unlockCode)){
       usedCodes.push(unlockCode);
-      localStorage.setItem('kaji_used_unlock',JSON.stringify(usedCodes));
+      localStorage.setItem('kaji_used_demo',JSON.stringify(usedCodes));
       // デモバトルは通常のid処理に流す（下のid処理で処理される）
     } else if((now-ts)>60000){
       alert('このQRはきれんしているのじゃ！SはかせにあたらしいデモバトルQRをもらうのじゃ！');
