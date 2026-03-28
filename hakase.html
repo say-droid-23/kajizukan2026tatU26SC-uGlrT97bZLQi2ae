@@ -109,16 +109,14 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;padding:
     </div>
     <div class="timer-text" id="demoTimerText"></div>
   </div>
-  <br>
-  <div id="readySection" style="display:none;">
-    <div style="font-family:'DotGothic16',monospace;font-size:.62rem;color:#7ab8e8;letter-spacing:1px;margin-bottom:10px;line-height:1.8;text-align:center;">
-      せつめいが　おわったら<br>ボタンをおすのじゃ！
-    </div>
-    <button class="gen-btn" onclick="sendReady()" style="background:linear-gradient(135deg,#22aa44,#44cc66);border-color:#aaffcc;">
-      ✅ せつめいおわり！ずかんをひらく
-    </button>
-    <div id="readyStatus" style="font-family:'DotGothic16',monospace;font-size:.6rem;color:#555;letter-spacing:1px;margin-top:8px;text-align:center;min-height:16px;"></div>
-  </div>
+
+</div>
+
+<!-- ずかん確認 -->
+<div class="card">
+  <div class="card-title">📖 ずかんをかくにんする</div>
+  <div style="font-family:'DotGothic16',monospace;font-size:.6rem;color:#666;letter-spacing:1px;margin-bottom:12px;line-height:1.8;">はかせモードで　ずかんをひらくのじゃ</div>
+  <button class="gen-btn" onclick="openZukan()">📖 ずかんをひらく</button>
 </div>
 
 <!-- 強制解除ボタン -->
@@ -190,7 +188,6 @@ function genDemoQR(playerStarter){
   });
 
   document.getElementById('demoQrCard').style.display='block';
-  document.getElementById('readySection').style.display='block';
   document.getElementById('demoQrLabel').textContent =
     '▶ ' + opponent.icon + opponent.name + 'との　デモバトルQRじゃ（1ぷんゆうこう）';
   document.getElementById('demoTimerBarWrap').style.display='block';
@@ -198,34 +195,7 @@ function genDemoQR(playerStarter){
   startDemoTimer();
 }
 
-function sendReady(){
-  // デモバトルで出したポケモンをcaughtに追加
-  const demoOpponentIds = {
-    'chikorita': 'starter_totodile',
-    'cyndaquil': 'starter_chikorita',
-    'totodile':  'starter_cyndaquil',
-  };
-  const savedStarter = JSON.parse(localStorage.getItem('kaji_starter')||'null');
-  if(savedStarter && savedStarter.id){
-    const opponentId = demoOpponentIds[savedStarter.id];
-    if(opponentId){
-      let caught = JSON.parse(localStorage.getItem('kaji_caught2')||'[]');
-      if(!caught.includes(opponentId)){
-        caught.push(opponentId);
-        localStorage.setItem('kaji_caught2', JSON.stringify(caught));
-      }
-    }
-  }
-  // 同じ端末ならlocalStorageで通知
-  localStorage.setItem('kaji_ready','1');
-  document.getElementById('readyStatus').textContent='ずかんをひらいたのじゃ！';
-  document.getElementById('readyStatus').style.color='#88ff88';
-  // 5秒後にリセット
-  setTimeout(()=>{
-    localStorage.removeItem('kaji_ready');
-    document.getElementById('readyStatus').textContent='';
-  }, 5000);
-}
+
 
 function startDemoTimer(){
   if(demoTimerInterval) clearInterval(demoTimerInterval);
@@ -349,6 +319,10 @@ function startTimer(){
       renderHistory();
     }
   }, 500);
+}
+
+function openZukan(){
+  window.open('https://say-droid-23.github.io/kajizukan2026tatU26SC-uGlrT97bZLQi2ae/kajizukan.html?hakase=1', '_blank');
 }
 
 function clearPenalty(){
