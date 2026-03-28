@@ -144,6 +144,7 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
 /* STARTER */
 #starterScreen{background:linear-gradient(180deg,#05080f 0%,#0d1a2e 100%);min-height:100vh;display:none;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;}
 #starterScreen.active{display:flex;}
+#starterMsgScreen.active{display:flex!important;flex-direction:column;align-items:center;justify-content:center;}
 .starter-title{font-family:var(--pixel);font-size:.8rem;color:var(--silver);letter-spacing:3px;text-align:center;margin-bottom:6px;}
 .starter-hakase-box{background:#0d1a2e;border:2px solid var(--lightblue);border-radius:8px;padding:12px 16px;width:100%;max-width:340px;margin-bottom:24px;position:relative;}
 .starter-hakase-box::before{content:'Sはかせ';position:absolute;top:-10px;left:12px;background:#0d1a2e;padding:0 6px;font-family:var(--pixel);font-size:.55rem;color:var(--lightblue);letter-spacing:2px;}
@@ -306,6 +307,17 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
   </div>
   <div class="badge-row" id="badgeRow"></div>
 <div id="dexList" style="padding-bottom:16px;"></div>
+</div>
+
+<!-- STARTER MSG SCREEN -->
+<div id="starterMsgScreen" class="screen" style="background:linear-gradient(180deg,#05080f 0%,#0d1a2e 100%);min-height:100vh;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;">
+  <div style="font-size:5rem;margin-bottom:24px;">👩‍🔬</div>
+  <div style="background:#0d1a2e;border:3px solid #7ab8e8;border-radius:8px;padding:16px 18px;width:100%;max-width:360px;margin-bottom:24px;position:relative;">
+    <div style="position:absolute;top:-10px;left:16px;background:#0d1a2e;padding:0 8px;font-family:'DotGothic16',monospace;font-size:.6rem;color:#7ab8e8;letter-spacing:2px;">Sはかせ</div>
+    <div id="starterMsgText" style="font-family:'DotGothic16',monospace;font-size:.8rem;color:white;line-height:1.9;letter-spacing:1px;min-height:48px;"></div>
+    <div id="starterMsgNext" style="position:absolute;bottom:8px;right:12px;font-family:'DotGothic16',monospace;font-size:.65rem;color:#7ab8e8;animation:startBlink 1s infinite;display:none;">▼</div>
+  </div>
+  <button id="starterMsgBtn" style="background:linear-gradient(135deg,#1e4080,#2a5298);color:#fff;border:2px solid #b8c8d8;border-radius:6px;padding:14px 36px;font-family:'DotGothic16',monospace;font-size:.85rem;letter-spacing:3px;cursor:pointer;box-shadow:0 4px 0 #0d2244;">つぎへ　▶</button>
 </div>
 
 <!-- STARTER -->
@@ -1577,45 +1589,67 @@ function confirmStarter(){
 }
 
 function showStarterMessage(){
-  // オープニング画面を再利用してメッセージ表示
-  document.getElementById('hakaseChar').style.opacity='1';
-  document.getElementById('openingBox').style.opacity='1';
-  document.getElementById('openingBtn').style.opacity='1';
   const starterName = playerPokemon ? playerPokemon.name : 'ポケモン';
   const finalLines = [
-    {speaker:'Sはかせ', text:starterName+'を　えらんだのじゃな！\nよいえらびじゃ！'},
-    {speaker:'Sはかせ', text:'まずは　げんじつの　Sはかせの\nところに　いこう！'},
-    {speaker:'Sはかせ', text:'レッツゴー！'},
+    starterName+'を　えらんだのじゃな！\nよいえらびじゃ！',
+    'まずは　げんじつの　Sはかせの\nところに　いこう！',
+    'レッツゴー！',
   ];
   let idx=0;
-  function showFinalLine(){
-    if(idx>=finalLines.length){
-      // ボタンを完全に隠してからoverlay表示
-      document.getElementById('openingBtn').style.display='none';
-      document.getElementById('openingBtn').onclick=null;
-      document.getElementById('openingNext').style.display='none';
-      setTimeout(waitForHakaseReady, 300);
+  let isMsgTyping=false;
+  let msgTimer=null;
+
+  function typeMsg(text){
+    isMsgTyping=true;
+    const el=document.getElementById('starterMsgText');
+    el.innerHTML='';
+    document.getElementById('starterMsgNext').style.display='none';
+    let html='';
+    let i=0;
+    if(msgTimer) clearInterval(msgTimer);
+    msgTimer=setInterval(()=>{
+      if(i<text.length){
+        if(text[i]==='\n') html+='<br>';
+        else html+=text[i];
+        el.innerHTML=html;
+        i++;
+      } else {
+        clearInterval(msgTimer);
+        isMsgTyping=false;
+        if(idx>=finalLines.length){
+          document.getElementById('starterMsgNext').style.display='none';
+          document.getElementById('starterMsgBtn').textContent='つぎへ　▶';
+        } else {
+          document.getElementById('starterMsgNext').style.display='block';
+        }
+      }
+    },40);
+  }
+
+  function showNext(){
+    if(isMsgTyping){
+      clearInterval(msgTimer);
+      isMsgTyping=false;
+      const text=finalLines[idx-1];
+      document.getElementById('starterMsgText').innerHTML=text.replace(/\n/g,'<br>');
+      document.getElementById('starterMsgNext').style.display=idx<finalLines.length?'block':'none';
       return;
     }
-    const currentIdx = idx;
+    if(idx>=finalLines.length){
+      // PW overlay表示
+      document.getElementById('starterMsgBtn').onclick=null;
+      document.getElementById('readyPwOverlay').classList.add('show');
+      return;
+    }
+    typeMsg(finalLines[idx]);
     idx++;
-    typeText(finalLines[currentIdx]);
-    document.getElementById('openingBtn').onclick=()=>{
-      if(isTyping){
-        clearInterval(typeTimer);
-        isTyping=false;
-        if(currentIdx < finalLines.length){
-          document.getElementById('openingText').innerHTML=finalLines[currentIdx].text.replace(/\n/g,'<br>');
-        }
-        document.getElementById('openingNext').style.display='block';
-        return;
-      }
-      showFinalLine();
-    };
   }
-  showScreen('openingScreen');
-  showFinalLine();
+
+  document.getElementById('starterMsgBtn').onclick=showNext;
+  showScreen('starterMsgScreen');
+  showNext();
 }
+
 
 function waitForHakaseReady(){
   // openingBtnのonclickを無効化
