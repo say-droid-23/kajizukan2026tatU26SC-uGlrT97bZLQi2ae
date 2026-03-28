@@ -119,12 +119,7 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;padding:
   <button class="gen-btn" onclick="openZukan()">📖 ずかんをひらく</button>
 </div>
 
-<!-- 強制解除ボタン -->
-<div class="card">
-  <div class="card-title">🔓 きょうせいかいじょ</div>
-  <div style="font-family:'DotGothic16',monospace;font-size:.6rem;color:#555;letter-spacing:1px;margin-bottom:12px;line-height:1.8;">ひつようなときだけつかうのじゃ</div>
-  <button class="gen-btn danger" onclick="clearPenalty()">ペナルティをきょうせいかいじょ</button>
-</div>
+
 
 <!-- 履歴 -->
 <div class="card">
@@ -325,14 +320,7 @@ function openZukan(){
   window.open('https://say-droid-23.github.io/kajizukan2026tatU26SC-uGlrT97bZLQi2ae/kajizukan.html?hakase=1', '_blank');
 }
 
-function clearPenalty(){
-  if(!confirm('ペナルティをきょうせいかいじょしますか？'))return;
-  localStorage.removeItem('kaji_penalty');
-  localStorage.removeItem('kaji_penalty_ex');
-  localStorage.removeItem('kaji_penalty_hint');
-  localStorage.removeItem('kaji_penalty_entry');
-  renderStatus();
-}
+
 
 function renderStatus(){
   renderHistory();
