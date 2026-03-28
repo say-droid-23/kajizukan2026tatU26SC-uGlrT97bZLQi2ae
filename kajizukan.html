@@ -661,7 +661,7 @@ function renderBadgeRow(){
 }
 
 function goToDex(){
-  if(penaltyActive){
+  if(penaltyActive && !isHakase){
     document.getElementById('penaltyOverlay').classList.add('show');
     return;
   }
@@ -671,6 +671,9 @@ function goToDex(){
     if(hpIcon) hpIcon.textContent = playerPokemon.icon;
     updateHPBar();
   }
+  // はかせモードではHPバーを非表示
+  const hpBar = document.getElementById('hpBarWrap');
+  if(hpBar) hpBar.style.display = isHakase ? 'none' : '';
   // 図鑑が開かれたことを記録
   localStorage.setItem('kaji_started','1');
   // さいしょのしょうぶバッジを付与
@@ -699,8 +702,8 @@ function renderDex(){
       const isSeen=seen.includes(id),isCaught=caught.includes(id);
       const row=document.createElement('div');
       if(isHakase){
-        row.className='entry-row'+(isCaught?' caught':isSeen?' seen':'');
-        row.onclick=()=>isCaught?showDetail(id):showQuiz(id);
+        row.className='entry-row caught';
+        row.onclick=()=>showDetail(id);
       } else {
         row.className='entry-row'+(isCaught?' caught':isSeen?' seen':' locked');
         row.onclick=()=>{if(isCaught)showDetail(id);else if(isSeen)showQuiz(id);};
@@ -708,8 +711,9 @@ function renderDex(){
       let badge=`<span class="entry-badge">みはっけん</span>`;
       if(isCaught)badge=`<span class="entry-badge caught-badge">かんりょう</span>`;
       else if(isSeen)badge=`<span class="entry-badge seen-badge">ちょうせんちゅう</span>`;
-      const displayIcon=isHakase||isSeen||isCaught?e.icon:'❓';
-      row.innerHTML=`<div class="entry-top"><span class="entry-num">No.${id}</span><span class="entry-icon">${displayIcon}</span><span class="entry-name">${isHakase||isSeen||isCaught?e.place:'？？？'}</span>${badge}</div>`;
+      const displayIcon=e.icon;
+      const displayName = isHakase ? e.place : (isSeen||isCaught ? e.place : '？？？');
+      row.innerHTML=`<div class="entry-top"><span class="entry-num">No.${id}</span><span class="entry-icon">${displayIcon}</span><span class="entry-name">${displayName}</span>${badge}</div>`;
       list.appendChild(row);
     });
     sec.appendChild(label);sec.appendChild(list);
@@ -724,7 +728,32 @@ function updateProgress(){
 }
 
 function showQuiz(id){
-  const e=entries.find(x=>x.id===id);
+  // starterのidかどうかチェック
+  let e = entries.find(x=>x.id===id);
+  if(!e){
+    // starter_xxxの形式のidをstartersから探す
+    const starter = starters.find(s=>'starter_'+s.id===id);
+    if(starter){
+      // starterをentryに変換
+      e = {
+        id: id,
+        place: starter.name,
+        icon: starter.icon,
+        pokemon: starter.name,
+        bunrui: 'さいしょのポケモン',
+        types: [starter.type],
+        tokusei: '？？？',
+        seikaku: '？？？',
+        zukan: starter.zukanText || 'さいしょのポケモンじゃ！',
+        hakase: 'このポケモンは　きみのさいしょのなかまになりえたポケモンじゃ。',
+        q: starter.name+'は　なにタイプじゃ？',
+        choices: ['くさ','ほのお','みず','ノーマル'],
+        answer: ['kusa','honoo','mizu'].indexOf(starter.type),
+        hint: 'みため　から　かんがえるのじゃ…',
+      };
+    }
+  }
+  if(!e) return;
   currentEntry=e;answerLocked=false;
   if(!seen.includes(id)){seen.push(id);localStorage.setItem('kaji_seen2',JSON.stringify(seen));}
 
@@ -732,7 +761,7 @@ function showQuiz(id){
   const isLast=(id==='050'&&caught.length>=49);
   const qData=isLast?finalQuiz:e;
 
-  document.getElementById('quizTitle').textContent='No.'+e.id+' '+e.place;
+  document.getElementById('quizTitle').textContent=e.place;
   document.getElementById('quizNum').textContent='No.'+e.id;
   document.getElementById('quizIcon').textContent=e.icon;
   document.getElementById('quizQ').textContent=qData.q;
@@ -1363,138 +1392,30 @@ function nextOpening(){
 // ===== 御三家データ =====
 const starters = [
   {
-    id:'chikorita', name:'チコリータ', icon:'🌿', type:'kusa',
-    desc:'くさタイプの　チコリータじゃ！\nおだやかで　やさしい　せいかくをしておる。\nあいてのこうげきを　うけながしながら\nたたかうのがとくいじゃ。',
-    zukanId:'starter_chikorita',
-    zukanText:'あたまのはっぱから　あまいかおりをだすポケモン。そのかおりをすうと、たたかうきもちがうすれてしまうといわれておる。',
+    id:'fushigidane', name:'フシギダネ', icon:'🌿', type:'kusa',
+    desc:'くさタイプの　フシギダネじゃ！\nおだやかで　しんぼうづよい\nせいかくをしておる。\nあいてのこうげきを　うけながしながら\nたたかうのがとくいじゃ。',
+    zukanId:'starter_fushigidane',
+    zukanText:'うまれたときから　せなかに　たねがあるポケモン。そのたねが　なんなのかは　いまだに　なぞじゃ。',
   },
   {
-    id:'cyndaquil', name:'ヒノアラシ', icon:'🔥', type:'honoo',
-    desc:'ほのおタイプの　ヒノアラシじゃ！\nねっけつかんで　まえにすすむ\nせいかくをしておる。\nつよいこうげきで　おしきるのがとくいじゃ。',
-    zukanId:'starter_cyndaquil',
-    zukanText:'せなかのほのおは　きもちのたかぶりに　あわせてはげしくもえあがる。おこらせると　きけんなポケモンじゃ。',
+    id:'hitokage', name:'ヒトカゲ', icon:'🔥', type:'honoo',
+    desc:'ほのおタイプの　ヒトカゲじゃ！\nねっけつかんで　まえにすすむ\nせいかくをしておる。\nつよいこうげきで　おしきるのがとくいじゃ。',
+    zukanId:'starter_hitokage',
+    zukanText:'しっぽのさきにほのおがともっているポケモン。このほのおがきえると　いのちもきえるといわれておる。',
   },
   {
-    id:'totodile', name:'ワニノコ', icon:'💧', type:'mizu',
-    desc:'みずタイプの　ワニノコじゃ！\nどっしりとして　おちついた\nせいかくをしておる。\nあいてのすきをついて　はんげきするのがとくいじゃ。',
-    zukanId:'starter_totodile',
-    zukanText:'あごのちからが　たいへんつよいポケモン。いちどかみついたら　ぜったいにはなさないといわれておる。',
+    id:'zenigame', name:'ゼニガメ', icon:'💧', type:'mizu',
+    desc:'みずタイプの　ゼニガメじゃ！\nどっしりとして　おちついた\nせいかくをしておる。\nあいてのすきをついて　はんげきするのがとくいじゃ。',
+    zukanId:'starter_zenigame',
+    zukanText:'こうらにはいって　みをまもることができるポケモン。こうらはとてもかたく、たいていのこうげきをはじきかえすのじゃ。',
   },
-{id:"001",place:"げんかんどあ",icon:"🚪",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"002",place:"げんかん",icon:"🏠",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"003",place:"スイッチ",icon:"💡",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"004",place:"マット",icon:"🟫",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"005",place:"かがみ",icon:"🪞",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"006",place:"おちゃ",icon:"🍵",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"007",place:"ひじょうしょく",icon:"🍱",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"008",place:"マスク",icon:"😷",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"009",place:"こうぐばこ",icon:"🧰",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"010",place:"へやへのどあ",icon:"🚪",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"011",place:"トイレットペーパーホルダー",icon:"🧻",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"012",place:"トイレットペーパーホルダーカバー",icon:"🧻",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"013",place:"ごみいれ",icon:"🗑️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"014",place:"タンク",icon:"🔵",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"015",place:"タオルかけ",icon:"🪤",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"016",place:"トイレクリーナー",icon:"🧴",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"017",place:"たな",icon:"📦",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"018",place:"せいりようひんいれ",icon:"🗃️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"019",place:"かんきせん",icon:"💨",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"020",place:"でんきスイッチ",icon:"💡",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"021",place:"どあ",icon:"🚪",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"022",place:"スリッパ",icon:"🥿",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"023",place:"スノコ",icon:"🟫",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"024",place:"せんたくかご",icon:"🧺",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"025",place:"おしゃれぎかご",icon:"🧺",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"026",place:"マット",icon:"🟫",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"027",place:"せんたくき",icon:"👕",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"028",place:"ぼうすいパッド",icon:"🛡️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"029",place:"たいじゅけい",icon:"⚖️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"030",place:"きゅうとうき",icon:"🔌",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"031",place:"せんめんだいのたな",icon:"📦",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"032",place:"せんめんき",icon:"🪥",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"033",place:"せんめんだい",icon:"🚰",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"034",place:"かがみ",icon:"🪞",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"035",place:"はみがきコップ",icon:"🥤",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"036",place:"はぶらしたて",icon:"🪥",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"037",place:"ワックス",icon:"✨",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"038",place:"スイッチ",icon:"💡",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"039",place:"ふろのどあ",icon:"🚿",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"040",place:"せんざいいれ",icon:"🧴",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"041",place:"マット",icon:"🟫",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"042",place:"れいぞうこ",icon:"🧊",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"043",place:"やさいしつ",icon:"🥦",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"044",place:"れいとうこ",icon:"❄️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"045",place:"かんきせん",icon:"💨",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"046",place:"まないたかけ",icon:"🔪",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"047",place:"だいふき",icon:"🧹",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"048",place:"からぶきふきん",icon:"🧻",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"049",place:"タッパー・ラップおきば",icon:"📦",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"050",place:"べんとうばこおきば",icon:"🍱",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"051",place:"シンク",icon:"🫧",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"052",place:"スポンジいれ",icon:"🟡",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"053",place:"みずきりあみ",icon:"🫙",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"054",place:"タオルかけ",icon:"🪤",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"055",place:"ごみばこ",icon:"🗑️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"056",place:"ざつがみいれ",icon:"📰",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"057",place:"エプロン",icon:"👘",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"058",place:"さらおきば",icon:"🍽️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"059",place:"レンジ",icon:"🍳",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"060",place:"すいはんき",icon:"🍚",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"061",place:"ホットプレート",icon:"🥘",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"062",place:"つまようじ",icon:"🪄",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"063",place:"クリップいれ",icon:"📎",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"064",place:"はしいれ",icon:"🥢",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"065",place:"さらのたな",icon:"🍽️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"066",place:"しょくひんかご",icon:"🧺",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"067",place:"きょうようぶのタオル・ふくろいれ",icon:"🛍️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"068",place:"おもち",icon:"🍡",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"069",place:"しょるいぼっくす",icon:"📁",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"070",place:"くすりいれ",icon:"💊",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"071",place:"フェイスタオル・かみようタオルいれ",icon:"🧖",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"072",place:"バスタオルいれ",icon:"🛁",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"073",place:"おかしいれ",icon:"🍬",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"074",place:"ごみぶくろいれ",icon:"🗑️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"075",place:"じょきんシート・ルンバようひんいれ",icon:"🤖",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"076",place:"ながし",icon:"🚰",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"077",place:"とけい",icon:"🕐",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"078",place:"インターホン",icon:"🔔",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"079",place:"エアコンのリモコン",icon:"📱",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"080",place:"せんたくものほし",icon:"👕",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"081",place:"ベッド",icon:"🛏️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"082",place:"ソファ",icon:"🛋️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"083",place:"ゲームいれ",icon:"🎮",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"084",place:"テレビだい",icon:"📺",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"085",place:"Wi-Fiルーター",icon:"📡",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"086",place:"Wii",icon:"🎮",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"087",place:"Switch",icon:"🎮",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"088",place:"ろくがき",icon:"📼",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"089",place:"テレビ",icon:"📺",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"090",place:"はいせんぶぶん",icon:"🔌",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"091",place:"コロコロ",icon:"🪣",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"092",place:"ルンバ",icon:"🤖",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"093",place:"ルンバのタンク",icon:"🤖",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"094",place:"ごみばこ",icon:"🗑️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"095",place:"いす",icon:"💺",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"096",place:"つくえ",icon:"🖥️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"097",place:"ストーブ",icon:"🔥",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"098",place:"カーテン",icon:"🌅",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"099",place:"ドライヤー",icon:"💨",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"100",place:"けしょうだい",icon:"🪞",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"101",place:"かがみ",icon:"🪞",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"102",place:"でんげんタップ",icon:"🔌",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"103",place:"ペンたて",icon:"✏️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"104",place:"ゆわかしポット",icon:"☕",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"105",place:"リスのたな",icon:"🐿️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"106",place:"ねこいます",icon:"🐱",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"107",place:"エアコン",icon:"❄️",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
-  {id:"108",place:"でんき",icon:"💡",pokemon:"？？？",bunrui:"みかいのポケモン",types:["noormal"],tokusei:"？？？",seikaku:"？？？",zukan:"まだ　データが　ないのじゃ…",hakase:"まだ　メッセージが　ないのじゃ…",q:"このポケモンの　なまえは？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
 ];
 
 // プレイヤータイプ→デモバトル相手（プレイヤー有利）
 const demoOpponentMap = {
-  'chikorita': 'totodile',
-  'cyndaquil': 'chikorita',
-  'totodile':  'cyndaquil',
+  'fushigidane': 'hitokage',   // くさ→ほのおにバツグン→ヒトカゲ
+  'hitokage':    'zenigame',   // ほのお→みずにバツグン→ゼニガメ
+  'zenigame':    'fushigidane', // みず→くさにバツグン→フシギダネ
 };
 
 let selectedStarterIndex = -1;
@@ -1677,20 +1598,23 @@ function waitForHakaseReady(){
     'style="width:100%;background:#111;border:2px solid #2a3a5a;border-radius:6px;'+
     'padding:10px;font-family:DotGothic16,monospace;font-size:.9rem;color:white;'+
     'letter-spacing:2px;text-align:center;outline:none;margin-top:8px;"/>'+
+    '<button onclick="checkReadyPw()" '+
+    'style="margin-top:10px;width:100%;background:linear-gradient(135deg,#1e4080,#2a5298);'+
+    'color:white;border:2px solid #7ab8e8;border-radius:6px;padding:12px;'+
+    'font-family:DotGothic16,monospace;font-size:.85rem;letter-spacing:2px;cursor:pointer;">'+
+    'けっていする！</button>'+
     '<div id="readyPwWrong" style="font-family:DotGothic16,monospace;font-size:.65rem;'+
     'color:#ff6666;margin-top:6px;min-height:16px;text-align:center;letter-spacing:1px;"></div>';
-  document.getElementById('openingBtn').style.display='block';
-  document.getElementById('openingBtn').style.opacity='1';
-  document.getElementById('openingBtn').textContent='けっていする！';
-  document.getElementById('openingBtn').onclick=()=>{
-    const input=document.getElementById('readyPwInput');
-    if(!input) return;
-    if(input.value.trim()==='たちゃはおんなのこ'){
-      goToDex();
-    } else {
-      document.getElementById('readyPwWrong').textContent='ちがうようじゃ…Sさんにきくのじゃ。';
-    }
-  };
+}
+
+function checkReadyPw(){
+  const input=document.getElementById('readyPwInput');
+  if(!input) return;
+  if(input.value.trim()==='たちゃはおんなのこ'){
+    goToDex();
+  } else {
+    document.getElementById('readyPwWrong').textContent='ちがうようじゃ…Sさんにきくのじゃ。';
+  }
 }
 
 

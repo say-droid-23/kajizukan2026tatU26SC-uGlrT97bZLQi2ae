@@ -96,9 +96,9 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;padding:
     プレイヤーが　ゆうりな　あいてを　だすのじゃ！
   </div>
   <div style="display:flex;gap:8px;margin-bottom:12px;">
-    <button onclick="genDemoQR('chikorita')" class="demo-btn" id="demoBtnChikorita">🌿 チコリータ</button>
-    <button onclick="genDemoQR('cyndaquil')" class="demo-btn" id="demoBtnCyndaquil">🔥 ヒノアラシ</button>
-    <button onclick="genDemoQR('totodile')" class="demo-btn" id="demoBtnTotodile">💧 ワニノコ</button>
+    <button onclick="genDemoQR('fushigidane')" class="demo-btn" id="demoBtnFushigidane">🌿 フシギダネ</button>
+    <button onclick="genDemoQR('hitokage')" class="demo-btn" id="demoBtnHitokage">🔥 ヒトカゲ</button>
+    <button onclick="genDemoQR('zenigame')" class="demo-btn" id="demoBtnZenigame">💧 ゼニガメ</button>
   </div>
   <div class="qr-card" id="demoQrCard" style="display:none;">
     <div class="qr-label" id="demoQrLabel">▶ このQRをあいてにみせるのじゃ（1ぷんゆうこう）</div>
@@ -140,9 +140,9 @@ let history = JSON.parse(localStorage.getItem('kaji_unlock_history') || '[]');
 
 // デモバトルポケモンマップ（プレイヤーが選んだ→相手に出すポケモン）
 const demoOpponentMap = {
-  'chikorita': {id:'starter_totodile',   name:'ワニノコ',   icon:'💧'},
-  'cyndaquil': {id:'starter_chikorita',  name:'チコリータ', icon:'🌿'},
-  'totodile':  {id:'starter_cyndaquil',  name:'ヒノアラシ', icon:'🔥'},
+  'fushigidane': {id:'starter_hitokage',    name:'ヒトカゲ',   icon:'🔥'},
+  'hitokage':    {id:'starter_zenigame',    name:'ゼニガメ',   icon:'💧'},
+  'zenigame':    {id:'starter_fushigidane', name:'フシギダネ', icon:'🌿'},
 };
 
 let demoTimerInterval = null;
@@ -151,12 +151,11 @@ let currentDemoTs = null;
 
 function genDemoQR(playerStarter){
   // ボタンハイライト
-  ['chikorita','cyndaquil','totodile'].forEach(id=>{
-    document.getElementById('demoBtnChikorita').classList.remove('selected');
-    document.getElementById('demoBtnCyndaquil').classList.remove('selected');
-    document.getElementById('demoBtnTotodile').classList.remove('selected');
+  ['demoBtnFushigidane','demoBtnHitokage','demoBtnZenigame'].forEach(id=>{
+    document.getElementById(id).classList.remove('selected');
   });
-  document.getElementById('demoBtn'+playerStarter.charAt(0).toUpperCase()+playerStarter.slice(1)).classList.add('selected');
+  const btnMap = {fushigidane:'demoBtnFushigidane', hitokage:'demoBtnHitokage', zenigame:'demoBtnZenigame'};
+  if(btnMap[playerStarter]) document.getElementById(btnMap[playerStarter]).classList.add('selected');
 
   const opponent = demoOpponentMap[playerStarter];
   if(!opponent) return;
