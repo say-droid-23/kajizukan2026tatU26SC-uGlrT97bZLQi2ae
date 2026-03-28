@@ -420,6 +420,19 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
 <!-- スキャンFABボタン -->
 <button class="scan-fab" id="scanFab" onclick="openQrScan()">📷</button>
 
+<!-- PW入力overlay -->
+<div class="fanfare-overlay" id="readyPwOverlay" style="z-index:150;">
+  <div style="font-size:2rem;margin-bottom:12px;">🔐</div>
+  <div class="fanfare-text" style="font-size:.9rem;margin-bottom:6px;">げんじつの　Sさんの　ところに　いこう！</div>
+  <div class="fanfare-sub">せつめいが　おわったら<br>SさんからPWをもらって<br>にゅうりょくするのじゃ！</div>
+  <input id="readyPwInput" type="text" placeholder="PWをにゅうりょく"
+    style="width:240px;background:#111;border:2px solid #2a3a5a;border-radius:6px;
+    padding:12px;font-family:'DotGothic16',monospace;font-size:1rem;color:white;
+    letter-spacing:2px;text-align:center;outline:none;margin-bottom:12px;"/>
+  <button class="fanfare-btn" onclick="checkReadyPw()">けっていする！</button>
+  <div id="readyPwWrong" style="font-family:'DotGothic16',monospace;font-size:.65rem;color:#ff6666;margin-top:8px;min-height:16px;letter-spacing:2px;text-align:center;"></div>
+</div>
+
 <!-- かばん -->
 <div class="bag-overlay" id="bagOverlay">
   <div class="bag-title">🎒 かばん</div>
@@ -764,7 +777,7 @@ function goToDex(){
   const hpBar = document.getElementById('hpBarWrap');
   if(hpBar) hpBar.style.display = isHakase ? 'none' : '';
   // 図鑑が開かれたことを記録
-  localStorage.setItem('kaji_started','1');
+  if(!isHakase) localStorage.setItem('kaji_started','1');
   // さいしょのしょうぶバッジを付与
   if(!caught.includes('first_battle')){
     caught.push('first_battle');
@@ -1686,28 +1699,14 @@ function showStarterMessage(){
 }
 
 function waitForHakaseReady(){
-  document.getElementById('openingBtn').style.display='none';
-  document.getElementById('openingNext').style.display='none';
-  document.getElementById('openingText').innerHTML=
-    'げんじつの　Sさんの　ところに　いこう！<br><br>'+
-    '<span style="color:#7ab8e8;font-size:.65rem;">せつめいが　おわったら<br>Sさんから　PWを　もらって　にゅうりょくするのじゃ！</span><br><br>'+
-    '<input id="readyPwInput" type="text" placeholder="PWをにゅうりょく" '+
-    'style="width:100%;background:#111;border:2px solid #2a3a5a;border-radius:6px;'+
-    'padding:10px;font-family:DotGothic16,monospace;font-size:.9rem;color:white;'+
-    'letter-spacing:2px;text-align:center;outline:none;margin-top:8px;"/>'+
-    '<button onclick="checkReadyPw()" '+
-    'style="margin-top:10px;width:100%;background:linear-gradient(135deg,#1e4080,#2a5298);'+
-    'color:white;border:2px solid #7ab8e8;border-radius:6px;padding:12px;'+
-    'font-family:DotGothic16,monospace;font-size:.85rem;letter-spacing:2px;cursor:pointer;">'+
-    'けっていする！</button>'+
-    '<div id="readyPwWrong" style="font-family:DotGothic16,monospace;font-size:.65rem;'+
-    'color:#ff6666;margin-top:6px;min-height:16px;text-align:center;letter-spacing:1px;"></div>';
+  document.getElementById('readyPwOverlay').classList.add('show');
 }
 
 function checkReadyPw(){
   const input=document.getElementById('readyPwInput');
   if(!input) return;
   if(input.value.trim()==='たちゃはおんなのこ'){
+    document.getElementById('readyPwOverlay').classList.remove('show');
     goToDex();
   } else {
     document.getElementById('readyPwWrong').textContent='ちがうようじゃ…Sさんにきくのじゃ。';
