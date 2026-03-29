@@ -235,7 +235,7 @@ function generateHealQR(healAmount){
   currentTs = Date.now();
 
   // URL生成
-  const url = `${ZUKAN_FILE}?unlock=${currentCode}&ts=${currentTs}`;
+  const url = `${ZUKAN_FILE}?unlock=${currentCode}&ts=${currentTs}&heal=${healAmount}`;
 
   // QR生成
   const container = document.getElementById('qrContainer');
