@@ -11,165 +11,243 @@ body{font-family:'DotGothic16',monospace;background:#f0f0f0;padding:16px;}
 h1{font-size:.9rem;text-align:center;margin-bottom:12px;color:#333;}
 .controls{text-align:center;margin-bottom:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
 .btn{background:#1a3a6b;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-family:'DotGothic16',monospace;font-size:.75rem;}
-.btn:hover{background:#2a5298;}
 .btn.green{background:#1a6b3a;}
-.btn.green:hover{background:#2a9a4a;}
 #printArea{background:white;padding:8px;}
-.room-header{background:#1a3a6b;color:white;padding:6px 10px;font-size:.7rem;margin:8px 0 4px;border-radius:3px;}
-.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:4px;}
-.qr-card{border:1px solid #ccc;border-radius:3px;padding:5px;text-align:center;background:white;}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;}
+.qr-card{border:1px solid #ccc;border-radius:3px;padding:4px;text-align:center;background:white;}
 .qr-card .no{font-size:.48rem;color:#999;}
-.qr-card .area{font-size:.45rem;color:#888;margin:1px 0;}
-.qr-card .place{font-size:.55rem;color:#333;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.qr-card img{display:block;margin:3px auto;width:80px;height:80px;}
+.qr-card .area{font-size:.45rem;color:#888;}
+.qr-card .place{font-size:.55rem;color:#333;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}
+.qr-card img{display:block;margin:2px auto;width:80px;height:80px;}
 @media print{
   body{padding:0;background:white;}
   .controls{display:none;}
-  .room-header{background:#333!important;color:white!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .grid{grid-template-columns:repeat(5,1fr)!important;}
-  .qr-card{border:1px solid #aaa!important;}
+  .grid{grid-template-columns:repeat(5,1fr)!important;gap:3px!important;}
+  .qr-card{border:1px solid #aaa!important;padding:3px!important;}
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
 }
 </style>
 </head>
 <body>
-<h1>📷 かじずかん QRコード一覧（151枚）</h1>
+<h1>📷 かじずかん QRコード（151枚）</h1>
 <div class="controls">
   <button class="btn green" id="genBtn" onclick="generateAll()">🔄 QRを生成する</button>
-  <button class="btn" id="printBtn" onclick="window.print()" style="display:none;">🖨️ 印刷する</button>
+  <button class="btn" id="printBtn" onclick="window.print()" style="display:none;">🖨️ 151枚　いんさつする</button>
 </div>
-<div id="printArea"></div>
+<div id="printArea"><div class="grid" id="grid"></div></div>
 
 <script>
 const BASE = 'https://say-droid-23.github.io/kajizukan2026tatU26SC-uGlrT97bZLQi2ae/kajizukan.html';
 
-const rooms = [
-  {name:'🚪 たびだちのひろば（げんかん）', area:'げんかん', entries:[
-    {id:'001',place:'げんかんどあ'},{id:'002',place:'げんかん'},{id:'003',place:'スイッチ'},
-    {id:'004',place:'マット'},{id:'005',place:'かがみ'},{id:'006',place:'おちゃ'},
-    {id:'007',place:'ひじょうしょく'},{id:'008',place:'マスク'},{id:'009',place:'こうぐばこ'},
-    {id:'010',place:'へやへのどあ'},{id:'011',place:'ゆか①'},{id:'012',place:'ゆか②'},
-  ]},
-  {name:'🚽 Sのしま（トイレ）', area:'トイレ', entries:[
-    {id:'013',place:'トイレットペーパーホルダー'},{id:'014',place:'トイレットペーパーホルダーカバー'},
-    {id:'015',place:'ごみいれ'},{id:'016',place:'タンク'},{id:'017',place:'タオルかけ'},
-    {id:'018',place:'トイレクリーナー'},{id:'019',place:'たな'},{id:'020',place:'せいりようひんいれ'},
-    {id:'021',place:'かんきせん'},{id:'022',place:'でんきスイッチ'},{id:'023',place:'どあ'},{id:'024',place:'スリッパ'},
-  ]},
-  {name:'🪥 あわあわシティ（洗面所）', area:'洗面所', entries:[
-    {id:'025',place:'スノコ'},{id:'026',place:'せんたくかご'},{id:'027',place:'おしゃれぎかご'},
-    {id:'028',place:'マット'},{id:'029',place:'せんたくき'},{id:'030',place:'ぼうすいパッド'},
-    {id:'031',place:'たいじゅけい'},{id:'032',place:'きゅうとうき'},{id:'033',place:'せんめんだいのたな'},
-    {id:'034',place:'せんめんき'},{id:'035',place:'せんめんだい'},{id:'036',place:'かがみ'},
-    {id:'037',place:'はみがきコップ'},{id:'038',place:'はぶらしたて'},{id:'039',place:'ワックス'},
-    {id:'040',place:'スイッチ'},{id:'041',place:'ふろのどあ'},{id:'042',place:'せんざいいれ'},
-  ]},
-  {name:'🍳 りょうりこうげん（キッチン）', area:'キッチン', entries:[
-    {id:'043',place:'マット'},{id:'044',place:'れいぞうこ'},{id:'045',place:'やさいしつ'},
-    {id:'046',place:'れいとうこ'},{id:'047',place:'かんきせん'},{id:'048',place:'まないたかけ'},
-    {id:'049',place:'だいふき'},{id:'050',place:'からぶきふきん'},{id:'051',place:'タッパー・ラップおきば'},
-    {id:'052',place:'べんとうばこおきば'},{id:'053',place:'シンク'},{id:'054',place:'スポンジいれ'},
-    {id:'055',place:'みずきりあみ'},{id:'056',place:'タオルかけ'},{id:'057',place:'ごみばこ'},
-    {id:'058',place:'ざつがみいれ'},{id:'059',place:'エプロン'},{id:'060',place:'さらおきば'},
-    {id:'061',place:'レンジ'},{id:'062',place:'すいはんき'},{id:'063',place:'ホットプレート'},
-    {id:'064',place:'つまようじ'},{id:'065',place:'クリップいれ'},{id:'066',place:'はしいれ'},
-    {id:'067',place:'さらのたな'},{id:'068',place:'しょくひんかご'},{id:'069',place:'きょうようぶのタオル・ふくろいれ'},
-    {id:'070',place:'おもち'},{id:'071',place:'しょるいぼっくす'},{id:'072',place:'くすりいれ'},
-    {id:'073',place:'フェイスタオル・かみようタオルいれ'},{id:'074',place:'バスタオルいれ'},{id:'075',place:'おかしいれ'},
-    {id:'076',place:'ごみぶくろいれ'},{id:'077',place:'じょきんシート・ルンバようひんいれ'},{id:'078',place:'ながし'},
-  ]},
-  {name:'📺 くつろぎシティ（リビング）', area:'リビング', entries:[
-    {id:'079',place:'とけい'},{id:'080',place:'インターホン'},{id:'081',place:'エアコンのリモコン'},
-    {id:'082',place:'せんたくものほし'},{id:'083',place:'ベッド'},{id:'084',place:'ソファ'},
-    {id:'085',place:'ゲームいれ'},{id:'086',place:'テレビだい'},{id:'087',place:'Wi-Fiルーター'},
-    {id:'088',place:'Wii'},{id:'089',place:'Switch'},{id:'090',place:'ろくがき'},
-    {id:'091',place:'テレビ'},{id:'092',place:'はいせんぶぶん'},{id:'093',place:'コロコロ'},
-    {id:'094',place:'ルンバ'},{id:'095',place:'ルンバのタンク'},{id:'096',place:'ごみばこ'},
-    {id:'097',place:'いす'},{id:'098',place:'つくえ'},{id:'099',place:'ストーブ'},
-    {id:'100',place:'カーテン'},{id:'101',place:'ドライヤー'},{id:'102',place:'けしょうだい'},
-    {id:'103',place:'かがみ'},{id:'104',place:'でんげんタップ'},{id:'105',place:'ペンたて'},
-    {id:'106',place:'ゆわかしポット'},{id:'107',place:'リスのたな'},{id:'108',place:'ねこいます'},
-    {id:'109',place:'エアコン'},{id:'110',place:'でんき'},{id:'111',place:'まど①'},
-    {id:'112',place:'まど②'},{id:'113',place:'カーテン①'},{id:'114',place:'カーテン②'},
-    {id:'115',place:'いす①'},{id:'116',place:'いす②'},{id:'117',place:'ソファのあし'},
-    {id:'118',place:'ソファのうら'},{id:'119',place:'せんたくものほし（上）'},{id:'120',place:'せんたくものほし（下）'},
-    {id:'121',place:'ストーブ（左）'},{id:'122',place:'ストーブ（右）'},{id:'123',place:'ゆか①'},{id:'124',place:'ゆか②'},
-  ]},
-  {name:'🛏️ ねむりのもり（ベッドルーム）', area:'ベッドルーム', entries:[
-    {id:'125',place:'そうじき'},{id:'126',place:'カーテン'},{id:'127',place:'ベッド'},
-    {id:'128',place:'コートかけ'},{id:'129',place:'ソファ'},{id:'130',place:'ごみばこ'},
-    {id:'131',place:'ティッシュカバー'},{id:'132',place:'つくえ'},{id:'133',place:'クローゼット（S）'},
-    {id:'134',place:'クローゼット（T）'},{id:'135',place:'たんす（S）'},{id:'136',place:'たんす（T）'},
-    {id:'137',place:'スーツケース'},{id:'138',place:'スノコ'},{id:'139',place:'しゅうかつかばん'},
-    {id:'140',place:'ぼうちゅうざい'},{id:'141',place:'かばん'},{id:'142',place:'パソコン'},
-    {id:'143',place:'まど'},{id:'144',place:'カーテン（ベッドルーム）'},{id:'145',place:'ベッド（まくらがわ）'},
-    {id:'146',place:'ベッド（あしがわ）'},{id:'147',place:'つくえ（てんばん）'},{id:'148',place:'つくえ（あし）'},
-    {id:'149',place:'つくえ（うら）'},{id:'150',place:'ゆか①'},{id:'151',place:'ゆか②'},
-  ]},
+const entries = [
+  {id:'001',area:'げんかん',place:'げんかんどあ'},
+  {id:'002',area:'げんかん',place:'げんかん'},
+  {id:'003',area:'げんかん',place:'スイッチ'},
+  {id:'004',area:'げんかん',place:'マット'},
+  {id:'005',area:'げんかん',place:'かがみ'},
+  {id:'006',area:'げんかん',place:'おちゃ'},
+  {id:'007',area:'げんかん',place:'ひじょうしょく'},
+  {id:'008',area:'げんかん',place:'マスク'},
+  {id:'009',area:'げんかん',place:'こうぐばこ'},
+  {id:'010',area:'げんかん',place:'へやへのどあ'},
+  {id:'011',area:'げんかん',place:'ゆか①'},
+  {id:'012',area:'げんかん',place:'ゆか②'},
+  {id:'013',area:'トイレ',place:'トイレットペーパーホルダー'},
+  {id:'014',area:'トイレ',place:'トイレットペーパーホルダーカバー'},
+  {id:'015',area:'トイレ',place:'ごみいれ'},
+  {id:'016',area:'トイレ',place:'タンク'},
+  {id:'017',area:'トイレ',place:'タオルかけ'},
+  {id:'018',area:'トイレ',place:'トイレクリーナー'},
+  {id:'019',area:'トイレ',place:'たな'},
+  {id:'020',area:'トイレ',place:'せいりようひんいれ'},
+  {id:'021',area:'トイレ',place:'かんきせん'},
+  {id:'022',area:'トイレ',place:'でんきスイッチ'},
+  {id:'023',area:'トイレ',place:'どあ'},
+  {id:'024',area:'トイレ',place:'スリッパ'},
+  {id:'025',area:'洗面所',place:'スノコ'},
+  {id:'026',area:'洗面所',place:'せんたくかご'},
+  {id:'027',area:'洗面所',place:'おしゃれぎかご'},
+  {id:'028',area:'洗面所',place:'マット'},
+  {id:'029',area:'洗面所',place:'せんたくき'},
+  {id:'030',area:'洗面所',place:'ぼうすいパッド'},
+  {id:'031',area:'洗面所',place:'たいじゅけい'},
+  {id:'032',area:'洗面所',place:'きゅうとうき'},
+  {id:'033',area:'洗面所',place:'せんめんだいのたな'},
+  {id:'034',area:'洗面所',place:'せんめんき'},
+  {id:'035',area:'洗面所',place:'せんめんだい'},
+  {id:'036',area:'洗面所',place:'かがみ'},
+  {id:'037',area:'洗面所',place:'はみがきコップ'},
+  {id:'038',area:'洗面所',place:'はぶらしたて'},
+  {id:'039',area:'洗面所',place:'ワックス'},
+  {id:'040',area:'洗面所',place:'スイッチ'},
+  {id:'041',area:'洗面所',place:'ふろのどあ'},
+  {id:'042',area:'洗面所',place:'せんざいいれ'},
+  {id:'043',area:'キッチン',place:'マット'},
+  {id:'044',area:'キッチン',place:'れいぞうこ'},
+  {id:'045',area:'キッチン',place:'やさいしつ'},
+  {id:'046',area:'キッチン',place:'れいとうこ'},
+  {id:'047',area:'キッチン',place:'かんきせん'},
+  {id:'048',area:'キッチン',place:'まないたかけ'},
+  {id:'049',area:'キッチン',place:'だいふき'},
+  {id:'050',area:'キッチン',place:'からぶきふきん'},
+  {id:'051',area:'キッチン',place:'タッパー・ラップおきば'},
+  {id:'052',area:'キッチン',place:'べんとうばこおきば'},
+  {id:'053',area:'キッチン',place:'シンク'},
+  {id:'054',area:'キッチン',place:'スポンジいれ'},
+  {id:'055',area:'キッチン',place:'みずきりあみ'},
+  {id:'056',area:'キッチン',place:'タオルかけ'},
+  {id:'057',area:'キッチン',place:'ごみばこ'},
+  {id:'058',area:'キッチン',place:'ざつがみいれ'},
+  {id:'059',area:'キッチン',place:'エプロン'},
+  {id:'060',area:'キッチン',place:'さらおきば'},
+  {id:'061',area:'キッチン',place:'レンジ'},
+  {id:'062',area:'キッチン',place:'すいはんき'},
+  {id:'063',area:'キッチン',place:'ホットプレート'},
+  {id:'064',area:'キッチン',place:'つまようじ'},
+  {id:'065',area:'キッチン',place:'クリップいれ'},
+  {id:'066',area:'キッチン',place:'はしいれ'},
+  {id:'067',area:'キッチン',place:'さらのたな'},
+  {id:'068',area:'キッチン',place:'しょくひんかご'},
+  {id:'069',area:'キッチン',place:'きょうようぶのタオル・ふくろいれ'},
+  {id:'070',area:'キッチン',place:'おもち'},
+  {id:'071',area:'キッチン',place:'しょるいぼっくす'},
+  {id:'072',area:'キッチン',place:'くすりいれ'},
+  {id:'073',area:'キッチン',place:'フェイスタオル・かみようタオルいれ'},
+  {id:'074',area:'キッチン',place:'バスタオルいれ'},
+  {id:'075',area:'キッチン',place:'おかしいれ'},
+  {id:'076',area:'キッチン',place:'ごみぶくろいれ'},
+  {id:'077',area:'キッチン',place:'じょきんシート・ルンバようひんいれ'},
+  {id:'078',area:'キッチン',place:'ながし'},
+  {id:'079',area:'リビング',place:'とけい'},
+  {id:'080',area:'リビング',place:'インターホン'},
+  {id:'081',area:'リビング',place:'エアコンのリモコン'},
+  {id:'082',area:'リビング',place:'せんたくものほし'},
+  {id:'083',area:'リビング',place:'ベッド'},
+  {id:'084',area:'リビング',place:'ソファ'},
+  {id:'085',area:'リビング',place:'ゲームいれ'},
+  {id:'086',area:'リビング',place:'テレビだい'},
+  {id:'087',area:'リビング',place:'Wi-Fiルーター'},
+  {id:'088',area:'リビング',place:'Wii'},
+  {id:'089',area:'リビング',place:'Switch'},
+  {id:'090',area:'リビング',place:'ろくがき'},
+  {id:'091',area:'リビング',place:'テレビ'},
+  {id:'092',area:'リビング',place:'はいせんぶぶん'},
+  {id:'093',area:'リビング',place:'コロコロ'},
+  {id:'094',area:'リビング',place:'ルンバ'},
+  {id:'095',area:'リビング',place:'ルンバのタンク'},
+  {id:'096',area:'リビング',place:'ごみばこ'},
+  {id:'097',area:'リビング',place:'いす'},
+  {id:'098',area:'リビング',place:'つくえ'},
+  {id:'099',area:'リビング',place:'ストーブ'},
+  {id:'100',area:'リビング',place:'カーテン'},
+  {id:'101',area:'リビング',place:'ドライヤー'},
+  {id:'102',area:'リビング',place:'けしょうだい'},
+  {id:'103',area:'リビング',place:'かがみ'},
+  {id:'104',area:'リビング',place:'でんげんタップ'},
+  {id:'105',area:'リビング',place:'ペンたて'},
+  {id:'106',area:'リビング',place:'ゆわかしポット'},
+  {id:'107',area:'リビング',place:'リスのたな'},
+  {id:'108',area:'リビング',place:'ねこいます'},
+  {id:'109',area:'リビング',place:'エアコン'},
+  {id:'110',area:'リビング',place:'でんき'},
+  {id:'111',area:'リビング',place:'まど①'},
+  {id:'112',area:'リビング',place:'まど②'},
+  {id:'113',area:'リビング',place:'カーテン①'},
+  {id:'114',area:'リビング',place:'カーテン②'},
+  {id:'115',area:'リビング',place:'いす①'},
+  {id:'116',area:'リビング',place:'いす②'},
+  {id:'117',area:'リビング',place:'ソファのあし'},
+  {id:'118',area:'リビング',place:'ソファのうら'},
+  {id:'119',area:'リビング',place:'せんたくものほし（上）'},
+  {id:'120',area:'リビング',place:'せんたくものほし（下）'},
+  {id:'121',area:'リビング',place:'ストーブ（左）'},
+  {id:'122',area:'リビング',place:'ストーブ（右）'},
+  {id:'123',area:'リビング',place:'ゆか①'},
+  {id:'124',area:'リビング',place:'ゆか②'},
+  {id:'125',area:'ベッドルーム',place:'そうじき'},
+  {id:'126',area:'ベッドルーム',place:'カーテン'},
+  {id:'127',area:'ベッドルーム',place:'ベッド'},
+  {id:'128',area:'ベッドルーム',place:'コートかけ'},
+  {id:'129',area:'ベッドルーム',place:'ソファ'},
+  {id:'130',area:'ベッドルーム',place:'ごみばこ'},
+  {id:'131',area:'ベッドルーム',place:'ティッシュカバー'},
+  {id:'132',area:'ベッドルーム',place:'つくえ'},
+  {id:'133',area:'ベッドルーム',place:'クローゼット（S）'},
+  {id:'134',area:'ベッドルーム',place:'クローゼット（T）'},
+  {id:'135',area:'ベッドルーム',place:'たんす（S）'},
+  {id:'136',area:'ベッドルーム',place:'たんす（T）'},
+  {id:'137',area:'ベッドルーム',place:'スーツケース'},
+  {id:'138',area:'ベッドルーム',place:'スノコ'},
+  {id:'139',area:'ベッドルーム',place:'しゅうかつかばん'},
+  {id:'140',area:'ベッドルーム',place:'ぼうちゅうざい'},
+  {id:'141',area:'ベッドルーム',place:'かばん'},
+  {id:'142',area:'ベッドルーム',place:'パソコン'},
+  {id:'143',area:'ベッドルーム',place:'まど'},
+  {id:'144',area:'ベッドルーム',place:'カーテン（ベッドルーム）'},
+  {id:'145',area:'ベッドルーム',place:'ベッド（まくらがわ）'},
+  {id:'146',area:'ベッドルーム',place:'ベッド（あしがわ）'},
+  {id:'147',area:'ベッドルーム',place:'つくえ（てんばん）'},
+  {id:'148',area:'ベッドルーム',place:'つくえ（あし）'},
+  {id:'149',area:'ベッドルーム',place:'つくえ（うら）'},
+  {id:'150',area:'ベッドルーム',place:'ゆか①'},
+  {id:'151',area:'ベッドルーム',place:'ゆか②'},
 ];
 
 function generateAll(){
-  document.getElementById('genBtn').textContent = '⏳ せいせいちゅう…';
-  document.getElementById('genBtn').disabled = true;
+  const btn = document.getElementById('genBtn');
+  btn.textContent = '⏳ せいせいちゅう…';
+  btn.disabled = true;
 
-  const area = document.getElementById('printArea');
-  area.innerHTML = '';
-
-  // まずcanvasでQR生成
-  const canvases = {};
-  let total = 0;
-  rooms.forEach(r => total += r.entries.length);
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
 
   let done = 0;
-  rooms.forEach(room => {
-    const sec = document.createElement('div');
-    const header = document.createElement('div');
-    header.className = 'room-header';
-    header.textContent = room.name;
-    sec.appendChild(header);
-    const grid = document.createElement('div');
-    grid.className = 'grid';
-    room.entries.forEach(e => {
-      const card = document.createElement('div');
-      card.className = 'qr-card';
-      const no = document.createElement('div');
-      no.className = 'no';
-      no.textContent = 'No.' + e.id;
-      const ar = document.createElement('div');
-      ar.className = 'area';
-      ar.textContent = room.area;
-      const pl = document.createElement('div');
-      pl.className = 'place';
-      pl.textContent = e.place;
-      card.appendChild(no);
-      card.appendChild(ar);
-      // canvas生成してすぐimgに変換
-      const tmp = document.createElement('div');
-      tmp.style.display = 'none';
-      document.body.appendChild(tmp);
-      new QRCode(tmp, {
-        text: BASE + '?id=' + e.id,
-        width: 80, height: 80,
-        colorDark: '#000000', colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.M
-      });
-      setTimeout(() => {
-        const canvas = tmp.querySelector('canvas');
-        const img = document.createElement('img');
-        img.src = canvas ? canvas.toDataURL('image/png') : '';
-        img.width = 80; img.height = 80;
-        card.appendChild(img);
-        card.appendChild(pl);
-        document.body.removeChild(tmp);
-        done++;
-        if(done === total){
-          document.getElementById('genBtn').textContent = '✅ せいせいかんりょう';
-          document.getElementById('printBtn').style.display = 'inline-block';
-        }
-      }, 0);
-      grid.appendChild(card);
+  entries.forEach(e => {
+    const card = document.createElement('div');
+    card.className = 'qr-card';
+
+    const no = document.createElement('div');
+    no.className = 'no';
+    no.textContent = 'No.' + e.id;
+
+    const area = document.createElement('div');
+    area.className = 'area';
+    area.textContent = e.area;
+
+    // canvas生成→img変換
+    const tmp = document.createElement('div');
+    tmp.style.display = 'none';
+    document.body.appendChild(tmp);
+    new QRCode(tmp, {
+      text: BASE + '?id=' + e.id,
+      width: 80, height: 80,
+      colorDark: '#000000', colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
     });
-    sec.appendChild(grid);
-    area.appendChild(sec);
+
+    const pl = document.createElement('div');
+    pl.className = 'place';
+    pl.textContent = e.place;
+
+    card.appendChild(no);
+    card.appendChild(area);
+
+    setTimeout(() => {
+      const canvas = tmp.querySelector('canvas');
+      const img = document.createElement('img');
+      img.src = canvas ? canvas.toDataURL('image/png') : '';
+      card.appendChild(img);
+      card.appendChild(pl);
+      document.body.removeChild(tmp);
+      done++;
+      if(done === entries.length){
+        btn.textContent = '✅ せいせいかんりょう！';
+        document.getElementById('printBtn').style.display = 'inline-block';
+      }
+    }, 0);
+
+    grid.appendChild(card);
   });
 }
 </script>
