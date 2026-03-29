@@ -75,6 +75,28 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;padding:
 .quiz-table .correct{color:#aaffcc;font-weight:bold;}
 .quiz-search{width:100%;background:#111;border:1px solid #333;border-radius:4px;padding:8px 10px;color:white;font-family:'DotGothic16',monospace;font-size:.72rem;margin-bottom:8px;outline:none;}
 .quiz-search:focus{border-color:#88ccff;}
+
+/* QR印刷 */
+.qr-print-section{display:none;}
+.qr-print-section.show{display:block;}
+.qr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;margin-top:10px;}
+.qr-item{background:#111;border:1px solid #222;border-radius:4px;padding:6px;text-align:center;}
+.qr-item .qr-no{font-size:.5rem;color:#555;margin-bottom:2px;}
+.qr-item .qr-place{font-size:.55rem;color:#aaa;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.qr-room-header{background:#0d1a2e;color:#88ccff;font-family:'DotGothic16',monospace;font-size:.65rem;letter-spacing:2px;padding:6px 10px;border-radius:4px;margin-top:10px;margin-bottom:4px;}
+.qr-filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.qr-filter-btn{background:#222;color:#888;border:1px solid #333;border-radius:4px;padding:5px 10px;font-family:'DotGothic16',monospace;font-size:.6rem;cursor:pointer;}
+.qr-filter-btn.active{background:#1a3a6b;color:#88ccff;border-color:#2a5298;}
+@media print{
+  body > *:not(#printArea){display:none!important;}
+  #printArea{display:block!important;}
+  .qr-grid{grid-template-columns:repeat(5,1fr)!important;gap:4px!important;}
+  .qr-item{border:1px solid #aaa!important;background:white!important;}
+  .qr-item .qr-no{color:#999!important;}
+  .qr-item .qr-place{color:#333!important;}
+  .qr-room-header{background:#333!important;color:white!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .qr-filter-row,.gen-btn{display:none!important;}
+}
 </style>
 </head>
 <body>
@@ -342,6 +364,18 @@ setInterval(renderStatus, 1000);
 renderStatus();
 </script>
 
+
+  <!-- QR印刷 -->
+  <div class="card" style="max-width:380px;width:100%;">
+    <div class="card-title">📷 QRコード　いんさつ</div>
+    <button class="gen-btn" onclick="toggleQrPrint()" id="qrPrintToggle">▶ QRいちらんをひらく</button>
+    <div class="qr-print-section" id="qrPrintSection">
+      <div class="qr-filter-row" id="qrFilterRow"></div>
+      <button class="gen-btn" onclick="printQr()" style="margin-top:8px;background:#2a5a2a;">🖨️ このまま　いんさつする</button>
+      <div id="qrPrintArea"></div>
+    </div>
+  </div>
+
   <!-- クイズ一覧 -->
   <div class="card" style="max-width:380px;width:100%;">
     <div class="card-title">📋 クイズ　いちらん</div>
@@ -573,6 +607,256 @@ function renderQuiz(filter){
 
 function filterQuiz(){
   renderQuiz(document.getElementById('quizSearch').value);
+}
+</script>
+
+
+<script>
+const qrEntries = [
+  {id:'001',room:'たびだちのひろば',place:'げんかんどあ'},
+  {id:'002',room:'たびだちのひろば',place:'げんかん'},
+  {id:'003',room:'たびだちのひろば',place:'スイッチ'},
+  {id:'004',room:'たびだちのひろば',place:'マット'},
+  {id:'005',room:'たびだちのひろば',place:'かがみ'},
+  {id:'006',room:'たびだちのひろば',place:'おちゃ'},
+  {id:'007',room:'たびだちのひろば',place:'ひじょうしょく'},
+  {id:'008',room:'たびだちのひろば',place:'マスク'},
+  {id:'009',room:'たびだちのひろば',place:'こうぐばこ'},
+  {id:'010',room:'たびだちのひろば',place:'へやへのどあ'},
+  {id:'011',room:'たびだちのひろば',place:'ゆか①'},
+  {id:'012',room:'たびだちのひろば',place:'ゆか②'},
+  {id:'013',room:'Sのしま',place:'トイレットペーパーホルダー'},
+  {id:'014',room:'Sのしま',place:'トイレットペーパーホルダーカバー'},
+  {id:'015',room:'Sのしま',place:'ごみいれ'},
+  {id:'016',room:'Sのしま',place:'タンク'},
+  {id:'017',room:'Sのしま',place:'タオルかけ'},
+  {id:'018',room:'Sのしま',place:'トイレクリーナー'},
+  {id:'019',room:'Sのしま',place:'たな'},
+  {id:'020',room:'Sのしま',place:'せいりようひんいれ'},
+  {id:'021',room:'Sのしま',place:'かんきせん'},
+  {id:'022',room:'Sのしま',place:'でんきスイッチ'},
+  {id:'023',room:'Sのしま',place:'どあ'},
+  {id:'024',room:'Sのしま',place:'スリッパ'},
+  {id:'025',room:'あわあわシティ',place:'スノコ'},
+  {id:'026',room:'あわあわシティ',place:'せんたくかご'},
+  {id:'027',room:'あわあわシティ',place:'おしゃれぎかご'},
+  {id:'028',room:'あわあわシティ',place:'マット'},
+  {id:'029',room:'あわあわシティ',place:'せんたくき'},
+  {id:'030',room:'あわあわシティ',place:'ぼうすいパッド'},
+  {id:'031',room:'あわあわシティ',place:'たいじゅけい'},
+  {id:'032',room:'あわあわシティ',place:'きゅうとうき'},
+  {id:'033',room:'あわあわシティ',place:'せんめんだいのたな'},
+  {id:'034',room:'あわあわシティ',place:'せんめんき'},
+  {id:'035',room:'あわあわシティ',place:'せんめんだい'},
+  {id:'036',room:'あわあわシティ',place:'かがみ'},
+  {id:'037',room:'あわあわシティ',place:'はみがきコップ'},
+  {id:'038',room:'あわあわシティ',place:'はぶらしたて'},
+  {id:'039',room:'あわあわシティ',place:'ワックス'},
+  {id:'040',room:'あわあわシティ',place:'スイッチ'},
+  {id:'041',room:'あわあわシティ',place:'ふろのどあ'},
+  {id:'042',room:'あわあわシティ',place:'せんざいいれ'},
+  {id:'043',room:'りょうりこうげん',place:'マット'},
+  {id:'044',room:'りょうりこうげん',place:'れいぞうこ'},
+  {id:'045',room:'りょうりこうげん',place:'やさいしつ'},
+  {id:'046',room:'りょうりこうげん',place:'れいとうこ'},
+  {id:'047',room:'りょうりこうげん',place:'かんきせん'},
+  {id:'048',room:'りょうりこうげん',place:'まないたかけ'},
+  {id:'049',room:'りょうりこうげん',place:'だいふき'},
+  {id:'050',room:'りょうりこうげん',place:'からぶきふきん'},
+  {id:'051',room:'りょうりこうげん',place:'タッパー・ラップおきば'},
+  {id:'052',room:'りょうりこうげん',place:'べんとうばこおきば'},
+  {id:'053',room:'りょうりこうげん',place:'シンク'},
+  {id:'054',room:'りょうりこうげん',place:'スポンジいれ'},
+  {id:'055',room:'りょうりこうげん',place:'みずきりあみ'},
+  {id:'056',room:'りょうりこうげん',place:'タオルかけ'},
+  {id:'057',room:'りょうりこうげん',place:'ごみばこ'},
+  {id:'058',room:'りょうりこうげん',place:'ざつがみいれ'},
+  {id:'059',room:'りょうりこうげん',place:'エプロン'},
+  {id:'060',room:'りょうりこうげん',place:'さらおきば'},
+  {id:'061',room:'りょうりこうげん',place:'レンジ'},
+  {id:'062',room:'りょうりこうげん',place:'すいはんき'},
+  {id:'063',room:'りょうりこうげん',place:'ホットプレート'},
+  {id:'064',room:'りょうりこうげん',place:'つまようじ'},
+  {id:'065',room:'りょうりこうげん',place:'クリップいれ'},
+  {id:'066',room:'りょうりこうげん',place:'はしいれ'},
+  {id:'067',room:'りょうりこうげん',place:'さらのたな'},
+  {id:'068',room:'りょうりこうげん',place:'しょくひんかご'},
+  {id:'069',room:'りょうりこうげん',place:'きょうようぶのタオル・ふくろいれ'},
+  {id:'070',room:'りょうりこうげん',place:'おもち'},
+  {id:'071',room:'りょうりこうげん',place:'しょるいぼっくす'},
+  {id:'072',room:'りょうりこうげん',place:'くすりいれ'},
+  {id:'073',room:'りょうりこうげん',place:'フェイスタオル・かみようタオルいれ'},
+  {id:'074',room:'りょうりこうげん',place:'バスタオルいれ'},
+  {id:'075',room:'りょうりこうげん',place:'おかしいれ'},
+  {id:'076',room:'りょうりこうげん',place:'ごみぶくろいれ'},
+  {id:'077',room:'りょうりこうげん',place:'じょきんシート・ルンバようひんいれ'},
+  {id:'078',room:'りょうりこうげん',place:'ながし'},
+  {id:'079',room:'くつろぎシティ',place:'とけい'},
+  {id:'080',room:'くつろぎシティ',place:'インターホン'},
+  {id:'081',room:'くつろぎシティ',place:'エアコンのリモコン'},
+  {id:'082',room:'くつろぎシティ',place:'せんたくものほし'},
+  {id:'083',room:'くつろぎシティ',place:'ベッド'},
+  {id:'084',room:'くつろぎシティ',place:'ソファ'},
+  {id:'085',room:'くつろぎシティ',place:'ゲームいれ'},
+  {id:'086',room:'くつろぎシティ',place:'テレビだい'},
+  {id:'087',room:'くつろぎシティ',place:'Wi-Fiルーター'},
+  {id:'088',room:'くつろぎシティ',place:'Wii'},
+  {id:'089',room:'くつろぎシティ',place:'Switch'},
+  {id:'090',room:'くつろぎシティ',place:'ろくがき'},
+  {id:'091',room:'くつろぎシティ',place:'テレビ'},
+  {id:'092',room:'くつろぎシティ',place:'はいせんぶぶん'},
+  {id:'093',room:'くつろぎシティ',place:'コロコロ'},
+  {id:'094',room:'くつろぎシティ',place:'ルンバ'},
+  {id:'095',room:'くつろぎシティ',place:'ルンバのタンク'},
+  {id:'096',room:'くつろぎシティ',place:'ごみばこ'},
+  {id:'097',room:'くつろぎシティ',place:'いす'},
+  {id:'098',room:'くつろぎシティ',place:'つくえ'},
+  {id:'099',room:'くつろぎシティ',place:'ストーブ'},
+  {id:'100',room:'くつろぎシティ',place:'カーテン'},
+  {id:'101',room:'くつろぎシティ',place:'ドライヤー'},
+  {id:'102',room:'くつろぎシティ',place:'けしょうだい'},
+  {id:'103',room:'くつろぎシティ',place:'かがみ'},
+  {id:'104',room:'くつろぎシティ',place:'でんげんタップ'},
+  {id:'105',room:'くつろぎシティ',place:'ペンたて'},
+  {id:'106',room:'くつろぎシティ',place:'ゆわかしポット'},
+  {id:'107',room:'くつろぎシティ',place:'リスのたな'},
+  {id:'108',room:'くつろぎシティ',place:'ねこいます'},
+  {id:'109',room:'くつろぎシティ',place:'エアコン'},
+  {id:'110',room:'くつろぎシティ',place:'でんき'},
+  {id:'111',room:'くつろぎシティ',place:'まど①'},
+  {id:'112',room:'くつろぎシティ',place:'まど②'},
+  {id:'113',room:'くつろぎシティ',place:'カーテン①'},
+  {id:'114',room:'くつろぎシティ',place:'カーテン②'},
+  {id:'115',room:'くつろぎシティ',place:'いす①'},
+  {id:'116',room:'くつろぎシティ',place:'いす②'},
+  {id:'117',room:'くつろぎシティ',place:'ソファのあし'},
+  {id:'118',room:'くつろぎシティ',place:'ソファのうら'},
+  {id:'119',room:'くつろぎシティ',place:'せんたくものほし（上）'},
+  {id:'120',room:'くつろぎシティ',place:'せんたくものほし（下）'},
+  {id:'121',room:'くつろぎシティ',place:'ストーブ（左）'},
+  {id:'122',room:'くつろぎシティ',place:'ストーブ（右）'},
+  {id:'123',room:'くつろぎシティ',place:'ゆか①'},
+  {id:'124',room:'くつろぎシティ',place:'ゆか②'},
+  {id:'125',room:'ねむりのもり',place:'そうじき'},
+  {id:'126',room:'ねむりのもり',place:'カーテン'},
+  {id:'127',room:'ねむりのもり',place:'ベッド'},
+  {id:'128',room:'ねむりのもり',place:'コートかけ'},
+  {id:'129',room:'ねむりのもり',place:'ソファ'},
+  {id:'130',room:'ねむりのもり',place:'ごみばこ'},
+  {id:'131',room:'ねむりのもり',place:'ティッシュカバー'},
+  {id:'132',room:'ねむりのもり',place:'つくえ'},
+  {id:'133',room:'ねむりのもり',place:'クローゼット（S）'},
+  {id:'134',room:'ねむりのもり',place:'クローゼット（T）'},
+  {id:'135',room:'ねむりのもり',place:'たんす（S）'},
+  {id:'136',room:'ねむりのもり',place:'たんす（T）'},
+  {id:'137',room:'ねむりのもり',place:'スーツケース'},
+  {id:'138',room:'ねむりのもり',place:'スノコ'},
+  {id:'139',room:'ねむりのもり',place:'しゅうかつかばん'},
+  {id:'140',room:'ねむりのもり',place:'ぼうちゅうざい'},
+  {id:'141',room:'ねむりのもり',place:'かばん'},
+  {id:'142',room:'ねむりのもり',place:'パソコン'},
+  {id:'143',room:'ねむりのもり',place:'まど'},
+  {id:'144',room:'ねむりのもり',place:'カーテン（ベッドルーム）'},
+  {id:'145',room:'ねむりのもり',place:'ベッド（まくらがわ）'},
+  {id:'146',room:'ねむりのもり',place:'ベッド（あしがわ）'},
+  {id:'147',room:'ねむりのもり',place:'つくえ（てんばん）'},
+  {id:'148',room:'ねむりのもり',place:'つくえ（あし）'},
+  {id:'149',room:'ねむりのもり',place:'つくえ（うら）'},
+  {id:'150',room:'ねむりのもり',place:'ゆか①'},
+  {id:'151',room:'ねむりのもり',place:'ゆか②'},
+];
+
+const BASE_URL = 'https://say-droid-23.github.io/kajizukan2026tatU26SC-uGlrT97bZLQi2ae/kajizukan.html';
+
+const qrRooms = [
+  {name:'🚪 たびだちのひろば', key:'たびだちのひろば'},
+  {name:'🚽 Sのしま', key:'Sのしま'},
+  {name:'🪥 あわあわシティ', key:'あわあわシティ'},
+  {name:'🍳 りょうりこうげん', key:'りょうりこうげん'},
+  {name:'📺 くつろぎシティ', key:'くつろぎシティ'},
+  {name:'🛏️ ねむりのもり', key:'ねむりのもり'},
+];
+
+let currentQrRoom = 'all';
+let qrPrintOpen = false;
+
+function toggleQrPrint(){
+  const sec = document.getElementById('qrPrintSection');
+  const btn = document.getElementById('qrPrintToggle');
+  qrPrintOpen = !qrPrintOpen;
+  if(qrPrintOpen){
+    sec.classList.add('show');
+    btn.textContent = '▼ QRいちらんをとじる';
+    renderQrFilters();
+    renderQrGrid('all');
+  } else {
+    sec.classList.remove('show');
+    btn.textContent = '▶ QRいちらんをひらく';
+  }
+}
+
+function renderQrFilters(){
+  const row = document.getElementById('qrFilterRow');
+  row.innerHTML = '';
+  const allBtn = document.createElement('button');
+  allBtn.className = 'qr-filter-btn active';
+  allBtn.id = 'qrf-all';
+  allBtn.textContent = '全部';
+  allBtn.onclick = ()=>setQrRoom('all');
+  row.appendChild(allBtn);
+  qrRooms.forEach((r,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'qr-filter-btn';
+    btn.id = 'qrf-'+i;
+    btn.textContent = r.name.replace(/^.+? /,'');
+    btn.onclick = ()=>setQrRoom(r.key, i);
+    row.appendChild(btn);
+  });
+}
+
+function setQrRoom(key, idx){
+  currentQrRoom = key;
+  document.querySelectorAll('.qr-filter-btn').forEach(b=>b.classList.remove('active'));
+  const id = key==='all'?'qrf-all':'qrf-'+idx;
+  document.getElementById(id).classList.add('active');
+  renderQrGrid(key);
+}
+
+function renderQrGrid(roomKey){
+  const area = document.getElementById('qrPrintArea');
+  area.innerHTML = '';
+  const rooms = roomKey==='all' ? qrRooms.map(r=>r.key) : [roomKey];
+  rooms.forEach(rkey=>{
+    const filtered = qrEntries.filter(e=>e.room===rkey);
+    if(!filtered.length) return;
+    const header = document.createElement('div');
+    header.className = 'qr-room-header';
+    header.textContent = qrRooms.find(r=>r.key===rkey)?.name || rkey;
+    area.appendChild(header);
+    const grid = document.createElement('div');
+    grid.className = 'qr-grid';
+    filtered.forEach(e=>{
+      const item = document.createElement('div');
+      item.className = 'qr-item';
+      item.innerHTML = `<div class="qr-no">No.${e.id}</div><div id="qrdiv-${e.id}"></div><div class="qr-place">${e.place}</div>`;
+      grid.appendChild(item);
+      area.appendChild(grid);
+      setTimeout(()=>{
+        new QRCode(document.getElementById('qrdiv-'+e.id), {
+          text: BASE_URL+'?id='+e.id,
+          width:80,height:80,
+          colorDark:'#000',colorLight:'#fff',
+          correctLevel:QRCode.CorrectLevel.M
+        });
+      },0);
+      area.removeChild(grid);
+    });
+    area.appendChild(grid);
+  });
+}
+
+function printQr(){
+  window.print();
 }
 </script>
 
