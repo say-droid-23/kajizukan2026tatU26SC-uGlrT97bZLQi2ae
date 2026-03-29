@@ -7,40 +7,39 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+Rounded+1c:wght@400;700;800;900&display=swap');
 :root {
-  --red:#1a3a6b;--darkred:#0d2244;--cream:#dde8f5;--darkbg:#05080f;
-  --yellow:#c8a84b;--blue:#1e4080;--lightblue:#7ab8e8;--green:#2a6aad;
-  --lightgreen:#90c8f0;--gray:#7888a0;
-  --silver:#b8c8d8;--gold:#c8a84b;
+  --red:#cc2222;--darkred:#8b0000;--cream:#f5f0e0;--darkbg:#0f0f1a;
+  --yellow:#f7c948;--blue:#2255cc;--lightblue:#88ccff;--green:#22aa44;
+  --lightgreen:#aaffcc;--gray:#888;
   --pixel:'DotGothic16',monospace;--round:'M PLUS Rounded 1c',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;overflow-x:hidden;}
-.shell{width:100%;max-width:420px;min-height:100vh;background:linear-gradient(180deg,#0d2244 0%,#1a3a6b 100%);position:relative;box-shadow:0 0 80px rgba(26,58,107,.8);flex-shrink:0;}
+body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:flex;justify-content:center;overflow-x:hidden;}
+.shell{width:100%;max-width:420px;min-height:100vh;background:var(--red);position:relative;box-shadow:0 0 80px rgba(200,30,30,.5);}
 .screen{display:none;}
 .screen.active{display:block;}
 
 /* TITLE */
-#titleScreen{background:var(--darkbg);min-height:100vh;width:100%;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;position:relative;overflow:hidden;}
+#titleScreen{background:var(--darkbg);min-height:100vh;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;position:relative;overflow:hidden;}
 #titleScreen.active{display:flex;}
 #titleScreen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(204,34,34,.15) 0%,transparent 70%);pointer-events:none;}
 .stars{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
 .star{position:absolute;width:2px;height:2px;background:white;border-radius:50%;animation:twinkle var(--d,3s) infinite var(--delay,0s);}
 @keyframes twinkle{0%,100%{opacity:.2;}50%{opacity:1;}}
-.title-logo{font-family:var(--pixel);font-size:2rem;color:var(--silver);text-align:center;line-height:1.3;letter-spacing:4px;text-shadow:2px 2px 0 #0d2244,0 0 30px rgba(184,200,216,.6);margin-bottom:12px;animation:logoFloat 3s ease-in-out infinite;}
+.title-logo{font-family:var(--pixel);font-size:2rem;color:var(--yellow);text-align:center;line-height:1.3;letter-spacing:4px;text-shadow:3px 3px 0 var(--darkred),0 0 30px rgba(247,201,72,.4);margin-bottom:12px;animation:logoFloat 3s ease-in-out infinite;}
 @keyframes logoFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
-.title-sub{font-family:var(--pixel);font-size:.72rem;color:var(--lightblue);text-align:center;line-height:1.8;letter-spacing:2px;margin-bottom:24px;}
-.title-dex{width:100px;height:100px;background:linear-gradient(135deg,#1a3a6b,#0d2244);border-radius:50% 50% 50% 50%/60% 60% 40% 40%;margin:0 auto 28px;position:relative;box-shadow:0 0 30px rgba(122,184,232,.4);animation:dexPulse 2s ease-in-out infinite;}
-@keyframes dexPulse{0%,100%{box-shadow:0 0 30px rgba(122,184,232,.4);}50%{box-shadow:0 0 60px rgba(122,184,232,.8);}}
-.title-dex::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:radial-gradient(circle at 35% 35%,#e8f4ff,var(--silver));border-radius:50%;border:3px solid var(--silver);box-shadow:0 0 20px rgba(184,200,216,.8);}
-.start-btn{font-family:var(--pixel);font-size:.9rem;color:#fff;background:linear-gradient(135deg,#1e4080,#2a5298);border:2px solid var(--silver);padding:14px 36px;border-radius:4px;cursor:pointer;letter-spacing:3px;box-shadow:0 5px 0 #0d2244;transition:transform .1s,box-shadow .1s;animation:startBlink 1.5s ease-in-out infinite;}
+.title-sub{font-family:var(--pixel);font-size:.72rem;color:var(--lightblue);text-align:center;line-height:1.8;letter-spacing:2px;margin-bottom:40px;}
+.title-dex{width:100px;height:100px;background:var(--red);border-radius:50% 50% 50% 50%/60% 60% 40% 40%;margin:0 auto 28px;position:relative;box-shadow:0 0 30px rgba(204,34,34,.6);animation:dexPulse 2s ease-in-out infinite;}
+@keyframes dexPulse{0%,100%{box-shadow:0 0 30px rgba(204,34,34,.6);}50%{box-shadow:0 0 60px rgba(204,34,34,.9);}}
+.title-dex::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:radial-gradient(circle at 35% 35%,#aaddff,var(--blue));border-radius:50%;border:4px solid white;box-shadow:0 0 20px rgba(100,180,255,.8);}
+.start-btn{font-family:var(--pixel);font-size:.9rem;color:var(--darkbg);background:var(--yellow);border:none;padding:14px 36px;border-radius:4px;cursor:pointer;letter-spacing:3px;box-shadow:0 5px 0 #b8962a;transition:transform .1s,box-shadow .1s;animation:startBlink 1.5s ease-in-out infinite;}
 @keyframes startBlink{0%,100%{opacity:1;}50%{opacity:.6;}}
-.start-btn:active{transform:translateY(4px);box-shadow:0 1px 0 #0d2244;animation:none;opacity:1;}
+.start-btn:active{transform:translateY(4px);box-shadow:0 1px 0 #b8962a;animation:none;opacity:1;}
 
 /* DEX */
 #dexScreen{background:var(--cream);min-height:100vh;}
-.dex-header{background:linear-gradient(135deg,#0d2244,#1a3a6b);padding:16px 16px 12px;border-bottom:3px solid var(--silver);}
+.dex-header{background:var(--red);padding:16px 16px 12px;border-bottom:4px solid var(--darkred);}
 .dex-lights{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-.big-light{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#e8f4ff,var(--silver));border:3px solid var(--silver);box-shadow:0 0 15px rgba(184,200,216,.7);animation:lightBlink 4s infinite;}
+.big-light{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#aaddff,var(--blue));border:3px solid white;box-shadow:0 0 15px rgba(100,180,255,.7);animation:lightBlink 4s infinite;}
 @keyframes lightBlink{0%,85%,100%{box-shadow:0 0 15px rgba(100,180,255,.7);}90%{box-shadow:0 0 30px rgba(100,180,255,1);}}
 .mini-lights{display:flex;gap:5px;}
 .ml{width:12px;height:12px;border-radius:50%;border:2px solid rgba(0,0,0,.25);}
@@ -51,13 +50,13 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
 .dex-progress{background:#222;margin:0 16px;border-radius:0 0 8px 8px;padding:10px 12px;border:2px solid #333;border-top:none;}
 .prog-label{font-family:var(--pixel);font-size:.55rem;color:var(--lightgreen);letter-spacing:2px;margin-bottom:5px;}
 .prog-track{background:#111;border-radius:3px;height:14px;border:2px solid #444;overflow:hidden;margin-bottom:4px;}
-.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--lightblue));width:0%;transition:width .6s ease;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--lightgreen));width:0%;transition:width .6s ease;}
 .prog-count{font-family:var(--pixel);font-size:.6rem;color:#888;text-align:right;}
 
 /* room sections */
 .room-section{margin:12px 12px 0;}
-.room-label{font-family:var(--pixel);font-size:.65rem;color:var(--lightblue);letter-spacing:2px;padding:6px 8px;background:linear-gradient(135deg,#0d2244,#1a3a6b);border-radius:4px 4px 0 0;border:2px solid var(--silver);border-bottom:none;}
-.entry-list{background:#e8f0f8;border:2px solid var(--silver);border-radius:0 0 6px 6px;margin-bottom:4px;overflow:hidden;}
+.room-label{font-family:var(--pixel);font-size:.65rem;color:#666;letter-spacing:2px;padding:6px 8px;background:#e8e0d0;border-radius:4px 4px 0 0;border:2px solid #ccc;border-bottom:none;}
+.entry-list{background:#f0ead8;border:2px solid #ccc;border-radius:0 0 6px 6px;margin-bottom:4px;overflow:hidden;}
 .entry-row{background:white;border-bottom:1px solid #eee;cursor:pointer;transition:transform .12s,background .12s;}
 .entry-row:last-child{border-bottom:none;}
 .entry-row:active{transform:scale(.98);background:#f0f8ff;}
@@ -76,34 +75,30 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
 .entry-badge.caught-badge{background:#ddfff0;color:var(--green);}
 
 /* QUIZ */
-#quizScreen{background:linear-gradient(180deg,#05080f 0%,#0d1a2e 100%);min-height:100vh;}
-.quiz-header{background:linear-gradient(135deg,#0d2244,#1a3a6b);padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:2px solid var(--silver);}
+#quizScreen{background:var(--darkbg);min-height:100vh;}
+.quiz-header{background:#111;padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:2px solid #333;}
 .back-btn{background:none;border:2px solid rgba(255,255,255,.5);color:white;font-family:var(--pixel);font-size:.7rem;padding:6px 10px;border-radius:4px;cursor:pointer;}
 .quiz-header-title{font-family:var(--pixel);font-size:.9rem;color:white;letter-spacing:2px;}
 .quiz-body{padding:20px 16px;display:flex;flex-direction:column;align-items:center;}
 .quiz-num{font-family:var(--pixel);font-size:.6rem;color:#555;letter-spacing:3px;margin-bottom:8px;}
 .quiz-icon{font-size:3rem;margin-bottom:14px;filter:grayscale(1) brightness(.4);}
-.quiz-qbox{background:#0d1a2e;border:2px solid var(--silver);border-radius:8px;padding:14px;width:100%;margin-bottom:20px;}
-.quiz-qlabel{font-family:var(--pixel);font-size:.58rem;color:var(--silver);letter-spacing:2px;margin-bottom:8px;}
+.quiz-qbox{background:#111;border:2px solid #333;border-radius:8px;padding:14px;width:100%;margin-bottom:20px;}
+.quiz-qlabel{font-family:var(--pixel);font-size:.58rem;color:var(--yellow);letter-spacing:2px;margin-bottom:8px;}
 .quiz-qtext{font-family:var(--pixel);font-size:.82rem;color:white;line-height:1.8;letter-spacing:1px;}
 .quiz-choices{width:100%;display:flex;flex-direction:column;gap:8px;}
-/* わざ選択グリッド */
-.quiz-choices{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.choice-btn{background:#0d1a2e;border:3px solid #2a3a5a;border-radius:4px;padding:10px 8px;font-family:var(--pixel);font-size:.72rem;color:var(--silver);letter-spacing:1px;cursor:pointer;text-align:center;transition:border-color .15s,background .15s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px;position:relative;}
-.choice-num{font-family:var(--pixel);font-size:.55rem;color:#555;letter-spacing:1px;position:absolute;top:4px;left:6px;}
-.choice-pp{font-family:var(--pixel);font-size:.5rem;color:#555;position:absolute;top:4px;right:6px;letter-spacing:1px;}
-.choice-text{font-size:.72rem;color:var(--silver);line-height:1.4;text-align:center;}
-.choice-btn:active{background:#1a3a6b;border-color:var(--lightblue);}
-.choice-btn.correct{background:#0a2a1a;border-color:#88ff88;animation:correctPulse .4s ease;}
+.choice-btn{width:100%;background:#111;border:2px solid #333;border-radius:6px;padding:12px 14px;font-family:var(--pixel);font-size:.78rem;color:white;letter-spacing:1px;cursor:pointer;text-align:left;transition:border-color .15s,background .15s;display:flex;align-items:center;gap:10px;}
+.choice-num{background:#333;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0;}
+.choice-btn:active{background:#1a1a2e;border-color:var(--yellow);}
+.choice-btn.correct{background:#0a2a0a;border-color:var(--green);animation:correctPulse .4s ease;}
 .choice-btn.wrong{background:#2a0a0a;border-color:#ff4444;}
-.choice-btn.disabled{pointer-events:none;opacity:.6;}
+.choice-btn.disabled{pointer-events:none;opacity:.5;}
 @keyframes correctPulse{0%{transform:scale(1);}50%{transform:scale(1.02);}100%{transform:scale(1);}}
 .quiz-result{font-family:var(--pixel);font-size:.72rem;margin-top:12px;text-align:center;min-height:20px;letter-spacing:2px;}
 .quiz-hint{font-family:var(--pixel);font-size:.62rem;color:#444;letter-spacing:1px;margin-top:12px;text-align:center;}
 
 /* DETAIL */
 #detailScreen{background:var(--cream);min-height:100vh;}
-.detail-header{background:linear-gradient(135deg,#0d2244,#1a3a6b);padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:3px solid var(--silver);}
+.detail-header{background:var(--red);padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:4px solid var(--darkred);}
 .detail-header-title{font-family:var(--pixel);font-size:.9rem;color:white;letter-spacing:2px;}
 .detail-body{padding:16px;}
 .dex-entry-card{background:white;border-radius:8px;overflow:hidden;border:2px solid #ddd;margin-bottom:12px;}
@@ -130,120 +125,10 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
 .zukan-text-wrap{padding:12px 14px;border-bottom:1px solid #eee;}
 .zukan-label{font-family:var(--pixel);font-size:.55rem;color:var(--gray);letter-spacing:2px;margin-bottom:6px;}
 .zukan-text{font-size:.82rem;color:#333;line-height:1.7;}
-.hakase-wrap{padding:12px 14px;background:#e8f0f8;}
+.hakase-wrap{padding:12px 14px;background:#fffdf0;}
 .hakase-label{font-family:var(--pixel);font-size:.55rem;color:#aa8800;letter-spacing:2px;margin-bottom:6px;}
 .hakase-label::before{content:'🔬 ';}
-.hakase-text{font-size:.82rem;color:#1a3a6b;line-height:1.7;font-weight:700;border-left:3px solid var(--lightblue);padding-left:10px;}
-
-/* OPENING */
-#openingScreen{display:none;}
-#openingScreen.active{display:flex;flex-direction:column;align-items:center;justify-content:center;}
-#skipBtn{display:none;}
-#openingScreen.active #skipBtn{display:block;}
-
-/* STARTER */
-#starterScreen{background:linear-gradient(180deg,#05080f 0%,#0d1a2e 100%);min-height:100vh;display:none;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;}
-#starterScreen.active{display:flex;}
-#starterMsgScreen.active{display:flex!important;flex-direction:column;align-items:center;justify-content:center;}
-.starter-title{font-family:var(--pixel);font-size:.8rem;color:var(--silver);letter-spacing:3px;text-align:center;margin-bottom:6px;}
-.starter-hakase-box{background:#0d1a2e;border:2px solid var(--lightblue);border-radius:8px;padding:12px 16px;width:100%;max-width:340px;margin-bottom:24px;position:relative;}
-.starter-hakase-box::before{content:'Sはかせ';position:absolute;top:-10px;left:12px;background:#0d1a2e;padding:0 6px;font-family:var(--pixel);font-size:.55rem;color:var(--lightblue);letter-spacing:2px;}
-.starter-hakase-text{font-family:var(--pixel);font-size:.75rem;color:white;line-height:1.9;letter-spacing:1px;}
-.balls-row{display:flex;gap:16px;justify-content:center;margin-bottom:20px;}
-.ball-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;}
-.ball{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#ff4444 50%,#fff 50%);border:3px solid #333;position:relative;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px rgba(0,0,0,.4);}
-.ball::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:14px;height:14px;background:white;border-radius:50%;border:3px solid #333;z-index:2;}
-.ball::after{content:'';position:absolute;top:49%;left:0;right:0;height:3px;background:#333;}
-.ball.selected{transform:scale(1.15);box-shadow:0 0 20px rgba(122,184,232,.8);}
-.ball.opened{background:linear-gradient(135deg,#ff8888 50%,#fff8f8 50%);}
-.ball-label{font-family:var(--pixel);font-size:.6rem;color:#888;letter-spacing:1px;}
-.ball-label.selected{color:var(--lightblue);}
-.starter-info-box{background:#0d1a2e;border:2px solid #2a3a5a;border-radius:8px;padding:14px 16px;width:100%;max-width:340px;margin-bottom:20px;min-height:80px;display:flex;align-items:center;gap:14px;}
-.starter-poke-icon{font-size:2.8rem;}
-.starter-poke-info{flex:1;}
-.starter-poke-name{font-family:var(--pixel);font-size:.9rem;color:var(--yellow);letter-spacing:2px;margin-bottom:4px;}
-.starter-poke-type{font-family:var(--pixel);font-size:.6rem;color:var(--lightblue);letter-spacing:2px;margin-bottom:6px;}
-.starter-poke-desc{font-family:var(--pixel);font-size:.62rem;color:#aaa;line-height:1.7;letter-spacing:1px;}
-.starter-confirm-btn{background:linear-gradient(135deg,#1e4080,#2a5298);color:#fff;border:2px solid var(--silver);border-radius:6px;padding:14px 28px;font-family:var(--pixel);font-size:.82rem;letter-spacing:3px;cursor:pointer;box-shadow:0 4px 0 #0d2244;transition:transform .1s,box-shadow .1s;opacity:0;pointer-events:none;}
-.starter-confirm-btn.active{opacity:1;pointer-events:all;}
-.starter-confirm-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #0d2244;}
-#openingBtn{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);width:calc(100% - 48px);max-width:372px;z-index:50;}
-#openingNext{position:fixed;bottom:72px;right:28px;}
-
-/* HP BAR */
-.hp-bar-wrap{background:#0d1a2e;border:2px solid #2a3a5a;border-radius:6px;padding:8px 12px;display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-.hp-poke-icon{font-size:1.2rem;}
-.hp-label{font-family:var(--pixel);font-size:.58rem;color:var(--silver);letter-spacing:1px;min-width:20px;}
-.hp-track{flex:1;background:#111;border-radius:3px;height:12px;border:1px solid #333;overflow:hidden;}
-.hp-fill{height:100%;background:linear-gradient(90deg,#22aa44,#88ff88);transition:width .4s ease;}
-.hp-fill.mid{background:linear-gradient(90deg,#f7c948,#ffdd88);}
-.hp-fill.low{background:linear-gradient(90deg,#cc2222,#ff6666);}
-.hp-num{font-family:var(--pixel);font-size:.65rem;color:var(--silver);min-width:32px;text-align:right;}
-.damage-popup{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);font-family:var(--pixel);font-size:2rem;color:#ff4444;font-weight:bold;text-shadow:2px 2px 0 #000;pointer-events:none;animation:dmgPop .8s ease forwards;z-index:200;}
-.damage-popup.batsugun{color:#ff8800;font-size:2.4rem;}
-.damage-popup.kouka{color:#aaaaaa;font-size:1.6rem;}
-@keyframes dmgPop{0%{opacity:1;transform:translate(-50%,-50%) scale(1);}60%{opacity:1;transform:translate(-50%,-120%) scale(1.3);}100%{opacity:0;transform:translate(-50%,-160%) scale(1);}}
-
-/* BADGE */
-.badge-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;}
-.badge-overlay.show{display:flex;animation:fadeIn .4s ease;}
-.badge-display{width:140px;height:140px;border-radius:50%;border:6px solid var(--badge-color,var(--gold));background:radial-gradient(circle at 35% 35%,#2a4a8a,#0d1a2e);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 0 30px var(--badge-color,rgba(200,168,75,.6));animation:badgeSpin .6s ease;}
-@keyframes badgeSpin{from{transform:scale(0) rotate(-180deg);opacity:0;}to{transform:scale(1) rotate(0deg);opacity:1;}}
-.badge-number{font-family:var(--pixel);font-size:3rem;color:var(--gold);text-shadow:0 0 20px rgba(200,168,75,.8);}
-.badge-area-name{font-family:var(--pixel);font-size:.65rem;color:var(--silver);letter-spacing:2px;margin-top:4px;}
-.badge-title{font-family:var(--pixel);font-size:.9rem;color:var(--gold);letter-spacing:3px;margin-bottom:8px;}
-.badge-sub{font-family:var(--pixel);font-size:.65rem;color:var(--lightblue);letter-spacing:2px;margin-bottom:24px;line-height:1.8;}
-.badge-btn{background:linear-gradient(135deg,#1e4080,#2a5298);color:#fff;border:2px solid var(--silver);border-radius:6px;padding:12px 28px;font-family:var(--pixel);font-size:.8rem;letter-spacing:2px;cursor:pointer;box-shadow:0 4px 0 #0d2244;}
-
-/* バッジ一覧（図鑑ヘッダー下） */
-.badge-row{display:flex;gap:6px;justify-content:center;padding:10px 12px;background:#050a14;border-top:2px solid #1a3a6b;flex-wrap:wrap;}
-.badge-mini{width:36px;height:36px;position:relative;display:flex;align-items:center;justify-content:center;cursor:default;}
-.badge-mini-inner{width:32px;height:32px;border-radius:50%;background:#111;border:2px solid #1a2a3a;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#222;transition:all .3s;position:relative;}
-.badge-mini-inner::before{content:'';position:absolute;inset:-3px;border-radius:50%;border:1px solid #0a1520;z-index:-1;}
-.badge-mini.earned .badge-mini-inner{background:radial-gradient(circle at 35% 35%,#3a6aaa,#0d2244);border-color:var(--gold);box-shadow:0 0 10px rgba(200,168,75,.5),inset 0 1px 2px rgba(255,255,255,.2);color:var(--gold);font-family:var(--pixel);font-size:.7rem;}
-.badge-mini.earned .badge-mini-inner::after{content:'';position:absolute;top:3px;left:5px;width:6px;height:4px;background:rgba(255,255,255,.25);border-radius:50%;transform:rotate(-30deg);}
-.badge-mini.final-badge .badge-mini-inner{background:radial-gradient(circle at 35% 35%,#4a3a0a,#1a1200);border-color:#555;}
-.badge-mini.final-badge.earned .badge-mini-inner{background:radial-gradient(circle at 35% 35%,#ffdd44,#c8a840);border-color:#ffdd44;box-shadow:0 0 16px rgba(255,221,68,.7);color:#1a1200;}
-
-/* QR SCANNER */
-#qrScanModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
-#qrScanModal.show{display:flex;}
-.qr-scan-header{font-family:var(--pixel);font-size:.8rem;color:var(--silver);letter-spacing:2px;margin-bottom:16px;}
-.qr-scan-video-wrap{position:relative;width:260px;height:260px;border:3px solid var(--lightblue);border-radius:8px;overflow:hidden;background:#000;}
-#qrVideo{width:100%;height:100%;object-fit:cover;}
-.qr-scan-overlay{position:absolute;inset:0;pointer-events:none;}
-.qr-scan-corner{position:absolute;width:24px;height:24px;border-color:var(--yellow);border-style:solid;}
-.qr-scan-corner.tl{top:8px;left:8px;border-width:3px 0 0 3px;}
-.qr-scan-corner.tr{top:8px;right:8px;border-width:3px 3px 0 0;}
-.qr-scan-corner.bl{bottom:8px;left:8px;border-width:0 0 3px 3px;}
-.qr-scan-corner.br{bottom:8px;right:8px;border-width:0 3px 3px 0;}
-.qr-scan-line{position:absolute;left:10%;right:10%;height:2px;background:var(--yellow);opacity:.7;animation:scanLine 2s ease-in-out infinite;}
-@keyframes scanLine{0%,100%{top:10%;}50%{top:85%;}}
-.qr-scan-status{font-family:var(--pixel);font-size:.65rem;color:var(--lightblue);letter-spacing:2px;margin-top:12px;min-height:20px;}
-.qr-scan-close{margin-top:16px;background:transparent;border:2px solid #444;color:#888;font-family:var(--pixel);font-size:.7rem;padding:10px 24px;border-radius:4px;cursor:pointer;letter-spacing:2px;}
-
-/* スキャンボタン */
-.scan-fab{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#1e4080,#2a5298);border:2px solid var(--silver);color:white;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);z-index:50;display:none;align-items:center;justify-content:center;}
-.scan-fab.show{display:flex;}
-
-/* かばん */
-.bag-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
-.bag-overlay.show{display:flex;animation:fadeIn .3s ease;}
-.bag-title{font-family:var(--pixel);font-size:.9rem;color:var(--yellow);letter-spacing:3px;margin-bottom:6px;}
-.bag-hp-info{font-family:var(--pixel);font-size:.7rem;color:var(--lightblue);letter-spacing:2px;margin-bottom:20px;}
-.bag-items{width:100%;max-width:340px;display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
-.bag-item{background:#0d1a2e;border:2px solid #2a3a5a;border-radius:8px;padding:14px 16px;cursor:pointer;transition:border-color .15s,background .15s;}
-.bag-item:active{background:#1a3a6b;border-color:var(--lightblue);}
-.bag-item-name{font-family:var(--pixel);font-size:.8rem;color:var(--silver);letter-spacing:2px;margin-bottom:4px;}
-.bag-item-effect{font-family:var(--pixel);font-size:.6rem;color:var(--lightblue);letter-spacing:1px;}
-.bag-close{background:transparent;border:2px solid #333;color:#666;font-family:var(--pixel);font-size:.7rem;padding:10px 24px;border-radius:4px;cursor:pointer;letter-spacing:2px;}
-
-/* かばんボタン（FABの横） */
-.bag-fab{position:fixed;bottom:24px;left:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#6a3a1a,#a05a2a);border:2px solid var(--yellow);color:white;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);z-index:50;display:none;align-items:center;justify-content:center;}
-.bag-fab.show{display:flex;}
-
-/* HP0のクイズロック */
-.hp-zero-msg{font-family:var(--pixel);font-size:.72rem;color:#ff6666;letter-spacing:2px;text-align:center;padding:12px;line-height:1.8;}
+.hakase-text{font-size:.82rem;color:#553300;line-height:1.7;font-weight:700;border-left:3px solid var(--yellow);padding-left:10px;}
 
 /* FANFARE */
 .fanfare-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;}
@@ -253,7 +138,174 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
 @keyframes iconPop{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
 .fanfare-text{font-family:var(--pixel);font-size:1.1rem;color:var(--yellow);letter-spacing:3px;margin-bottom:8px;text-shadow:0 0 20px rgba(247,201,72,.6);line-height:1.6;}
 .fanfare-sub{font-family:var(--pixel);font-size:.7rem;color:var(--lightblue);letter-spacing:2px;margin-bottom:24px;line-height:1.8;}
-.fanfare-btn{background:linear-gradient(135deg,#1e4080,#2a5298);color:#fff;border:2px solid var(--silver);border-radius:6px;padding:12px 28px;font-family:var(--pixel);font-size:.8rem;letter-spacing:2px;cursor:pointer;box-shadow:0 4px 0 #0d2244;}
+.fanfare-btn{background:var(--yellow);color:#111;border:none;border-radius:6px;padding:12px 28px;font-family:var(--pixel);font-size:.8rem;letter-spacing:2px;cursor:pointer;box-shadow:0 4px 0 #a07a00;}
+
+/* SS風カラー */
+:root {
+  --red:#1a3a6b;--darkred:#0d2244;--cream:#dde8f5;--darkbg:#05080f;
+  --yellow:#c8a84b;--blue:#1e4080;--lightblue:#7ab8e8;--green:#2a6aad;
+  --lightgreen:#90c8f0;--gray:#7888a0;--silver:#b8c8d8;--gold:#c8a84b;
+  --pixel:'DotGothic16',monospace;--round:'M PLUS Rounded 1c',sans-serif;
+}
+.shell{background:linear-gradient(180deg,#0d2244 0%,#1a3a6b 100%)!important;box-shadow:0 0 80px rgba(26,58,107,.8)!important;}
+.dex-header{background:linear-gradient(135deg,#0d2244,#1a3a6b)!important;border-bottom:3px solid var(--silver)!important;}
+.room-label{background:linear-gradient(135deg,#0d2244,#1a3a6b)!important;color:var(--lightblue)!important;border-color:var(--silver)!important;}
+.entry-list{background:#dde8f5!important;border-color:var(--silver)!important;}
+.detail-header{background:linear-gradient(135deg,#0d2244,#1a3a6b)!important;border-bottom:3px solid var(--silver)!important;}
+.quiz-header{background:linear-gradient(135deg,#0d2244,#1a3a6b)!important;border-bottom:2px solid var(--silver)!important;}
+.quiz-qbox{background:#0d1a2e!important;border-color:var(--silver)!important;}
+.choice-btn{background:#0d1a2e!important;border-color:#2a3a5a!important;color:var(--silver)!important;}
+.choice-btn.correct{border-color:var(--lightblue)!important;background:#0a1a3a!important;}
+.hakase-wrap{background:#e8f0f8!important;}
+.hakase-text{border-left:3px solid var(--lightblue)!important;color:#1a3a6b!important;}
+.start-btn{background:linear-gradient(135deg,#1e4080,#2a5298)!important;color:#fff!important;border:2px solid var(--silver)!important;box-shadow:0 5px 0 #0d2244!important;}
+.fanfare-btn{background:linear-gradient(135deg,#1e4080,#2a5298)!important;color:#fff!important;border:2px solid var(--silver)!important;}
+
+/* オープニング */
+#openingScreen{background:linear-gradient(180deg,#05080f,#0d1a2e);min-height:100vh;width:100%;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px 100px;}
+#openingScreen.active{display:flex;}
+.opening-box{background:#0d1a2e;border:3px solid var(--lightblue);border-radius:8px;padding:16px 18px;width:100%;max-width:360px;margin-bottom:20px;position:relative;}
+.opening-speaker{position:absolute;top:-10px;left:16px;background:#0d1a2e;padding:0 8px;font-family:var(--pixel);font-size:.6rem;color:var(--lightblue);letter-spacing:2px;}
+.opening-text{font-family:var(--pixel);font-size:.8rem;color:white;line-height:1.9;letter-spacing:1px;min-height:48px;}
+.opening-next{position:absolute;bottom:8px;right:12px;font-family:var(--pixel);font-size:.65rem;color:var(--lightblue);animation:startBlink 1s infinite;display:none;}
+#openingBtn{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);width:calc(100% - 48px);max-width:372px;z-index:50;background:linear-gradient(135deg,#1e4080,#2a5298);color:#fff;border:2px solid var(--silver);border-radius:6px;padding:14px;font-family:var(--pixel);font-size:.82rem;letter-spacing:2px;cursor:pointer;box-shadow:0 4px 0 #0d2244;}
+#skipBtn{display:none;}
+#openingScreen.active #skipBtn{display:block;}
+
+/* 御三家 */
+#starterScreen{background:linear-gradient(180deg,#05080f,#0d1a2e);min-height:100vh;width:100%;display:none;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;}
+#starterScreen.active{display:flex;}
+.starter-title{font-family:var(--pixel);font-size:.8rem;color:var(--silver);letter-spacing:3px;text-align:center;margin-bottom:16px;}
+.starter-box{background:#0d1a2e;border:2px solid var(--lightblue);border-radius:8px;padding:12px 16px;width:100%;max-width:340px;margin-bottom:20px;position:relative;}
+.starter-box::before{content:'Sはかせ';position:absolute;top:-10px;left:12px;background:#0d1a2e;padding:0 6px;font-family:var(--pixel);font-size:.55rem;color:var(--lightblue);letter-spacing:2px;}
+.starter-box-text{font-family:var(--pixel);font-size:.75rem;color:white;line-height:1.9;letter-spacing:1px;}
+.balls-row{display:flex;gap:16px;justify-content:center;margin-bottom:20px;}
+.ball-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;}
+.ball{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#ff4444 50%,#fff 50%);border:3px solid #333;position:relative;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px rgba(0,0,0,.4);}
+.ball::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:14px;height:14px;background:white;border-radius:50%;border:3px solid #333;z-index:2;}
+.ball::after{content:'';position:absolute;top:49%;left:0;right:0;height:3px;background:#333;}
+.ball.selected{transform:scale(1.15);box-shadow:0 0 20px rgba(122,184,232,.8);}
+.ball.opened{background:linear-gradient(135deg,#ff8888 50%,#fff8f8 50%);}
+.ball-label{font-family:var(--pixel);font-size:.6rem;color:#888;letter-spacing:1px;}
+.ball-label.selected{color:var(--lightblue);}
+.starter-info-box{background:#0d1a2e;border:2px solid #2a3a5a;border-radius:8px;padding:14px;width:100%;max-width:340px;margin-bottom:20px;min-height:80px;display:flex;align-items:center;gap:12px;}
+.starter-poke-icon{font-size:2.8rem;}
+.starter-poke-name{font-family:var(--pixel);font-size:.9rem;color:var(--yellow);letter-spacing:2px;margin-bottom:4px;}
+.starter-poke-type{font-family:var(--pixel);font-size:.6rem;color:var(--lightblue);letter-spacing:2px;margin-bottom:6px;}
+.starter-poke-desc{font-family:var(--pixel);font-size:.62rem;color:#aaa;line-height:1.7;letter-spacing:1px;}
+.starter-confirm-btn{background:linear-gradient(135deg,#1e4080,#2a5298);color:#fff;border:2px solid var(--silver);border-radius:6px;padding:14px 28px;font-family:var(--pixel);font-size:.82rem;letter-spacing:3px;cursor:pointer;box-shadow:0 4px 0 #0d2244;opacity:0;pointer-events:none;}
+.starter-confirm-btn.active{opacity:1;pointer-events:all;}
+
+/* starterMsgScreen */
+#starterMsgScreen{background:linear-gradient(180deg,#05080f,#0d1a2e);min-height:100vh;width:100%;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;}
+#starterMsgScreen.active{display:flex;}
+
+/* HP */
+.hp-bar-wrap{background:#0d1a2e;border:2px solid #2a3a5a;border-radius:6px;padding:8px 12px;display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.hp-poke-icon{font-size:1.2rem;}
+.hp-label{font-family:var(--pixel);font-size:.58rem;color:var(--silver);letter-spacing:1px;min-width:20px;}
+.hp-track{flex:1;background:#111;border-radius:3px;height:12px;border:1px solid #333;overflow:hidden;}
+.hp-fill{height:100%;background:linear-gradient(90deg,#22aa44,#88ff88);transition:width .4s ease;}
+.hp-fill.mid{background:linear-gradient(90deg,#f7c948,#ffdd88);}
+.hp-fill.low{background:linear-gradient(90deg,#cc2222,#ff6666);}
+.hp-num{font-family:var(--pixel);font-size:.65rem;color:var(--silver);min-width:32px;text-align:right;}
+.damage-popup{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);font-family:var(--pixel);font-size:2rem;color:#ff4444;font-weight:bold;text-shadow:2px 2px 0 #000;pointer-events:none;animation:dmgPop .8s ease forwards;z-index:200;}
+@keyframes dmgPop{0%{opacity:1;transform:translate(-50%,-50%) scale(1);}60%{opacity:1;transform:translate(-50%,-120%) scale(1.3);}100%{opacity:0;transform:translate(-50%,-160%) scale(1);}}
+.hp-zero-msg{font-family:var(--pixel);font-size:.72rem;color:#ff6666;letter-spacing:2px;text-align:center;padding:12px;line-height:1.8;}
+
+/* バッジ */
+.badge-row{display:flex;gap:6px;justify-content:center;padding:8px 12px;background:#050a14;border-top:1px solid #1a3a6b;flex-wrap:wrap;}
+.badge-mini{width:36px;height:36px;position:relative;display:flex;align-items:center;justify-content:center;}
+.badge-mini-inner{width:32px;height:32px;border-radius:50%;background:#111;border:2px solid #1a2a3a;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#222;font-family:var(--pixel);transition:all .3s;}
+.badge-mini.earned .badge-mini-inner{background:radial-gradient(circle at 35% 35%,#3a6aaa,#0d2244);border-color:var(--gold);color:var(--gold);box-shadow:0 0 10px rgba(200,168,75,.5);}
+.badge-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;}
+.badge-overlay.show{display:flex;animation:fadeIn .4s ease;}
+.badge-display{width:140px;height:140px;border-radius:50%;border:6px solid var(--gold);background:radial-gradient(circle at 35% 35%,#2a4a8a,#0d1a2e);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 0 30px rgba(200,168,75,.6);animation:badgeSpin .6s ease;}
+@keyframes badgeSpin{from{transform:scale(0) rotate(-180deg);opacity:0;}to{transform:scale(1) rotate(0deg);opacity:1;}}
+.badge-number{font-family:var(--pixel);font-size:3rem;color:var(--gold);}
+.badge-area-name{font-family:var(--pixel);font-size:.65rem;color:var(--silver);letter-spacing:2px;margin-top:4px;}
+.badge-title{font-family:var(--pixel);font-size:.9rem;color:var(--gold);letter-spacing:3px;margin-bottom:8px;}
+.badge-sub{font-family:var(--pixel);font-size:.65rem;color:var(--lightblue);letter-spacing:2px;margin-bottom:24px;line-height:1.8;}
+.badge-btn{background:linear-gradient(135deg,#1e4080,#2a5298);color:#fff;border:2px solid var(--silver);border-radius:6px;padding:12px 28px;font-family:var(--pixel);font-size:.8rem;letter-spacing:2px;cursor:pointer;}
+
+/* かばん */
+.bag-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+.bag-overlay.show{display:flex;animation:fadeIn .3s ease;}
+.bag-title{font-family:var(--pixel);font-size:.9rem;color:var(--yellow);letter-spacing:3px;margin-bottom:6px;}
+.bag-hp-info{font-family:var(--pixel);font-size:.7rem;color:var(--lightblue);letter-spacing:2px;margin-bottom:20px;}
+.bag-items{width:100%;max-width:340px;display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.bag-item{background:#0d1a2e;border:2px solid #2a3a5a;border-radius:8px;padding:14px 16px;cursor:pointer;transition:border-color .15s;}
+.bag-item:active{border-color:var(--lightblue);}
+.bag-item-name{font-family:var(--pixel);font-size:.8rem;color:var(--silver);letter-spacing:2px;margin-bottom:4px;}
+.bag-item-effect{font-family:var(--pixel);font-size:.6rem;color:var(--lightblue);letter-spacing:1px;}
+.bag-close{background:transparent;border:2px solid #333;color:#666;font-family:var(--pixel);font-size:.7rem;padding:10px 24px;border-radius:4px;cursor:pointer;letter-spacing:2px;}
+.bag-fab{position:fixed;bottom:24px;left:calc(50% - 186px);width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#6a3a1a,#a05a2a);border:2px solid var(--yellow);color:white;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);z-index:50;display:none;align-items:center;justify-content:center;}
+.bag-fab.show{display:flex;}
+@media(max-width:420px){.bag-fab{left:24px;}}
+
+/* QRスキャン */
+#qrScanModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+#qrScanModal.show{display:flex;}
+.qr-scan-header{font-family:var(--pixel);font-size:.8rem;color:var(--silver);letter-spacing:2px;margin-bottom:16px;}
+.qr-scan-video-wrap{position:relative;width:260px;height:260px;border:3px solid var(--lightblue);border-radius:8px;overflow:hidden;background:#000;}
+#qrVideo{width:100%;height:100%;object-fit:cover;}
+.qr-scan-corner{position:absolute;width:24px;height:24px;border-color:var(--yellow);border-style:solid;}
+.qr-scan-corner.tl{top:8px;left:8px;border-width:3px 0 0 3px;}
+.qr-scan-corner.tr{top:8px;right:8px;border-width:3px 3px 0 0;}
+.qr-scan-corner.bl{bottom:8px;left:8px;border-width:0 0 3px 3px;}
+.qr-scan-corner.br{bottom:8px;right:8px;border-width:0 3px 3px 0;}
+.qr-scan-line{position:absolute;left:10%;right:10%;height:2px;background:var(--yellow);opacity:.7;animation:scanLine 2s ease-in-out infinite;}
+@keyframes scanLine{0%,100%{top:10%;}50%{top:85%;}}
+.qr-scan-status{font-family:var(--pixel);font-size:.65rem;color:var(--lightblue);letter-spacing:2px;margin-top:12px;min-height:20px;}
+.qr-scan-close{margin-top:16px;background:transparent;border:2px solid #444;color:#888;font-family:var(--pixel);font-size:.7rem;padding:10px 24px;border-radius:4px;cursor:pointer;letter-spacing:2px;}
+.scan-fab{position:fixed;bottom:24px;right:calc(50% - 186px);width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#1e4080,#2a5298);border:2px solid var(--silver);color:white;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);z-index:50;display:none;align-items:center;justify-content:center;}
+.scan-fab.show{display:flex;}
+@media(max-width:420px){.scan-fab{right:24px;}}
+
+/* PW overlay */
+#readyPwOverlay{z-index:150;}
+
+/* ポケモンリーグ */
+#leagueScreen{background:linear-gradient(180deg,#050810,#0d1030);min-height:100vh;width:100%;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+#leagueScreen.active{display:flex;}
+.league-title{font-family:var(--pixel);font-size:.9rem;color:var(--gold);letter-spacing:4px;text-align:center;margin-bottom:4px;text-shadow:0 0 20px rgba(200,168,75,.6);}
+.league-sub{font-family:var(--pixel);font-size:.6rem;color:var(--silver);letter-spacing:2px;text-align:center;margin-bottom:24px;}
+.e4-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:360px;margin-bottom:20px;}
+.e4-card{background:#0d1a2e;border:2px solid #2a3a5a;border-radius:8px;padding:16px 12px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative;}
+.e4-card.available{border-color:var(--gold);cursor:pointer;}
+.e4-card.available:active{background:#1a3a6b;}
+.e4-card.cleared{border-color:#22aa44;background:#0a2a1a;cursor:default;}
+.e4-card.locked{opacity:.4;cursor:default;}
+.e4-card-icon{font-size:2.5rem;margin-bottom:8px;}
+.e4-card-name{font-family:var(--pixel);font-size:.75rem;color:var(--silver);letter-spacing:2px;margin-bottom:4px;}
+.e4-card-area{font-family:var(--pixel);font-size:.55rem;color:#666;letter-spacing:1px;}
+.e4-card-status{position:absolute;top:6px;right:8px;font-family:var(--pixel);font-size:.55rem;}
+.champ-card{background:linear-gradient(135deg,#1a2a4a,#0d1a3a);border:3px solid var(--gold);border-radius:12px;padding:20px;text-align:center;width:100%;max-width:360px;cursor:pointer;transition:box-shadow .2s;}
+.champ-card.locked{opacity:.4;cursor:default;}
+.champ-card.available:active{box-shadow:0 0 30px rgba(200,168,75,.6);}
+.champ-card-icon{font-size:3.5rem;margin-bottom:10px;}
+.champ-card-name{font-family:var(--pixel);font-size:.9rem;color:var(--gold);letter-spacing:3px;margin-bottom:4px;}
+.champ-card-title{font-family:var(--pixel);font-size:.6rem;color:var(--silver);letter-spacing:2px;}
+
+/* バトル画面 */
+#battleScreen{background:linear-gradient(180deg,#050810,#0d1030);min-height:100vh;width:100%;display:none;flex-direction:column;align-items:stretch;}
+#battleScreen.active{display:flex;}
+.battle-header{background:linear-gradient(135deg,#0d1a4a,#1a2a6a);padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:2px solid var(--gold);}
+.battle-opponent-icon{font-size:2rem;}
+.battle-opponent-name{font-family:var(--pixel);font-size:.9rem;color:var(--gold);letter-spacing:2px;}
+.battle-opponent-title{font-family:var(--pixel);font-size:.55rem;color:var(--silver);letter-spacing:1px;}
+.battle-hp-wrap{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#0d1030;}
+.battle-progress{font-family:var(--pixel);font-size:.6rem;color:var(--silver);letter-spacing:2px;flex:1;text-align:right;}
+.battle-q-box{background:#0d1a2e;border:2px solid #2a3a5a;border-radius:8px;margin:12px 16px;padding:14px;}
+.battle-q-label{font-family:var(--pixel);font-size:.58rem;color:var(--gold);letter-spacing:2px;margin-bottom:8px;}
+.battle-q-text{font-family:var(--pixel);font-size:.82rem;color:white;line-height:1.8;letter-spacing:1px;}
+.battle-choices{padding:0 16px;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.battle-choice{background:#0d1a2e;border:3px solid #2a3a5a;border-radius:4px;padding:10px 8px;font-family:var(--pixel);font-size:.72rem;color:var(--silver);cursor:pointer;text-align:center;min-height:60px;display:flex;align-items:center;justify-content:center;transition:border-color .15s;}
+.battle-choice:active{border-color:var(--gold);}
+.battle-choice.correct{border-color:#88ff88;background:#0a2a1a;}
+.battle-choice.wrong{border-color:#ff4444;background:#2a0a0a;}
+.battle-choice.disabled{pointer-events:none;opacity:.6;}
+.battle-result{font-family:var(--pixel);font-size:.72rem;text-align:center;min-height:20px;letter-spacing:2px;padding:8px 16px;}
 </style>
 </head>
 <body>
@@ -264,26 +316,8 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
   <div class="stars" id="stars"></div>
   <div class="title-dex"></div>
   <div class="title-logo">まぼろしの<br>次世代機を<br>さがせ</div>
-
+  <div class="title-sub">かじずかんをうめて、<br>まぼろしのポケモンを<br>てにいれろ！</div>
   <button class="start-btn" onclick="startOpening()">▶ はじめる</button>
-</div>
-
-<!-- OPENING -->
-<div id="openingScreen" class="screen" style="background:#05080f;min-height:100vh;padding:32px 24px;">
-  <button id="skipBtn" onclick="skipOpening()" style="position:fixed;top:16px;right:16px;background:transparent;border:1px solid #2a3a5a;color:#444;font-family:'DotGothic16',monospace;font-size:.6rem;padding:6px 10px;border-radius:4px;cursor:pointer;letter-spacing:1px;z-index:51;">スキップ</button>
-
-  <!-- はかせキャラ -->
-  <div id="hakaseChar" style="margin-bottom:24px;opacity:0;transition:opacity .8s;">
-    <div style="font-size:5rem;line-height:1;">👩‍🔬</div>
-  </div>
-
-  <!-- テキストボックス -->
-  <div id="openingBox" style="background:#0d1a2e;border:3px solid #7ab8e8;border-radius:8px;padding:16px 18px;width:100%;max-width:360px;min-height:80px;position:relative;opacity:0;transition:opacity .5s;">
-    <div style="position:absolute;top:-10px;left:16px;background:#0d1a2e;padding:0 8px;font-family:'DotGothic16',monospace;font-size:.6rem;color:#7ab8e8;letter-spacing:2px;" id="speakerName">Sはかせ</div>
-    <div id="openingText" style="font-family:'DotGothic16',monospace;font-size:.8rem;color:white;line-height:1.9;letter-spacing:1px;min-height:48px;"></div>
-    <div id="openingNext" style="position:absolute;bottom:8px;right:12px;font-family:'DotGothic16',monospace;font-size:.65rem;color:#7ab8e8;animation:startBlink 1s infinite;display:none;">▼</div>
-  </div>
-  <button id="openingBtn" onclick="nextOpening()" style="margin-top:16px;background:transparent;border:2px solid #2a5298;color:#7ab8e8;font-family:'DotGothic16',monospace;font-size:.75rem;letter-spacing:2px;padding:10px 24px;border-radius:4px;cursor:pointer;opacity:0;transition:opacity .5s;">つぎへ　▶</button>
 </div>
 
 <!-- DEX -->
@@ -306,46 +340,8 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
     <div class="prog-count" id="progCount">0 / 50</div>
   </div>
   <div class="badge-row" id="badgeRow"></div>
-<div id="dexList" style="padding-bottom:16px;"></div>
+  <div id="dexList" style="padding-bottom:80px;"></div>
 </div>
-
-<!-- STARTER MSG SCREEN -->
-<div id="starterMsgScreen" class="screen" style="background:linear-gradient(180deg,#05080f 0%,#0d1a2e 100%);min-height:100vh;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;">
-  <div style="font-size:5rem;margin-bottom:24px;">👩‍🔬</div>
-  <div style="background:#0d1a2e;border:3px solid #7ab8e8;border-radius:8px;padding:16px 18px;width:100%;max-width:360px;margin-bottom:24px;position:relative;">
-    <div style="position:absolute;top:-10px;left:16px;background:#0d1a2e;padding:0 8px;font-family:'DotGothic16',monospace;font-size:.6rem;color:#7ab8e8;letter-spacing:2px;">Sはかせ</div>
-    <div id="starterMsgText" style="font-family:'DotGothic16',monospace;font-size:.8rem;color:white;line-height:1.9;letter-spacing:1px;min-height:48px;"></div>
-    <div id="starterMsgNext" style="position:absolute;bottom:8px;right:12px;font-family:'DotGothic16',monospace;font-size:.65rem;color:#7ab8e8;animation:startBlink 1s infinite;display:none;">▼</div>
-  </div>
-  <button id="starterMsgBtn" style="background:linear-gradient(135deg,#1e4080,#2a5298);color:#fff;border:2px solid #b8c8d8;border-radius:6px;padding:14px 36px;font-family:'DotGothic16',monospace;font-size:.85rem;letter-spacing:3px;cursor:pointer;box-shadow:0 4px 0 #0d2244;">つぎへ　▶</button>
-</div>
-
-<!-- STARTER -->
-<div id="starterScreen" class="screen">
-  <div class="starter-title">さいしょの　なかまを　えらぶのじゃ！</div>
-  <div class="starter-hakase-box">
-    <div class="starter-hakase-text" id="starterHakaseText">さあ！　きみの　さいしょの　なかまを　えらぶのじゃ！<br>このぼうけんを　ともにする　たいせつな　ポケモンじゃ。<br>ボールを　タップして　なかをみてみるのじゃ！</div>
-  </div>
-  <div class="balls-row">
-    <div class="ball-wrap" onclick="selectStarter(0)">
-      <div class="ball" id="ball0"></div>
-      <div class="ball-label" id="ballLabel0">？？？</div>
-    </div>
-    <div class="ball-wrap" onclick="selectStarter(1)">
-      <div class="ball" id="ball1"></div>
-      <div class="ball-label" id="ballLabel1">？？？</div>
-    </div>
-    <div class="ball-wrap" onclick="selectStarter(2)">
-      <div class="ball" id="ball2"></div>
-      <div class="ball-label" id="ballLabel2">？？？</div>
-    </div>
-  </div>
-  <div class="starter-info-box" id="starterInfoBox">
-    <div style="font-family:'DotGothic16',monospace;font-size:.7rem;color:#333;text-align:center;width:100%;">ボールを　えらぶのじゃ</div>
-  </div>
-  <button class="starter-confirm-btn" id="starterConfirmBtn" onclick="confirmStarter()">このこに　きめる！</button>
-</div>
-
 
 <!-- QUIZ -->
 <div id="quizScreen" class="screen">
@@ -354,12 +350,7 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
     <span class="quiz-header-title" id="quizTitle">クイズ</span>
   </div>
   <div class="quiz-body">
-    <div class="hp-bar-wrap" id="hpBarWrap">
-      <div class="hp-poke-icon" id="hpPokeIcon">❓</div>
-      <div class="hp-label">HP</div>
-      <div class="hp-track"><div class="hp-fill" id="hpFill" style="width:100%;"></div></div>
-      <div class="hp-num" id="hpNum">10/10</div>
-    </div>
+    <div class="hp-bar-wrap" id="hpBarWrap"><div class="hp-poke-icon" id="hpPokeIcon">❓</div><div class="hp-label">HP</div><div class="hp-track"><div class="hp-fill" id="hpFill" style="width:100%;"></div></div><div class="hp-num" id="hpNum">10/10</div></div>
     <div class="quiz-num" id="quizNum">No.000</div>
     <div class="quiz-icon" id="quizIcon">❓</div>
     <div class="quiz-qbox">
@@ -381,8 +372,201 @@ body{background:var(--darkbg);font-family:var(--round);min-height:100vh;display:
   <div class="detail-body" id="detailBody"></div>
 </div>
 
+
+
+<!-- OPENING -->
+<div id="openingScreen" class="screen" style="background:linear-gradient(180deg,#05080f,#0d1a2e);min-height:100vh;padding:32px 24px;">
+  <button id="skipBtn" onclick="skipOpening()" style="position:fixed;top:16px;right:16px;background:transparent;border:1px solid #2a3a5a;color:#444;font-family:'DotGothic16',monospace;font-size:.6rem;padding:6px 10px;border-radius:4px;cursor:pointer;letter-spacing:1px;z-index:51;">スキップ</button>
+  <div id="hakaseChar" style="margin-bottom:24px;opacity:0;transition:opacity .8s;font-size:5rem;text-align:center;">👩‍🔬</div>
+  <div class="opening-box" id="openingBox" style="opacity:0;transition:opacity .5s;">
+    <div class="opening-speaker" id="speakerName">Sはかせ</div>
+    <div class="opening-text" id="openingText"></div>
+    <div class="opening-next" id="openingNext">▼</div>
+  </div>
+  <button id="openingBtn" onclick="nextOpening()" style="opacity:0;transition:opacity .5s;">つぎへ　▶</button>
 </div>
 
+<!-- STARTER -->
+<div id="starterScreen" class="screen">
+  <div class="starter-title">さいしょの　なかまを　えらぶのじゃ！</div>
+  <div class="starter-box">
+    <div class="starter-box-text" id="starterHakaseText">ボールを　タップして　なかを　みてみるのじゃ！</div>
+  </div>
+  <div class="balls-row">
+    <div class="ball-wrap" onclick="selectStarter(0)">
+      <div class="ball" id="ball0"></div>
+      <div class="ball-label" id="ballLabel0">？？？</div>
+    </div>
+    <div class="ball-wrap" onclick="selectStarter(1)">
+      <div class="ball" id="ball1"></div>
+      <div class="ball-label" id="ballLabel1">？？？</div>
+    </div>
+    <div class="ball-wrap" onclick="selectStarter(2)">
+      <div class="ball" id="ball2"></div>
+      <div class="ball-label" id="ballLabel2">？？？</div>
+    </div>
+  </div>
+  <div class="starter-info-box" id="starterInfoBox">
+    <div style="font-family:'DotGothic16',monospace;font-size:.7rem;color:#333;text-align:center;width:100%;">ボールを　えらぶのじゃ</div>
+  </div>
+  <button class="starter-confirm-btn" id="starterConfirmBtn" onclick="confirmStarter()">このこに　きめる！</button>
+</div>
+
+<!-- STARTER MSG -->
+<div id="starterMsgScreen" class="screen">
+  <div style="font-size:5rem;margin-bottom:24px;">👩‍🔬</div>
+  <div style="background:#0d1a2e;border:3px solid #7ab8e8;border-radius:8px;padding:16px 18px;width:100%;max-width:360px;margin-bottom:24px;position:relative;">
+    <div style="position:absolute;top:-10px;left:16px;background:#0d1a2e;padding:0 8px;font-family:'DotGothic16',monospace;font-size:.6rem;color:#7ab8e8;letter-spacing:2px;">Sはかせ</div>
+    <div id="starterMsgText" style="font-family:'DotGothic16',monospace;font-size:.8rem;color:white;line-height:1.9;letter-spacing:1px;min-height:48px;"></div>
+    <div id="starterMsgNext" style="position:absolute;bottom:8px;right:12px;font-family:'DotGothic16',monospace;font-size:.65rem;color:#7ab8e8;animation:startBlink 1s infinite;display:none;">▼</div>
+  </div>
+  <button id="starterMsgBtn" style="background:linear-gradient(135deg,#1e4080,#2a5298);color:#fff;border:2px solid #b8c8d8;border-radius:6px;padding:14px 36px;font-family:'DotGothic16',monospace;font-size:.85rem;letter-spacing:2px;cursor:pointer;box-shadow:0 4px 0 #0d2244;">つぎへ　▶</button>
+</div>
+
+<!-- PW OVERLAY -->
+<div class="fanfare-overlay" id="readyPwOverlay" style="z-index:150;">
+  <div style="font-size:2rem;margin-bottom:12px;">🔐</div>
+  <div class="fanfare-text" style="font-size:.9rem;margin-bottom:6px;">げんじつの　Sさんの　ところに　いこう！</div>
+  <div class="fanfare-sub">せつめいが　おわったら<br>SさんからPWをもらって<br>にゅうりょくするのじゃ！</div>
+  <input id="readyPwInput" type="text" placeholder="PWをにゅうりょく"
+    style="width:240px;background:#111;border:2px solid #2a3a5a;border-radius:6px;padding:12px;font-family:'DotGothic16',monospace;font-size:1rem;color:white;letter-spacing:2px;text-align:center;outline:none;margin-bottom:12px;"/>
+  <button class="fanfare-btn" onclick="checkReadyPw()">けっていする！</button>
+  <div id="readyPwWrong" style="font-family:'DotGothic16',monospace;font-size:.65rem;color:#ff6666;margin-top:8px;min-height:16px;letter-spacing:2px;text-align:center;"></div>
+</div>
+
+<!-- BADGE -->
+<div class="badge-overlay" id="badgeOverlay">
+  <div class="badge-title" id="badgeTitle">バッジをてにいれた！</div>
+  <div class="badge-display">
+    <div class="badge-number" id="badgeNumber">4</div>
+    <div class="badge-area-name" id="badgeAreaName"></div>
+  </div>
+  <div class="badge-sub" id="badgeSub"></div>
+  <button class="badge-btn" onclick="closeBadge()">つづける</button>
+</div>
+
+<!-- かばん -->
+<div class="bag-overlay" id="bagOverlay">
+  <div class="bag-title">🎒 かばん</div>
+  <div class="bag-hp-info" id="bagHpInfo">HP: 10 / 10</div>
+  <div class="bag-items">
+    <div class="bag-item" onclick="useBagItem('squat',3)">
+      <div class="bag-item-name">💪 スクワット10かい</div>
+      <div class="bag-item-effect">HP +3　かいふく</div>
+    </div>
+    <div class="bag-item" onclick="useBagItem('haikin',5)">
+      <div class="bag-item-name">🏋️ はいきん10かい</div>
+      <div class="bag-item-effect">HP +5　かいふく</div>
+    </div>
+    <div class="bag-item" onclick="useBagItem('pushup',7)">
+      <div class="bag-item-name">🤸 うでたて10かい</div>
+      <div class="bag-item-effect">HP +7　かいふく</div>
+    </div>
+    <div class="bag-item" onclick="useBagItem('massage',10)">
+      <div class="bag-item-name">🙌 かたもみ30びょう</div>
+      <div class="bag-item-effect">HP +10　かいふく（まんたん）</div>
+    </div>
+  </div>
+  <button class="bag-close" onclick="closeBag()">とじる</button>
+</div>
+<button class="bag-fab" id="bagFab" onclick="openBag()">🎒</button>
+
+<!-- QR SCAN -->
+<div id="qrScanModal">
+  <div class="qr-scan-header">📷 QRコードをよみとるのじゃ</div>
+  <div class="qr-scan-video-wrap">
+    <video id="qrVideo" autoplay playsinline muted></video>
+    <div style="position:absolute;inset:0;pointer-events:none;">
+      <div class="qr-scan-corner tl"></div><div class="qr-scan-corner tr"></div>
+      <div class="qr-scan-corner bl"></div><div class="qr-scan-corner br"></div>
+      <div class="qr-scan-line"></div>
+    </div>
+  </div>
+  <div class="qr-scan-status" id="qrScanStatus">カメラをQRコードに　むけるのじゃ…</div>
+  <button class="qr-scan-close" onclick="closeQrScan()">とじる</button>
+</div>
+<button class="scan-fab" id="scanFab" onclick="openQrScan()">📷</button>
+
+<!-- PENALTY -->
+<div class="fanfare-overlay" id="penaltyOverlay">
+  <div style="font-size:3rem;margin-bottom:16px;">💪</div>
+  <div class="fanfare-text" id="penaltyEx" style="font-size:1.3rem;"></div>
+  <div class="fanfare-sub">Sはかせのまえで<br>やりとげるのじゃ！<br>おわったらSはかせに<br>PWをもらうのじゃ！</div>
+  <button class="fanfare-btn" onclick="showPwInput()" style="background:#ff6666;box-shadow:0 4px 0 #aa2222;">おわった！PWをいれる</button>
+</div>
+
+<!-- PW INPUT -->
+<div class="fanfare-overlay" id="pwOverlay">
+  <div style="font-size:2rem;margin-bottom:12px;">🔐</div>
+  <div class="fanfare-text" style="font-size:.9rem;margin-bottom:16px;">SはかせからPWをきいて<br>にゅうりょくするのじゃ</div>
+  <input id="pwInput" type="number" placeholder="000000"
+    style="width:200px;background:#111;border:2px solid #444;border-radius:6px;padding:12px 14px;font-family:DotGothic16,monospace;font-size:1.6rem;color:white;letter-spacing:6px;text-align:center;outline:none;margin-bottom:12px;"/>
+  <button class="fanfare-btn" onclick="checkPw()">けっていする！</button>
+  <div id="pwWrong" style="font-family:DotGothic16,monospace;font-size:.7rem;color:#ff6666;margin-top:10px;min-height:20px;letter-spacing:2px;text-align:center;"></div>
+</div>
+
+
+<!-- POKEMON LEAGUE -->
+<div id="leagueScreen" class="screen">
+  <div class="league-title">⚔️ ポケモンリーグ</div>
+  <div class="league-sub" id="leagueSub">しかいしゃに　ちょうせんするのじゃ！</div>
+  <div class="e4-grid">
+    <div class="e4-card locked" id="e4card0" onclick="startBattle(0)">
+      <div class="e4-card-icon">👨‍🔬</div>
+      <div class="e4-card-name">ケンジ</div>
+      <div class="e4-card-area">たびだちのひろば</div>
+      <div class="e4-card-status" id="e4status0"></div>
+    </div>
+    <div class="e4-card locked" id="e4card1" onclick="startBattle(1)">
+      <div class="e4-card-icon">👩‍🎓</div>
+      <div class="e4-card-name">ミカ</div>
+      <div class="e4-card-area">Sのしま</div>
+      <div class="e4-card-status" id="e4status1"></div>
+    </div>
+    <div class="e4-card locked" id="e4card2" onclick="startBattle(2)">
+      <div class="e4-card-icon">🕵️‍♀️</div>
+      <div class="e4-card-name">アヤネ</div>
+      <div class="e4-card-area">あわあわシティ</div>
+      <div class="e4-card-status" id="e4status2"></div>
+    </div>
+    <div class="e4-card locked" id="e4card3" onclick="startBattle(3)">
+      <div class="e4-card-icon">🤵‍♂️</div>
+      <div class="e4-card-name">リョウ</div>
+      <div class="e4-card-area">りょうりこうげん</div>
+      <div class="e4-card-status" id="e4status3"></div>
+    </div>
+  </div>
+  <div class="champ-card locked" id="champCard" onclick="startBattle(4)">
+    <div class="champ-card-icon">👩‍🔬</div>
+    <div class="champ-card-name">S</div>
+    <div class="champ-card-title">チャンピオン</div>
+    <div class="e4-card-status" id="e4status4"></div>
+  </div>
+</div>
+
+<!-- BATTLE SCREEN -->
+<div id="battleScreen" class="screen">
+  <div class="battle-header">
+    <div class="battle-opponent-icon" id="battleOpponentIcon">👨‍🔬</div>
+    <div>
+      <div class="battle-opponent-name" id="battleOpponentName">ケンジ</div>
+      <div class="battle-opponent-title" id="battleOpponentTitle">しかいしゃ</div>
+    </div>
+  </div>
+  <div class="battle-hp-wrap">
+    <div class="hp-poke-icon" id="battleHpIcon">❓</div>
+    <div class="hp-label">HP</div>
+    <div class="hp-track" style="flex:1;"><div class="hp-fill" id="battleHpFill" style="width:100%;"></div></div>
+    <div class="hp-num" id="battleHpNum">10/10</div>
+    <div class="battle-progress" id="battleProgress">0 / 0</div>
+  </div>
+  <div class="battle-q-box">
+    <div class="battle-q-label">▶ しかいしゃからのしつもんじゃ！</div>
+    <div class="battle-q-text" id="battleQText"></div>
+  </div>
+  <div class="battle-choices" id="battleChoices"></div>
+  <div class="battle-result" id="battleResult"></div>
+</div>
 <!-- FANFARE -->
 <div class="fanfare-overlay" id="fanfare">
   <div class="fanfare-icon" id="fanfareIcon">✨</div>
@@ -397,790 +581,167 @@ const isStarted=localStorage.getItem('kaji_started')==='1';
 const typeColors={mizu:"type-mizu",honoo:"type-honoo",kusa:"type-kusa",denki:"type-denki",goosuto:"type-goosuto",koori:"type-koori",kakutou:"type-kakutou",iwa:"type-iwa",hagane:"type-hagane",esupaa:"type-esupaa",noormal:"type-noormal",doku:"type-doku",hikou:"type-hikou",fearii:"type-fearii",dragon:"type-dragon",aku:"type-aku",mushi:"type-mushi",jimen:"type-jimen"};
 const typeNames={mizu:"みず",honoo:"ほのお",kusa:"くさ",denki:"でんき",goosuto:"ゴースト",koori:"こおり",kakutou:"かくとう",iwa:"いわ",hagane:"はがね",esupaa:"エスパー",noormal:"ノーマル",doku:"どく",hikou:"ひこう",fearii:"フェアリー",dragon:"ドラゴン",aku:"あく",mushi:"むし",jimen:"じめん"};
 
-
-// ===== QRスキャン =====
-let qrScanStream = null;
-let qrScanInterval = null;
-
-async function openQrScan(){
-  const modal = document.getElementById('qrScanModal');
-  modal.classList.add('show');
-  document.getElementById('qrScanStatus').textContent='カメラをQRコードに　むけるのじゃ…';
-  try {
-    qrScanStream = await navigator.mediaDevices.getUserMedia({
-      video:{facingMode:'environment'}
-    });
-    const video = document.getElementById('qrVideo');
-    video.srcObject = qrScanStream;
-    video.play();
-    startQrDecode(video);
-  } catch(e){
-    document.getElementById('qrScanStatus').textContent='カメラのきょかが　ひつようじゃ…';
-  }
-}
-
-function startQrDecode(video){
-  if(qrScanInterval) clearInterval(qrScanInterval);
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  qrScanInterval = setInterval(()=>{
-    if(video.readyState !== video.HAVE_ENOUGH_DATA) return;
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    ctx.drawImage(video, 0, 0);
-    try {
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      // BarcodeDetector APIを使用
-      if('BarcodeDetector' in window){
-        const detector = new BarcodeDetector({formats:['qr_code']});
-        detector.detect(canvas).then(barcodes=>{
-          if(barcodes.length > 0){
-            const url = barcodes[0].rawValue;
-            closeQrScan();
-            handleQrUrl(url);
-          }
-        });
-      }
-    } catch(e){}
-  }, 300);
-}
-
-function closeQrScan(){
-  document.getElementById('qrScanModal').classList.remove('show');
-  if(qrScanInterval){ clearInterval(qrScanInterval); qrScanInterval=null; }
-  if(qrScanStream){ qrScanStream.getTracks().forEach(t=>t.stop()); qrScanStream=null; }
-}
-
-function handleQrUrl(url){
-  try {
-    const urlObj = new URL(url);
-    const id = urlObj.searchParams.get('id');
-    const unlock = urlObj.searchParams.get('unlock');
-    const ts = urlObj.searchParams.get('ts');
-    const demo = urlObj.searchParams.get('demo');
-
-    if(unlock && ts){
-      const now = Date.now();
-      const tsNum = parseInt(ts);
-      if(demo==='1'){
-        // デモバトルQR：まずunlockチェック、OKならidのクイズへ
-        const usedCodes=JSON.parse(localStorage.getItem('kaji_used_demo')||'[]');
-        if((now-tsNum)<=60000 && !usedCodes.includes(unlock)){
-          usedCodes.push(unlock);
-          localStorage.setItem('kaji_used_demo',JSON.stringify(usedCodes));
-          if(id){
-            // starterのクイズを表示
-            const starterEntry = starters.find(s=>'starter_'+s.id===id);
-            if(starterEntry) showQuiz(id);
-          }
-        } else if((now-tsNum)>60000){
-          alert('このQRはきれんしているのじゃ！SさんにあたらしいQRをもらうのじゃ！');
-        } else {
-          alert('このQRはもうつかわれたのじゃ！');
-        }
-        return;
-      }
-    }
-
-    if(id){
-      const e = entries.find(x=>x.id===id);
-      if(e){
-        if(caught.includes(id)) showDetail(id);
-        else showQuiz(id);
-        return;
-      }
-      // starterのid
-      const starter = starters.find(s=>'starter_'+s.id===id);
-      if(starter){
-        if(caught.includes(id)){
-          showDetail(id);
-        } else {
-          showQuiz(id);
-        }
-        return;
-      }
-    }
-
-    if(unlock && ts){
-      const now = Date.now();
-      const tsNum = parseInt(ts);
-      if(false){
-        // (demo分岐は上で処理済み)
-      } else {
-        // かいふくQR
-        const usedCodes=JSON.parse(localStorage.getItem('kaji_used_unlock')||'[]');
-        if((now-tsNum)<=60000 && !usedCodes.includes(unlock)){
-          usedCodes.push(unlock);
-          localStorage.setItem('kaji_used_unlock',JSON.stringify(usedCodes));
-          // heal量をURLから取得
-          const healAmount = parseInt(params.get('heal')||'5');
-          playerHP=Math.min(MAX_HP, playerHP+healAmount);
-          localStorage.setItem('kaji_starter', JSON.stringify({id: playerPokemon?playerPokemon.id:'', hp:playerHP}));
-          localStorage.removeItem('kaji_heal_pending');
-          updateHPBar();
-          // かいふく演出
-          document.getElementById('fanfareIcon').textContent='💊';
-          document.getElementById('fanfareText').innerHTML='HPが　かいふくしたのじゃ！';
-          document.getElementById('fanfareSub').innerHTML='HP: '+playerHP+' / '+MAX_HP;
-          document.getElementById('fanfare').classList.add('show');
-        } else {
-          alert('このQRはきれんまたはつかいずみじゃ！');
-        }
-      }
-    }
-  } catch(e){
-    console.log('QR parse error:', e);
-  }
-}
-
-
-// ===== かばん・かいふく =====
-let pendingHealAmount = 0;
-const HEAL_ITEMS = {
-  squat:   {name:'スクワット10かい', heal:5},
-  pushup:  {name:'うでたて10かい',   heal:7},
-  massage: {name:'かたもみ30びょう', heal:10},
-};
-
-function openBag(){
-  const info = document.getElementById('bagHpInfo');
-  if(info) info.textContent = 'HP: '+playerHP+' / '+MAX_HP;
-  document.getElementById('bagOverlay').classList.add('show');
-}
-
-function closeBag(){
-  document.getElementById('bagOverlay').classList.remove('show');
-}
-
-function useBagItem(itemKey, healAmount){
-  closeBag();
-  pendingHealAmount = healAmount;
-  const item = HEAL_ITEMS[itemKey];
-  // かいふくQR待機状態にする
-  localStorage.setItem('kaji_heal_pending', healAmount);
-  // メッセージをオープニング風に表示
-  showHealMessage(item);
-}
-
-function showHealMessage(item){
-  document.getElementById('hakaseChar').style.opacity='1';
-  document.getElementById('openingBox').style.opacity='1';
-  document.getElementById('openingNext').style.display='none';
-  document.getElementById('openingText').innerHTML =
-    'Sさんのまえで<br>'+item.name+'を　やってみせて！<br><br>'+
-    '<span style="color:#7ab8e8;font-size:.65rem;">おわったら　SさんにかいふくQRを<br>だしてもらうのじゃ！</span>';
-  document.getElementById('openingBtn').style.display='block';
-  document.getElementById('openingBtn').style.opacity='1';
-  document.getElementById('openingBtn').textContent='もどる';
-  document.getElementById('openingBtn').onclick=()=>{
-    localStorage.removeItem('kaji_heal_pending');
-    goToDex();
-  };
-  showScreen('openingScreen');
-}
-
-// ===== バッジシステム =====
-let earnedBadges = JSON.parse(localStorage.getItem('kaji_badges')||'[]');
-let pendingBadge = null;
-const badgeData = [
-  {room:'さいしょのしょうぶ', ids:['first_battle'], number:'？', first:true, earned:false},
-  {room:'たびだちのひろば', ids:['001','002','003','004','005','006','007','008','009','010'], number:4, earned:false},
-  {room:'Sのしま', ids:['011','012','013','014','015','016','017','018','019','020','021','022'], number:3, earned:false},
-  {room:'あわあわシティ', ids:['023','024','025','026','027','028','029','030','031','032','033','034','035','036','037','038','039','040'], number:7, earned:false},
-  {room:'りょうりこうげん', ids:['041','042','043','044','045','046','047','048','049','050','051','052','053','054','055','056','057','058','059','060','061','062','063','064','065','066','067','068','069','070','071','072','073','074','075','076'], number:5, earned:false},
-  {room:'くつろぎシティ', ids:['077','078','079','080','081','082','083','084','085','086','087','088','089','090','091','092','093','094','095','096','097','098','099','100','101','102','103','104','105','106','107','108'], number:9, earned:false},
-  {room:'ねむりのもり', ids:[], number:2, earned:false},
-  {room:'さいしゅうしけん', ids:['final_exam'], number:'？', final:true, earned:false},
-];
-
-// スターター・バッジ復元はstarters定義後に行う
-
-function checkBadges(){
-  badgeData.forEach((b,i)=>{
-    if(earnedBadges.includes(i)) return;
-    if(b.final){
-      // さいしゅうしょうぶは手動で解放
-      return;
-    }
-    if(b.ids.length === 0) return; // 項目なしは達成不可
-    const allClear = b.ids.length > 0 && b.ids.every(id=>caught.includes(id));
-    if(allClear){
-      earnedBadges.push(i);
-      localStorage.setItem('kaji_badges', JSON.stringify(earnedBadges));
-      pendingBadge = b;
-    }
-  });
-}
-
-function showBadgeIfPending(){
-  if(!pendingBadge) return;
-  const b = pendingBadge;
-  pendingBadge = null;
-  document.getElementById('badgeTitle').textContent = b.room+'の　バッジをてにいれた！';
-  document.getElementById('badgeNumber').textContent = b.isFinal ? b.icon : b.number;
-  document.getElementById('badgeAreaName').textContent = b.room;
-  document.getElementById('badgeOverlay').style.setProperty('--badge-color', b.color||'var(--gold)');
-  const total = earnedBadges.length;
-  document.getElementById('badgeSub').innerHTML =
-    'バッジ：'+total+' / 7<br>'+
-    (total===7 ? 'ぜんバッジかいつう！　あんしょうばんごうが　そろったのじゃ！' : 'のこり　'+(7-total)+'こじゃ！');
-  document.getElementById('badgeOverlay').classList.add('show');
-  renderBadgeRow();
-}
-
-function closeBadge(){
-  document.getElementById('badgeOverlay').classList.remove('show');
-  const validBadges = badgeData.filter(b=>b.ids.length>0).length;
-  if(earnedBadges.length>=validBadges) showAllBadgesClear();
-}
-
-function showAllBadgesClear(){
-  // あんしょうばんごうは2〜7番目のバッジ番号
-  const answerPw = badgeData.slice(1,7).map(b=>b.number).join('');
-  // 宅配ボックス番号は1つ目のバッジ
-  const takuhaiNum = badgeData[0].number;
-  showMasterEnding(answerPw, takuhaiNum);
-}
-
-function showMasterEnding(answerPw, takuhaiNum){
-  const lines = [
-    {speaker:'Sはかせ', text:'おめでとう！'},
-    {speaker:'Sはかせ', text:'きみは　このおうちの\nすみずみまで　りかいした！'},
-    {speaker:'Sはかせ', text:'ほんとうの　かじますたーと\nみとめるのじゃ！'},
-    {speaker:'Sはかせ', text:'バッジ1の　ばんごうが\nたくはいボックスの　あんしょうばんごうじゃ！\nバッジ2〜7の　ばんごうを　ならべると\nあんしょうばんごうが　わかるのじゃ！'},
-    {speaker:'Sはかせ', text:'あんしょうばんごうは\n'+answerPw+'じゃ！\nたくはいボックスの　ばんごうは\nバッジ1を　みるのじゃ！'},
-  ];
-  let idx = 0;
-  document.getElementById('hakaseChar').style.opacity='1';
-  document.getElementById('openingBox').style.opacity='1';
-  document.getElementById('openingBtn').style.opacity='1';
-  document.getElementById('openingBtn').style.display='block';
-  function showLine(){
-    if(idx>=lines.length) return;
-    const cur = idx;
-    idx++;
-    typeText(lines[cur]);
-    document.getElementById('openingBtn').onclick=()=>{
-      if(isTyping){
-        clearInterval(typeTimer);
-        isTyping=false;
-        document.getElementById('openingText').innerHTML=lines[cur].text.replace(/\n/g,'<br>');
-        document.getElementById('openingNext').style.display='block';
-        return;
-      }
-      showLine();
-    };
-  }
-  showScreen('openingScreen');
-  showLine();
-}
-
-function renderBadgeRow(){
-  const row = document.getElementById('badgeRow');
-  if(!row) return;
-  row.innerHTML = badgeData.map((b,i)=>{
-    const earned = earnedBadges.includes(i);
-    let inner;
-    if(b.first) inner = earned ? '⚔️' : '？';
-    else if(b.final) inner = earned ? '🏆' : '？';
-    else inner = earned ? b.number : '？';
-    return '<div class="badge-mini'+(earned?' earned':'')+'">'+
-      '<div class="badge-mini-inner">'+inner+'</div>'+
-    '</div>';
-  }).join('');
-}
-
-function goToDex(){
-  if(penaltyActive && !isHakase){
-    // penaltyOverlay廃止
-    return;
-  }
-  // HPアイコン更新
-  if(playerPokemon){
-    const hpIcon = document.getElementById('hpPokeIcon');
-    if(hpIcon) hpIcon.textContent = playerPokemon.icon;
-    updateHPBar();
-  }
-  // はかせモードではHPバーを非表示
-  const hpBar = document.getElementById('hpBarWrap');
-  if(hpBar) hpBar.style.display = isHakase ? 'none' : '';
-  // 図鑑が開かれたことを記録
-  if(!isHakase) localStorage.setItem('kaji_started','1');
-  // さいしょのしょうぶバッジを付与
-  if(!caught.includes('first_battle')){
-    caught.push('first_battle');
-    localStorage.setItem('kaji_caught2', JSON.stringify(caught));
-  }
-  checkBadges();
-  renderDex();
-  renderBadgeRow();
-  showScreen('dexScreen');
-  setTimeout(showBadgeIfPending, 400);
-  document.getElementById('scanFab').classList.add('show');
-  document.getElementById('bagFab').classList.add('show');
-}
-
-function renderDex(){
-  updateProgress();
-  const dexList=document.getElementById('dexList');
-  dexList.innerHTML='';
-  rooms.forEach(room=>{
-    const sec=document.createElement('div');sec.className='room-section';
-    const label=document.createElement('div');label.className='room-label';label.textContent=room.name;
-    const list=document.createElement('div');list.className='entry-list';
-    room.ids.forEach(id=>{
-      const e=entries.find(x=>x.id===id);
-      const isSeen=seen.includes(id),isCaught=caught.includes(id);
-      const row=document.createElement('div');
-      if(isHakase){
-        row.className='entry-row caught';
-        row.onclick=()=>showDetail(id);
-      } else {
-        row.className='entry-row'+(isCaught?' caught':isSeen?' seen':' locked');
-        row.onclick=()=>{if(isCaught)showDetail(id);else if(isSeen)showQuiz(id);};
-      }
-      let badge=`<span class="entry-badge">みはっけん</span>`;
-      if(isCaught)badge=`<span class="entry-badge caught-badge">かんりょう</span>`;
-      else if(isSeen)badge=`<span class="entry-badge seen-badge">ちょうせんちゅう</span>`;
-      const displayIcon=e.icon;
-      const displayName = isHakase ? e.place : (isSeen||isCaught ? e.place : '？？？');
-      row.innerHTML=`<div class="entry-top"><span class="entry-num">No.${id}</span><span class="entry-icon">${displayIcon}</span><span class="entry-name">${displayName}</span>${badge}</div>`;
-      list.appendChild(row);
-    });
-    sec.appendChild(label);sec.appendChild(list);
-    dexList.appendChild(sec);
-  });
-}
-
-function updateProgress(){
-  const n=caught.length;
-  document.getElementById('progFill').style.width=(n/108*100)+'%';
-  document.getElementById('progCount').textContent=n+' / 108';
-}
-
-function showQuiz(id){
-  // starterのidかどうかチェック
-  let e = entries.find(x=>x.id===id);
-  if(!e){
-    // starter_xxxの形式のidをstartersから探す
-    const starter = starters.find(s=>'starter_'+s.id===id);
-    if(starter){
-      // starterをentryに変換
-      e = {
-        id: id,
-        place: starter.name,
-        icon: starter.icon,
-        pokemon: starter.name,
-        bunrui: 'さいしょのポケモン',
-        types: [starter.type],
-        tokusei: '？？？',
-        seikaku: '？？？',
-        zukan: starter.zukanText || 'さいしょのポケモンじゃ！',
-        hakase: 'このポケモンは　きみのさいしょのなかまになりえたポケモンじゃ。',
-        q: starter.name+'は　なにタイプじゃ？',
-        choices: ['くさ','ほのお','みず','ノーマル'],
-        answer: ['kusa','honoo','mizu'].indexOf(starter.type),
-        hint: 'みため　から　かんがえるのじゃ…',
-      };
-    }
-  }
-  if(!e) return;
-  currentEntry=e;answerLocked=false;
-  if(!seen.includes(id)){seen.push(id);localStorage.setItem('kaji_seen2',JSON.stringify(seen));}
-
-  // 最後の問題かどうか
-  const isLast=(id==='050'&&caught.length>=49);
-  const qData=isLast?finalQuiz:e;
-
-  document.getElementById('quizTitle').textContent=e.place;
-  document.getElementById('quizNum').textContent='No.'+e.id;
-  document.getElementById('quizIcon').textContent=e.icon;
-  document.getElementById('quizQ').textContent=qData.q;
-  document.getElementById('quizResult').textContent='';
-  document.getElementById('quizHint').textContent='';
-
-  const choicesEl=document.getElementById('quizChoices');
-  choicesEl.innerHTML='';
-  const nums=['１','２','３','４'];
-  qData.choices.forEach((c,i)=>{
-    const btn=document.createElement('button');
-    btn.className='choice-btn';
-    btn.innerHTML=`<span class="choice-num">${nums[i]}</span>${c}`;
-    btn.onclick=()=>selectAnswer(i,qData.answer,qData.hint,qData.choices);
-    choicesEl.appendChild(btn);
-  });
-  showScreen('quizScreen');
-  // HP0チェック
-  if(playerHP <= 0 && !isHakase){
-    document.getElementById('quizChoices').innerHTML =
-      '<div class="hp-zero-msg">HPが　0じゃ！<br>かばんから　かいふくしてから<br>ちょうせんするのじゃ！</div>';
-    document.getElementById('quizResult').textContent='';
-    document.getElementById('quizHint').textContent='';
-  }
-}
-
-function selectAnswer(selected,correct,hint,choices){
-  if(answerLocked)return;
-  answerLocked=true;
-  const btns=document.querySelectorAll('.choice-btn');
-
-  if(selected===correct){
-    // 正解時だけ正解ハイライト
-    btns.forEach((b,i)=>{
-      b.classList.add('disabled');
-      if(i===correct)b.classList.add('correct');
-    });
-    document.getElementById('quizResult').style.color='#88ff88';
-    document.getElementById('quizResult').textContent='せいかい！！ポケモンのデータをかくとくじゃ！';
-    if(!caught.includes(currentEntry.id)){
-      caught.push(currentEntry.id);
-      localStorage.setItem('kaji_caught2',JSON.stringify(caught));
-    }
-    setTimeout(()=>showFanfare(currentEntry),800);
-  } else {
-    const exercises=['スクワット10かい！','ふっきん10かい！','うでたて10かい！'];
-    const ex=exercises[Math.floor(Math.random()*exercises.length)];
-    document.getElementById('quizResult').style.color='#ff6666';
-    document.getElementById('quizResult').textContent='ちがうようじゃ…';
-    setTimeout(()=>{showPenalty(ex,hint);},800);
-  }
-}
-
-function showFanfare(e){
-  checkBadges();
-  const isLast=e.id==='050';
-  document.getElementById('fanfareIcon').textContent=e.icon;
-  document.getElementById('fanfareText').innerHTML=isLast
-    ?'まぼろしのポケモンを<br>ゲットした！！'
-    :'No.'+e.id+'<br>'+e.place+'の<br>なぞをといた！';
-  document.getElementById('fanfareSub').innerHTML=isLast
-    ?'Sはかせより<br>おくりものがあるのじゃ！<br>みつけてみるのじゃ！'
-    :e.pokemon+'の<br>データをかくとくしたのじゃ！';
-  document.getElementById('fanfare').classList.add('show');
-}
-
-function closeFanfare(){
-  document.getElementById('fanfare').classList.remove('show');
-  showDetail(currentEntry.id);
-  setTimeout(showBadgeIfPending, 300);
-}
-
 const rooms = [
-  { name: "🚪 たびだちのひろば", ids: ["001","002","003","004","005","006","007","008","009","010"] },
-  { name: "🚽 Sのしま", ids: ["011","012","013","014","015","016","017","018","019","020","021","022"] },
-  { name: "🪥 あわあわシティ", ids: ["023","024","025","026","027","028","029","030","031","032","033","034","035","036","037","038","039","040"] },
-  { name: "🍳 りょうりこうげん", ids: ["041","042","043","044","045","046","047","048","049","050","051","052","053","054","055","056","057","058","059","060","061","062","063","064","065","066","067","068","069","070","071","072","073","074","075","076"] },
-  { name: "📺 くつろぎシティ", ids: ["077","078","079","080","081","082","083","084","085","086","087","088","089","090","091","092","093","094","095","096","097","098","099","100","101","102","103","104","105","106","107","108"] },
-  { name: "🛏️ ねむりのもり", ids: [] },
+  { name: "🚪 たびだちのひろば", ids: ["001","002","003","004","005","006","007","008","009","010","011","012"] },
+  { name: "🚽 Sのしま", ids: ["013","014","015","016","017","018","019","020","021","022","023","024"] },
+  { name: "🪥 あわあわシティ", ids: ["025","026","027","028","029","030","031","032","033","034","035","036","037","038","039","040","041","042"] },
+  { name: "🍳 りょうりこうげん", ids: ["043","044","045","046","047","048","049","050","051","052","053","054","055","056","057","058","059","060","061","062","063","064","065","066","067","068","069","070","071","072","073","074","075","076","077","078"] },
+  { name: "📺 くつろぎシティ", ids: ["079","080","081","082","083","084","085","086","087","088","089","090","091","092","093","094","095","096","097","098","099","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124"] },
+  { name: "🛏️ ねむりのもり", ids: ["125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151"] },
 ];
 
 const entries = [
-  // ====== トイレ ======
-  {id:"001",place:"げんかんどあ",icon:"🚪",pokemon:"ベトベター",bunrui:"どくポケモン",types:["doku"],tokusei:"ねんちゃく",seikaku:"やんちゃ",
-   zukan:"よごれたばしょをこのんですみかとするポケモン。いつもきれいにそうじしてもらえると、きもちよくすごせるようじゃ。そうじされるのは、すこしてれくさそうにしている。",
-   hakase:"いつもきれいにそうじしてくれて、ありがたいのじゃ。おかげでベトベターもきもちよくすごしておるぞ。",
-   q:"ベトベターのからだは　なにでできているじゃ？",
-   choices:["みず","どろ","ヘドロ","すな"],answer:2,hint:"においがするのじゃ…"},
-
-  {id:"002",place:"げんかん",icon:"🏠",pokemon:"ニョロモ",bunrui:"おたまじゃくしポケモン",types:["mizu"],tokusei:"しめりけ",seikaku:"まじめ",
-   zukan:"みずをたっぷりとためておくのがとくいなポケモン。おなかのうずまきがトレードマークじゃ。いつもきれいなみずをたもつことに、よろこびをかんじているようじゃ。",
-   hakase:"タンクのみずをいつもきれいにたもってくれて、ありがたいのじゃ。",
-   q:"ニョロモの　おなかのうずまきは　なんじゃ？",
-   choices:["もようだけ","ないぞうがすけてみえる","めだま","きず"],answer:1,hint:"すけているのじゃ…"},
-
-  {id:"003",place:"スイッチ",icon:"💡",pokemon:"シュシュプ",bunrui:"リボンポケモン",types:["fearii"],tokusei:"かちき",seikaku:"おちゃめ",
-   zukan:"くるくるとまわることをこのむポケモン。まわしてもらえると、きもちよさそうにするようじゃ。かみがなくなると、さびしそうにするようだ。",
-   hakase:"トイレットペーパーをきらさないようにしてくれると、はかせはよろこぶのじゃが…",
-   q:"シュシュプが　しんかすると　なにになるじゃ？",
-   choices:["トゲチック","フラベベ","ニンフィア","トッチャン"],answer:3,hint:"おなじタイプのポケモンじゃ…"},
-
-  {id:"004",place:"マット",icon:"🟫",pokemon:"キュウコン",bunrui:"きつねポケモン",types:["honoo"],tokusei:"ひでり",seikaku:"おだやか",
-   zukan:"よいにおいをまきちらすことをこのむポケモン。においがなくなると、げんきがなくなるようじゃ。かえてもらえると、きもちよさそうにするようだ。",
-   hakase:"においをよくたもってくれて、ありがたいのじゃ。なくなったらかえてくれると、はかせはよろこぶのじゃが…",
-   q:"キュウコンの　アローラのすがたは　なにタイプじゃ？",
-   choices:["こおり","みず","ほのお","フェアリー"],answer:0,hint:"つめたいちいきにすんでいるのじゃ…"},
-
-  {id:"005",place:"かがみ",icon:"🪞",pokemon:"ツツケラ",bunrui:"きつつきポケモン",types:["kusa","hikou"],tokusei:"はとむね",seikaku:"やんちゃ",
-   zukan:"ものをきちんとならべることをこのむポケモン。たなのうえがせいりされていると、きもちよさそうにするようじゃ。ちらかっていると、くちばしでつつきたくなるようだ。",
-   hakase:"たなをきれいにしてくれると、はかせはよろこぶのじゃが…",
-   q:"ツツケラの　とくせい「はとむね」の　こうかはなんじゃ？",
-   choices:["こうげきがあがる","いちげきひっさつがきかない","どくがきかない","ひるみやすくなる"],answer:1,hint:"きゅうしょにあたらないのじゃ…"},
-
-  // ====== 洗面所 ======
-  {id:"006",place:"おちゃ",icon:"🍵",pokemon:"ミロカロス",bunrui:"うつくしさポケモン",types:["mizu"],tokusei:"ふしぎなうろこ",seikaku:"おしゃれ",
-   zukan:"みずまわりをいつもうつくしくたもとうとするポケモン。かみのけのかんりにも、たいへんきをつかうせいしつがある。かがみがくもっていると、きげんがわるくなるようじゃ。",
-   hakase:"そうじとかみのけのかんりをいつもきにしてくれて、ありがたいのじゃ。かがみもふいてくれると、はかせはたいへんよろこぶのじゃが…",
-   q:"ヒンバスは　どうやって　ミロカロスに　しんかするじゃ？",
-   choices:["レベルアップ","みずのいし","なつき度をあげる","うつくしさをあげる"],answer:3,hint:"コンテストにかんけいするのじゃ…"},
-
-  {id:"007",place:"ひじょうしょく",icon:"🍱",pokemon:"ルージュラ",bunrui:"ヒトガタポケモン",types:["koori","esupaa"],tokusei:"ふみん",seikaku:"なまいき",
-   zukan:"じぶんのすがたをうつすことをこのむポケモン。かがみがくもっていると、きげんがわるくなるようじゃ。ふいてもらえると、きもちよさそうにほほえむようだ。",
-   hakase:"かがみをきれいにふいてくれて、ありがたいのじゃ。",
-   q:"ルージュラの　たまごグループはなんじゃ？",
-   choices:["じんこう","ヒトガタ","フィールド","すいちゅう1"],answer:1,hint:"にんげんのすがたをしているのじゃ…"},
-
-  {id:"008",place:"マスク",icon:"😷",pokemon:"ミニリュウ",bunrui:"ドラゴンポケモン",types:["dragon"],tokusei:"だっぴ",seikaku:"すなお",
-   zukan:"ほそながいからだでまっすぐたつことをこのむポケモン。はブラシをきちんとかえてもらえると、きもちよさそうにするようじゃ。",
-   hakase:"はブラシをきれいにかんりしてくれて、ありがたいのじゃ。",
-   q:"ミニリュウから　カイリューまで　なんかいしんかするじゃ？",
-   choices:["1かい","2かい","3かい","しんかしない"],answer:1,hint:"ミニリュウ→ハクリュー→？じゃ…"},
-
-  {id:"009",place:"こうぐばこ",icon:"🧰",pokemon:"アーマーガア",bunrui:"よろいどりポケモン",types:["hagane","hikou"],tokusei:"プレッシャー",seikaku:"やんちゃ",
-   zukan:"おおきなはねをひろげることをこのむポケモン。タオルをきれいにかけてもらえると、きもちよさそうにするようじゃ。タオルがぐちゃぐちゃだと、きげんがわるくなるようだ。",
-   hakase:"タオルをきれいにかけてくれて、ありがたいのじゃ。",
-   q:"アーマーガアの　かくれとくせいはなんじゃ？",
-   choices:["はとむね","プレッシャー","ミラーアーマー","がんじょう"],answer:2,hint:"うつされるのじゃ…"},
-
-  {id:"010",place:"へやへのどあ",icon:"🚪",pokemon:"タッツー",bunrui:"みずへびポケモン",types:["mizu"],tokusei:"すいすい",seikaku:"まじめ",
-   zukan:"みずをあやつり、くるくるとまわりながらよごれをおとすのがとくいなポケモン。まいにちかかさずうごきつづける、まじめなせいしつをもつ。フィルターのごみがたまると、ちからがよわまるようじゃ。",
-   hakase:"まいにちせんたくをしてくれて、ほんとうにありがたいのじゃ。フィルターのごみも、ときどきとってくれると、はかせはさらによろこぶのじゃが…",
-   q:"タッツーは　どのポケモンと　おなじたまごグループじゃ？",
-   choices:["コイキング","ヒトデマン","タマタマ","ニョロモ"],answer:3,hint:"みずタイプのたまごグループじゃ…"},
-
-  // ====== お風呂 ======
-  {id:"011",place:"トイレットペーパーホルダー",icon:"🧻",pokemon:"ヤドン",bunrui:"のんびりポケモン",types:["mizu","esupaa"],tokusei:"どんかん",seikaku:"のんき",
-   zukan:"おふろにながくつかるのをこよなくあいするポケモン。いつもきれいなおふろをたもつことで、そのちからをじゅうぶんにはっきできる。マットがおろされたままだと、きもちわるそうにするようじゃ。",
-   hakase:"おふろをいつもきれいにしてくれて、ありがたいのじゃ。マットをあげるのを、わすれないようにしてくれると、はかせはあんしんするのじゃ。",
-   q:"ヤドンが　しっぽに　シェルダーをつけると　なにになるじゃ？",
-   choices:["ヤドラン","ヤドキング","ヤドン","かわらない"],answer:0,hint:"つうしんこうかんするのじゃ…"},
-
-  {id:"012",place:"トイレットペーパーホルダーカバー",icon:"🧻",pokemon:"シャワーズ",bunrui:"みずポケモン",types:["mizu"],tokusei:"ちょすい",seikaku:"おだやか",
-   zukan:"みずをじゆうにあやつるポケモン。からだからきれいなみずをふりそそぐことができる。おふろをきれいにしてもらえると、きもちよさそうにするようじゃ。",
-   hakase:"シャワーをきれいにしてくれて、ありがたいのじゃ。",
-   q:"シャワーズの　きそポイントは　どこがたかいじゃ？",
-   choices:["こうげき","とくこう","HP","すばやさ"],answer:2,hint:"イーブイのしんかけいでいちばんタフじゃ…"},
-
-  {id:"013",place:"ごみいれ",icon:"🗑️",pokemon:"ナゾノクサ",bunrui:"くさポケモン",types:["kusa","doku"],tokusei:"ようりょくそ",seikaku:"おとなしい",
-   zukan:"においのするものをあつめることをこのむポケモン。シャンプーやせっけんのにおいをきもちよさそうにすいこんでいる。たなのうえがきれいだと、げんきになるようじゃ。",
-   hakase:"シャンプーやせっけんをきちんとならべてくれて、ありがたいのじゃ。",
-   q:"ナゾノクサは　なんじかんで　しんかするじゃ？",
-   choices:["にちちゅう","よる","あさだけ","いつでも"],answer:0,hint:"たいようのひかりがひつようじゃ…"},
-
-  {id:"014",place:"タンク",icon:"🔵",pokemon:"ヌオー",bunrui:"みずさかなポケモン",types:["mizu","jimen"],tokusei:"みずのベール",seikaku:"のんき",
-   zukan:"べたっとしたからだでゆかにはりつくことをこのむポケモン。ふまれてもへいきなたくましいせいしつをもつ。あげてもらえると、きもちよさそうにするようじゃ。",
-   hakase:"マットをきれいにしてくれて、ありがたいのじゃ。あげるのをわすれないでくれると、はかせはよろこぶのじゃが…",
-   q:"ヌオーの　とくせい「どんかん」の　こうかはなんじゃ？",
-   choices:["いたみをかんじない","おとにかんするわざがきかない","どくがきかない","まひしない"],answer:1,hint:"おとにかんけいするのじゃ…"},
-
-  {id:"015",place:"タオルかけ",icon:"🪤",pokemon:"ヤミラミ",bunrui:"めのポケモン",types:["goosuto","aku"],tokusei:"ふみん",seikaku:"おくびょう",
-   zukan:"かがみのなかにひそんでいるポケモン。くもったかがみをきれいにしてもらえると、きもちよさそうにするようじゃ。みがかれたかがみのなかでにやりとわらっているようだ。",
-   hakase:"かがみをきれいにふいてくれると、はかせはよろこぶのじゃが…",
-   q:"ヤミラミの　かくれとくせいはなんじゃ？",
-   choices:["ふみん","いたずらごころ","すりぬけ","するどいめ"],answer:1,hint:"さきにわざをだせるのじゃ…"},
-
-  // ====== キッチン ======
-  {id:"016",place:"トイレクリーナー",icon:"🧴",pokemon:"ラプラス",bunrui:"こおりポケモン",types:["mizu","koori"],tokusei:"ちょすい",seikaku:"おだやか",
-   zukan:"つめたいものをこよなくあいする、おおきなポケモン。いつもなかをいっぱいにたもとうとするせいしつがあり、からになるとさびしそうなかおをする。",
-   hakase:"かいものをしていつもなかをいっぱいにしてくれて、ありがたいのじゃ。なかのふきそうじも、たまにしてくれると、はかせはよろこぶのじゃが…",
-   q:"ラプラスの　きそポイントは　どこがたかいじゃ？",
-   choices:["こうげき","ぼうぎょ","HP","すばやさ"],answer:2,hint:"たいりょくがあるポケモンじゃ…"},
-
-  {id:"017",place:"たな",icon:"📦",pokemon:"ヒトカゲ",bunrui:"とかげポケモン",types:["honoo"],tokusei:"もうか",seikaku:"ようき",
-   zukan:"あつさをじゆうにあやつり、おいしいものをつくりだすのがとくいなポケモン。まいにちりょうりをつくることに、よろこびをかんじているようじゃ。なかがよごれると、ちからがだせなくなるようだ。",
-   hakase:"まいにちりょうりをしてくれて、ほんとうにありがたいのじゃ。レンジのなかのふきそうじも、たまにしてくれると、はかせはよろこぶのじゃが…",
-   q:"ヒトカゲの　しんかレベルはなんじゃ？",
-   choices:["レベル16","レベル32","レベル36","レベル20"],answer:0,hint:"わりとはやくしんかするのじゃ…"},
-
-  {id:"018",place:"せいりようひんいれ",icon:"🗃️",pokemon:"メッソン",bunrui:"なきむしポケモン",types:["mizu"],tokusei:"すなかき",seikaku:"おくびょう",
-   zukan:"きんちょうするとめからみずをながすポケモン。さらをあらうときに、みずをまきちらすせいしつがある。なきながらでも、さいごまでやりとげようとするけなげなすがたがみられる。",
-   hakase:"さらあらいをがんばってくれて、ありがたいのじゃ。メッソンのように、なきながらでもつづけてくれると、はかせはたいへんかんどうするのじゃ。これからもよろしくたのむのじゃ！",
-   q:"メッソンの　かくれとくせいはなんじゃ？",
-   choices:["すなかき","じしんかじょう","どんかん","ちくでん"],answer:1,hint:"たおすたびにつよくなるのじゃ…"},
-
-  {id:"019",place:"かんきせん",icon:"💨",pokemon:"ナゲキ",bunrui:"なげポケモン",types:["kakutou"],tokusei:"やるき",seikaku:"いじっぱり",
-   zukan:"きれいにならべることに、つよいこだわりをもつポケモン。さらをていねいにしまうことで、まんぞくかんをえているようじゃ。もっとがんばれると、いつもしんじているようだ。",
-   hakase:"さらをきれいにしまってくれて、ありがたいのじゃ。さらあらいとあわせて、これからもがんばってくれると、はかせはよろこぶのじゃ。",
-   q:"ナゲキの　たいせんでよくつかわれるわざはなんじゃ？",
-   choices:["インファイト","きあいだま","ドレインパンチ","どれもつかわれる"],answer:3,hint:"つかいかたによってかわるのじゃ…"},
-
-  {id:"020",place:"でんきスイッチ",icon:"💡",pokemon:"エクスプロード",bunrui:"ばくはつポケモン",types:["iwa"],tokusei:"じきゅうりょく",seikaku:"なまいき",
-   zukan:"いっぱいになるとばくはつするポケモン。ていきてきにからにしてもらうことで、きりょくをたもつことができる。かくへやのごみをほうちすると、きげんがわるくなるようじゃ。",
-   hakase:"ごみすてをかかさずやってくれて、ありがたいのじゃ。かくへやのごみばこも、いっぱいになったらかいしゅうしてくれると、はかせはたいへんよろこぶのじゃが…",
-   q:"エクスプロードの　じばくと　だいばくはつの　ちがいはなんじゃ？",
-   choices:["ダメージりょう","あいてのぼうぎょをはんぶんにするかどうか","じぶんがひんしになるかどうか","ちがいはない"],answer:1,hint:"むかしはつよすぎたわざじゃ…"},
-
-  {id:"021",place:"どあ",icon:"🚪",pokemon:"カイロス",bunrui:"はさみポケモン",types:["mushi","kakutou"],tokusei:"むしのしらせ",seikaku:"いじっぱり",
-   zukan:"するどいつめとはさみでものをきるのがとくいなポケモン。まないたのうえがきれいだと、きもちよくちからをはっきできるようじゃ。よごれたままだと、きげんがわるくなるようだ。",
-   hakase:"まないたをきれいにしてくれると、はかせはよろこぶのじゃが…",
-   q:"カイロスは　たいせんでなぜつかわれることがおおいじゃ？",
-   choices:["すばやさがたかい","テクニシャンとのあいしょうがよい","HPがたかい","とくせいがつよい"],answer:1,hint:"よわいわざがつよくなるのじゃ…"},
-
-  {id:"022",place:"スリッパ",icon:"🥿",pokemon:"タマゴン",bunrui:"たまごポケモン",types:["dragon"],tokusei:"たんじゅん",seikaku:"うっかりや",
-   zukan:"たまごのかたちをしたポケモン。あたたかいものをそだてることをこのむ。ごはんをたいてもらえると、きもちよさそうにするようじゃ。なかをきれいにしてもらえると、とくによろこぶようだ。",
-   hakase:"ごはんをたいてくれて、ありがたいのじゃ。なかもたまにきれいにしてくれると、はかせはよろこぶのじゃが…",
-   q:"タマゴンが　バンギラスに　なるまで　なんかいしんかするじゃ？",
-   choices:["1かい","2かい","3かい","しんかしない"],answer:1,hint:"タマゴン→ヨーギラス→？→？じゃ…"},
-
-  {id:"023",place:"スノコ",icon:"🟫",pokemon:"ニドキング",bunrui:"ドリルポケモン",types:["doku","jimen"],tokusei:"どくのトゲ",seikaku:"やんちゃ",
-   zukan:"いろんなものをあつめてならべることをこのむポケモン。たなのうえがせいりされていると、きもちよさそうにするようじゃ。しゅるいがおおいほど、まんぞくするようだ。",
-   hakase:"ちょうみりょうをきちんとかんりしてくれて、ありがたいのじゃ。なかのふきそうじもたまにしてくれると、はかせはよろこぶのじゃが…",
-   q:"ニドキングの　たいせんでの　とくちょうはなんじゃ？",
-   choices:["すばやさがさいこう","シャドーボールやだいもんじをおぼえる","ぼうぎょがたかい","かいふくわざがつかえる"],answer:1,hint:"わざのはばがひろいのじゃ…"},
-
-  {id:"024",place:"せんたくかご",icon:"🧺",pokemon:"メレシー",bunrui:"ダイヤポケモン",types:["iwa"],tokusei:"がんじょう",seikaku:"おとなしい",
-   zukan:"やわらかいからだであわをたてながらよごれをおとすのがとくいなポケモン。ながしのよこでいつもきれいにされるのをまっているようじゃ。こまめにかえてもらえると、きもちよさそうにするようだ。",
-   hakase:"スポンジをこまめにかえてくれると、はかせはよろこぶのじゃが…",
-   q:"メレシーは　なにからうまれるじゃ？",
-   choices:["タマゴ","いわ","ゴーレム","ひとりでにうまれる"],answer:0,hint:"ポケモンはみんなタマゴからうまれるのじゃ…"},
-
-  // ====== リビング ======
-  {id:"025",place:"おしゃれぎかご",icon:"🧺",pokemon:"ロトム",bunrui:"プラズマポケモン",types:["denki","goosuto"],tokusei:"ふゆう",seikaku:"おちゃめ",
-   zukan:"でんきikiにすみつくのをこのむポケモン。ほこりがたまると、ちからがよわまるようじゃ。まわりのそうじをされると、きもちよさそうにかがやく。",
-   hakase:"テレビや台、そのまわりも、そうじしてくれると、はかせはよろこぶのじゃが…ロトムもよろこぶはずじゃ。",
-   q:"ロトムが　でんしレンジにとりつくと　なにタイプになるじゃ？",
-   choices:["でんき・ほのお","でんき・みず","でんき・こおり","でんき・くさ"],answer:0,hint:"やくのロトムじゃ…"},
-
-  {id:"026",place:"マット",icon:"🟫",pokemon:"ポリゴン2",bunrui:"バーチャルポケモン",types:["noormal"],tokusei:"トレース",seikaku:"しんちょう",
-   zukan:"でんぱをあやつるポケモン。テレビのそばにいつもいて、しじをまつせいしつがある。なくすと、とてもこまるようじゃ。もとのばしょにもどしてもらえると、きもちよさそうにするようだ。",
-   hakase:"リモコンをきちんとかえしてくれると、はかせはよろこぶのじゃが…",
-   q:"ポリゴン2から　ポリゴンZに　しんかするには　なにがひつようじゃ？",
-   choices:["アップグレード","ダビングき","あやしいパッチ","レベルアップ"],answer:2,hint:"あやしいアイテムじゃ…"},
-
-  {id:"027",place:"せんたくき",icon:"👕",pokemon:"ネマシュ",bunrui:"キノコポケモン",types:["kusa","fearii"],tokusei:"ほうし",seikaku:"おとなしい",
-   zukan:"じかんをしずかにきざみつづけるポケモン。おおきなこえをたてることなく、まいにちおなじばしょにたたずんでいる。だれかにみてもらえると、うれしそうにするようじゃ。",
-   hakase:"まいにちせいかくにじかんをきざんでくれて、ありがたいのじゃ。",
-   q:"ネマシュの　かくれとくせいはなんじゃ？",
-   choices:["ほうし","みどりのベール","イリュージョン","さいせいりょく"],answer:1,hint:"くさタイプのじょうたいいじょうがきかなくなるのじゃ…"},
-
-  {id:"028",place:"ぼうすいパッド",icon:"🛡️",pokemon:"ポリゴン",bunrui:"バーチャルポケモン",types:["noormal"],tokusei:"トレース",seikaku:"しんちょう",
-   zukan:"じどうでうごきまわり、ほこりをすいとるのがとくいなポケモン。まわりにものがおちていると、うまくうごけずこまってしまうようじゃ。",
-   hakase:"じどうでそうじをてつだってくれて、ありがたいのじゃ。ルンバのまわりのそうじもしてくれると、はかせはよろこぶのじゃが…",
-   q:"ポリゴンを　ポリゴン2に　しんかさせるには　なにとこうかんするじゃ？",
-   choices:["メタルコート","アップグレード","ダビングき","たいようのいし"],answer:1,hint:"アップ！じゃ…"},
-
-  {id:"029",place:"たいじゅけい",icon:"⚖️",pokemon:"ブーバー",bunrui:"ほのおポケモン",types:["honoo"],tokusei:"もうか",seikaku:"おだやか",
-   zukan:"あたたかさをまわりにわけあたえることをこのむポケモン。せっていをせいかくにしてもらうと、きもちよくちからをはっきできる。まわりがよごれていると、げんきがでないようじゃ。",
-   hakase:"せっていをしてくれて、ありがたいのじゃ。まわりのそうじもしてくれると、はかせはよろこぶのじゃが…",
-   q:"ブーバーから　ブーバーンに　しんかするには　なにがひつようじゃ？",
-   choices:["ほのおのいし","ブーバーに　もたせてこうかん","レベルアップ","ひるまにレベルアップ"],answer:1,hint:"もたせてこうかんするのじゃ…"},
-
-  {id:"030",place:"きゅうとうき",icon:"🔌",pokemon:"イーブイ",bunrui:"しんかポケモン",types:["noormal"],tokusei:"にげあし",seikaku:"すなお",
-   zukan:"やわらかいばしょをこのんでくつろぐポケモン。コロコロをかけてもらえると、きもちよさそうにのびをするようじゃ。",
-   hakase:"ありがたいのじゃ。コロコロをかけてくれると、はかせはよろこぶのじゃが…",
-   q:"イーブイが　ニンフィアに　しんかするじょうけんはなんじゃ？",
-   choices:["つきのいし","フェアリータイプのわざをおぼえてなつき度をあげる","フェアリーのみかたといっしょにレベルアップ","メルシーをもたせてこうかん"],answer:1,hint:"フェアリーにかんけいするのじゃ…"},
-
-  {id:"031",place:"せんめんだいのたな",icon:"📦",pokemon:"ニャース",bunrui:"ひっかきポケモン",types:["noormal"],tokusei:"ものひろい",seikaku:"わんぱく",
-   zukan:"ものをあつめるくせがあるポケモン。まわりにものをちらかしてしまうせいしつがある。コロコロをかけてもらえると、きもちよさそうにごろごろするようじゃ。",
-   hakase:"ちらかさないようにしてくれると、はかせはよろこぶのじゃ。コロコロもかけてくれると、さらによろこぶのじゃが…",
-   q:"アローラのニャースは　なにタイプじゃ？",
-   choices:["ノーマル","あく","はがね","でんき"],answer:1,hint:"あくいのあるポケモンじゃ…"},
-
-  {id:"032",place:"せんめんき",icon:"🪥",pokemon:"フリーザー",bunrui:"れいとうポケモン",types:["koori","hikou"],tokusei:"プレッシャー",seikaku:"おだやか",
-   zukan:"きおんをじゆうにあやつるポケモン。せっていをせいかくにしてもらうと、きもちよくちからをはっきできるようじゃ。",
-   hakase:"いつもかいてきなきおんにしてくれて、ありがたいのじゃ。",
-   q:"フリーザーの　かくれとくせいはなんじゃ？",
-   choices:["プレッシャー","ゆきふらし","スノーワーニング","なし"],answer:1,hint:"ゆきをふらすのじゃ…"},
-
-  {id:"033",place:"せんめんだい",icon:"🚰",pokemon:"トゲチック",bunrui:"しあわせポケモン",types:["fearii","hikou"],tokusei:"はとむね",seikaku:"おだやか",
-   zukan:"あさのひかりをへやにとりこむことをこのむポケモン。あけてもらえると、きもちよさそうにひかりをあびるようじゃ。あけない日がつづくと、すこしさびしそうにするようだ。",
-   hakase:"まいあさあけてくれて、ありがたいのじゃ。あけない日もおおいから、なるべくあけてくれると、はかせはよろこぶのじゃが…",
-   q:"トゲチックから　トゲキッスに　しんかするには　なにがひつようじゃ？",
-   choices:["つきのいし","ひかりのいし","たいようのいし","かわらずのいし"],answer:1,hint:"ひかりのいしじゃ…"},
-
-  {id:"034",place:"かがみ",icon:"🪞",pokemon:"ピクシー",bunrui:"フェアリーポケモン",types:["fearii"],tokusei:"メロメロボディ",seikaku:"なつっこい",
-   zukan:"みんながあつまるばしょをまもるポケモン。ふかれたあとはかがやくようじゃ。へいじつもふいてもらえると、まんぞくそうにほほえむようだ。",
-   hakase:"ふいてくれて、ありがとうなのじゃ。へいじつもふいてくれると、はかせはよろこぶのじゃが…",
-   q:"ピクシーの　かくれとくせいはなんじゃ？",
-   choices:["メロメロボディ","マジックガード","ふしぎなまもり","てんのめぐみ"],answer:1,hint:"かんせつダメージをうけないのじゃ…"},
-
-  {id:"035",place:"はみがきコップ",icon:"🥤",pokemon:"ゴンベ",bunrui:"ねむりポケモン",types:["noormal"],tokusei:"くいしんぼう",seikaku:"のんき",
-   zukan:"いつもだれかにすわってもらうことをまっているポケモン。すわりごこちがよいと、そのひとのやるきをたかめるちからがあるようじゃ。",
-   hakase:"まいにちつかってくれて、ありがたいのじゃ。",
-   q:"ゴンベを　カビゴンに　しんかさせるじょうけんはなんじゃ？",
-   choices:["レベルアップ","まんぷくおこうをもたせてそだてやにあずける","カビゴンのこどもなのでたまごからうまれる","いしでしんか"],answer:2,hint:"ゴンベはカビゴンのこどもじゃ…"},
-
-  {id:"036",place:"はぶらしたて",icon:"🪥",pokemon:"ムウマ",bunrui:"ゆうれいポケモン",types:["goosuto"],tokusei:"ふゆう",seikaku:"おくびょう",
-   zukan:"よるのやみをこのむポケモン。きれいなばしょにいると、おちついてすごせるようじゃ。コロコロをかけてもらえると、きもちよさそうにうかんでいる。",
-   hakase:"シーツをせんたくしてくれて、ありがたいのじゃ。あらわない日も、コロコロをかけてくれると、はかせはよろこぶのじゃが…",
-   q:"ムウマが　ムウマージに　しんかするじょうけんはなんじゃ？",
-   choices:["レベルアップ","つきのいし","なつき度をあげてレベルアップ","こうかんでしんか"],answer:1,hint:"つきにかんけいするのじゃ…"},
-
-  {id:"037",place:"ワックス",icon:"✨",pokemon:"ビブラーバ",bunrui:"しんどうポケモン",types:["jimen","dragon"],tokusei:"すながくれ",seikaku:"やんちゃ",
-   zukan:"おとをだしてしらせることをこのむポケモン。だれかがきたことをいちはやくきづくせいしつがある。でんちがきれると、さびしそうにするようじゃ。",
-   hakase:"インターホンをきちんとかんりしてくれて、ありがとうなのじゃ。",
-   q:"ビブラーバの　とくせいはなんじゃ？",
-   choices:["すながくれ","ふゆう","すなおこし","じしんかじょう"],answer:0,hint:"すなあらしでかくれるのじゃ…"},
-
-  {id:"038",place:"スイッチ",icon:"💡",pokemon:"ランターン",bunrui:"ひかりポケモン",types:["mizu","denki"],tokusei:"ちくでん",seikaku:"おだやか",
-   zukan:"あかるいひかりをまわりにそそぐことをこのむポケモン。へやをあかるくしてもらえると、きもちよさそうにひかるようじゃ。でんきゅうがきれると、さびしそうにするようだ。",
-   hakase:"へやをあかるくてらしてくれて、ありがたいのじゃ。でんきゅうがきれたら、かえてくれると、はかせはよろこぶのじゃが…",
-   q:"ランターンの　かくれとくせいはなんじゃ？",
-   choices:["ちくでん","よびみず","イルミネート","はっこう"],answer:2,hint:"そうぐうりつがあがるのじゃ…"},
-
-  {id:"039",place:"ふろのどあ",icon:"🚿",pokemon:"ケムッソ",bunrui:"むしポケモン",types:["mushi"],tokusei:"だっぴ",seikaku:"おとなしい",
-   zukan:"ゆかにはりつくことをこのむポケモン。ふわふわしたばしょがだいすきじゃ。そうじきをかけてもらえると、きもちよさそうにするようじゃ。ほこりがたまると、げんきがなくなるようだ。",
-   hakase:"カーペットをきれいにしてくれると、はかせはよろこぶのじゃが…",
-   q:"ケムッソが　ドクケイルになるじょうけんはなんじゃ？",
-   choices:["レベル7でしんか","オスならドクケイル","メスならドクケイル","ランダム"],answer:1,hint:"せいべつがかんけいするのじゃ…"},
-
-  // ====== ベッドルーム ======
-  {id:"040",place:"せんざいいれ",icon:"🧴",pokemon:"カビゴン",bunrui:"ねむりポケモン",types:["noormal"],tokusei:"めんえき",seikaku:"のんき",
-   zukan:"ねむることをこよなくあいするポケモン。シーツをきれいにしてもらえると、きもちよくねむれるようじゃ。コロコロをかけてもらえると、とくにきもちよさそうにするようだ。",
-   hakase:"シーツをせんたくしてくれて、ありがたいのじゃ。あらわない日も、コロコロをかけてくれると、はかせはよろこぶのじゃが…",
-   q:"カビゴンを　めざめさせるには　なにがひつようじゃ？",
-   choices:["たいようのふえ","ポケフルート","めざましどけい","かみなりのいし"],answer:1,hint:"おとをならすのじゃ…"},
-
-  {id:"041",place:"マット",icon:"🟫",pokemon:"イーブイ",bunrui:"しんかポケモン",types:["noormal"],tokusei:"にげあし",seikaku:"すなお",
-   zukan:"やわらかいばしょをこのんでくつろぐポケモン。ベッドルームにいるときは、とくにのんびりしているようじゃ。コロコロをかけてもらえると、きもちよさそうにするようだ。",
-   hakase:"ありがたいのじゃ。コロコロをかけてくれると、はかせはよろこぶのじゃが…",
-   q:"イーブイの　たいせんでよくつかわれるしんかけいはどれじゃ？",
-   choices:["サンダース","ブラッキー","グレイシア","ニンフィア"],answer:1,hint:"あくタイプでサイクルにつよいのじゃ…"},
-
-  {id:"042",place:"れいぞうこ",icon:"🧊",pokemon:"エーフィ",bunrui:"たいようポケモン",types:["esupaa"],tokusei:"シンクロ",seikaku:"おしゃれ",
-   zukan:"おしゃれなものにかこまれてすごすのをこのむポケモン。こものがせいりされていると、きもちよさそうにするようじゃ。",
-   hakase:"こものをきれいにほかんしてくれて、ありがたいのじゃ。",
-   q:"エーフィの　かくれとくせいはなんじゃ？",
-   choices:["シンクロ","マジックバウンス","てんのめぐみ","ふしぎなまもり"],answer:1,hint:"じょうたいいじょうをはねかえすのじゃ…"},
-
-  {id:"043",place:"やさいしつ",icon:"🥦",pokemon:"ハピナス",bunrui:"しあわせポケモン",types:["noormal"],tokusei:"しぜんかいふく",seikaku:"おだやか",
-   zukan:"たくさんのものをやさしくおさめるポケモン。ふくをていねいにしまってもらえると、きもちよさそうにするようじゃ。なかのそうじもすきなようだ。",
-   hakase:"ふくをしまってくれて、ありがたいのじゃ。なかのそうじもしてくれると、はかせはよろこぶのじゃが…",
-   q:"ハピナスの　HPのきそポイントはいくつじゃ？",
-   choices:["100","200","255","150"],answer:2,hint:"ポケモンさいこうのHPじゃ…"},
-
-  {id:"044",place:"れいとうこ",icon:"❄️",pokemon:"エアームド",bunrui:"よろいどりポケモン",types:["hagane","hikou"],tokusei:"がんじょう",seikaku:"やんちゃ",
-   zukan:"するどいつめでものをしっかりとつかむポケモン。せんたくものをかけてもらえると、きもちよさそうにはねをひろげるようじゃ。",
-   hakase:"せんたくものをきれいにかけてくれて、ありがたいのじゃ。",
-   q:"エアームドの　かくれとくせいはなんじゃ？",
-   choices:["がんじょう","するどいめ","あめうけざら","はとむね"],answer:2,hint:"あめのひにHPがかいふくするのじゃ…"},
-
-  {id:"045",place:"かんきせん",icon:"💨",pokemon:"シャンデラ",bunrui:"ともしびポケモン",types:["goosuto","honoo"],tokusei:"ほのおのからだ",seikaku:"おくびょう",
-   zukan:"ほのおのひかりでへやをてらすことをこのむポケモン。ねるまえにけしてもらえると、きもちよさそうにするようじゃ。でんきゅうがきれると、さびしそうにするようだ。",
-   hakase:"へやをあかるくてらしてくれて、ありがたいのじゃ。でんきゅうがきれたら、かえてくれると、はかせはよろこぶのじゃが…",
-   q:"シャンデラの　とくこうの　きそポイントはいくつじゃ？",
-   choices:["100","130","145","165"],answer:2,hint:"とくこうがものすごくたかいポケモンじゃ…"},
-
-  {id:"046",place:"まないたかけ",icon:"🔪",pokemon:"ドーミラー",bunrui:"かがみポケモン",types:["hagane","esupaa"],tokusei:"ふゆう",seikaku:"しんちょう",
-   zukan:"しずかなばしょでじっとしていることをこのむポケモン。つくえのうえがきれいだと、きもちよさそうにするようじゃ。ちらかっていると、かがみのなかにかくれてしまうようだ。",
-   hakase:"デスクをきれいにしてくれると、はかせはよろこぶのじゃが…",
-   q:"ドーミラーが　ドータクンに　しんかするじょうけんはなんじゃ？",
-   choices:["レベル36","こうかんでしんか","レベル44","はがねのいし"],answer:1,hint:"こうかんがひつようじゃ…"},
-
-  // ====== ろうか＆玄関 ======
-  {id:"047",place:"だいふき",icon:"🧹",pokemon:"ドダイトス",bunrui:"だいちポケモン",types:["kusa"],tokusei:"しんりょく",seikaku:"のんき",
-   zukan:"どっしりとおおきなからだで、たくさんのものをおさめるのをこのむポケモン。のみものをたくわえることに、とくべつなよろこびをかんじているようじゃ。",
-   hakase:"のみものをいつもいっぱいたくわえてくれて、ありがたいのじゃ。ろうかやそうこのゆかも、そうじきをかけてくれると、はかせはよろこぶのじゃが…",
-   q:"ドダイトスの　せなかのきは　なにのもとじゃ？",
-   choices:["もりのもと","いのちのもと","だいちのもと","りょくちのもと"],answer:1,hint:"せいめいにかんけいするのじゃ…"},
-
-  {id:"048",place:"からぶきふきん",icon:"🧻",pokemon:"ケッキング",bunrui:"なまけポケモン",types:["noormal"],tokusei:"なまけ",seikaku:"のんき",
-   zukan:"でかけるときのじゅんびをおてつだいするポケモン。おべんとうをきちんとしまってもらえると、あんしんしてのんびりできるようじゃ。",
-   hakase:"おべんとうをしまってくれて、ありがたいのじゃ。おかげではかせもあんしんしておでかけできるのじゃ。",
-   q:"ケッキングの　とくせい「なまけ」で　つかえないターンに　どうなるじゃ？",
-   choices:["ねむる","まもる","なにもしない","じぶんでわざをえらべる"],answer:2,hint:"なまけているのじゃ…"},
-
-  {id:"049",place:"タッパー・ラップおきば",icon:"📦",pokemon:"ドンメル",bunrui:"ひつじポケモン",types:["honoo","jimen"],tokusei:"どんかん",seikaku:"のんき",
-   zukan:"どっしりとゆかにはりつくポケモン。なんどふまれてもへいきなたくましいせいしつをもつ。きれいにしてもらえると、きもちよさそうにするようじゃ。",
-   hakase:"げんかんをきれいにしてくれて、ありがたいのじゃ。マットもきれいにしてくれると、はかせはよろこぶのじゃが…",
-   q:"ドンメルの　かくれとくせいはなんじゃ？",
-   choices:["どんかん","たいねつ","ぼうおん","もうか"],answer:2,hint:"おとにかんするわざがきかなくなるのじゃ…"},
-
-  {id:"050",place:"べんとうばこおきば",icon:"🍱",pokemon:"ソーナンス",bunrui:"せなかポケモン",types:["esupaa"],tokusei:"かげふみ",seikaku:"なまいき",
-   zukan:"かべにじっとはりついてまつことをこのむポケモン。くつをきちんとならべてしまってもらえると、きもちよさそうにするようじゃ。ちらかっていると、かなしそうにするようだ。",
-   hakase:"くつをきれいにしまってくれて、ありがたいのじゃ。げんかんをきれいにたもってくれると、はかせはよろこぶのじゃが…",
-   q:"ソーナンスが　あいてにダメージをあたえられるわざはなんじゃ？",
-   choices:["カウンター","ミラーコート","アンコール","カウンターとミラーコート"],answer:3,hint:"はんげきわざじゃ…"},
+  {id:"001",place:"げんかんどあ",icon:"🚪",pokemon:"フシギダネ",bunrui:"たねポケモン",types:["kusa","doku"],tokusei:"ようりょくそ",seikaku:"すなお",zukan:"うまれたときから　せなかに　たねがうえられているポケモン。たいようのひかりをあびると　げんきになるのじゃ。",hakase:"げんかんのどあを　きれいにしてくれて　ありがとうじゃ。いつもきれいなげんかんは　きもちがいいのじゃ。",q:"フシギダネの　せなかにあるのは？",choices:["はな","たね","きのみ","いし"],answer:1,hint:"うまれつきあるのじゃ…"},
+  {id:"002",place:"げんかん",icon:"🏠",pokemon:"フシギソウ",bunrui:"たねポケモン",types:["kusa","doku"],tokusei:"ようりょくそ",seikaku:"のんき",zukan:"フシギダネが　しんかした　すがた。せなかのたねが　おおきくなり　あまいかおりをはなつのじゃ。",hakase:"げんかんを　いつもきれいにしてくれて　ありがとうじゃ。たびびとを　むかえるばしょは　だいじなのじゃ。",q:"フシギソウは　どのレベルで　しんかするじゃ？",choices:["レベル16","レベル32","レベル36","レベル20"],answer:1,hint:"わりとおそいのじゃ…"},
+  {id:"003",place:"スイッチ",icon:"💡",pokemon:"フシギバナ",bunrui:"たねポケモン",types:["kusa","doku"],tokusei:"ようりょくそ",seikaku:"おだやか",zukan:"フシギソウが　しんかした　すがた。せなかのはなが　ひらき　つよいかおりで　てきをひきつけるのじゃ。",hakase:"スイッチを　てきせつに　つかってくれて　ありがとうじゃ。エネルギーの　むだづかいをしないことが　だいじなのじゃ。",q:"フシギバナの　とくせい「ようりょくそ」のこうかは？",choices:["こうげきがあがる","みずタイプがきかない","ひざしのなかですばやさがあがる","どくがきかない"],answer:2,hint:"たいようにかんけいするのじゃ…"},
+  {id:"004",place:"マット",icon:"🟫",pokemon:"ヒトカゲ",bunrui:"とかげポケモン",types:["honoo"],tokusei:"もうか",seikaku:"ようき",zukan:"しっぽのさきにほのおがともっているポケモン。このほのおがきえると　いのちもきえるといわれておるのじゃ。",hakase:"マットを　きれいにたもってくれて　ありがとうじゃ。あしもとが　きれいだと　きもちがいいのじゃ。",q:"ヒトカゲのしっぽのほのおがきえると　どうなるじゃ？",choices:["ねむくなる","しんでしまう","しんかする","つよくなる"],answer:1,hint:"しっぽのほのおはいのちのあかしじゃ…"},
+  {id:"005",place:"かがみ",icon:"🪞",pokemon:"リザード",bunrui:"かえんポケモン",types:["honoo"],tokusei:"もうか",seikaku:"いじっぱり",zukan:"ヒトカゲが　しんかした　すがた。しっぽのほのおが　おおきくなり　あついじきを　このむのじゃ。",hakase:"かがみを　きれいにふいてくれて　ありがとうじゃ。くもりのないかがみは　きもちがいいのじゃ。",q:"リザードのしっぽのほのおが　おおきくなるのはなぜじゃ？",choices:["おこっているから","つよくなったから","びょうきだから","たのしいから"],answer:1,hint:"きもちがあらわれるのじゃ…"},
+  {id:"006",place:"おちゃ",icon:"🍵",pokemon:"リザードン",bunrui:"かえんポケモン",types:["honoo","hikou"],tokusei:"もうか",seikaku:"やんちゃ",zukan:"おおぞらをとびながら　ほのおをはく　つよいポケモン。こころのつよいあいてとしか　たたかわないのじゃ。",hakase:"おちゃを　いつもようしてくれて　ありがとうじゃ。ほっとするじかんが　たいせつなのじゃ。",q:"リザードンは　なにタイプじゃ？",choices:["ほのお","ほのお・ひこう","ほのお・ドラゴン","ドラゴン"],answer:1,hint:"そらをとぶのじゃ…"},
+  {id:"007",place:"ひじょうしょく",icon:"🍱",pokemon:"ゼニガメ",bunrui:"こかめポケモン",types:["mizu"],tokusei:"げきりゅう",seikaku:"しんちょう",zukan:"こうらにはいって　みをまもることができるポケモン。こうらはとてもかたく　たいていのこうげきを　はじくのじゃ。",hakase:"ひじょうしょくを　かんりしてくれて　ありがとうじゃ。もしものときのために　じゅんびしておくことが　だいじなのじゃ。",q:"ゼニガメの　こうらのやくわりはなんじゃ？",choices:["かざり","みをまもる","ものをいれる","およぐため"],answer:1,hint:"かたいのじゃ…"},
+  {id:"008",place:"マスク",icon:"😷",pokemon:"カメール",bunrui:"こかめポケモン",types:["mizu"],tokusei:"げきりゅう",seikaku:"おだやか",zukan:"ゼニガメが　しんかした　すがた。こうらが　さらにかたくなり　みずのなかを　はやくおよげるのじゃ。",hakase:"マスクを　かんりしてくれて　ありがとうじゃ。けんこうをまもることが　いちばんじゃ。",q:"カメールは　どのレベルで　しんかするじゃ？",choices:["レベル16","レベル32","レベル36","レベル20"],answer:1,hint:"ゼニガメからのしんかじゃ…"},
+  {id:"009",place:"こうぐばこ",icon:"🧰",pokemon:"カメックス",bunrui:"こうらポケモン",types:["mizu"],tokusei:"げきりゅう",seikaku:"いじっぱり",zukan:"カメールが　しんかした　すがた。こうらから　みずをはっしゃする　キャノンが　はえているのじゃ。",hakase:"こうぐばこを　せいりしてくれて　ありがとうじゃ。どうぐが　そろっていると　こころづよいのじゃ。",q:"カメックスの　こうらにあるのはなんじゃ？",choices:["つの","ハイドロカノン","ひれ","しっぽ"],answer:1,hint:"みずをはっしゃするのじゃ…"},
+  {id:"010",place:"へやへのどあ",icon:"🚪",pokemon:"キャタピー",bunrui:"むしポケモン",types:["mushi"],tokusei:"だっぴ",seikaku:"のんき",zukan:"あたまのとがった　つのから　においをだして　てきをおいはらうのじゃ。からだはやわらかく　きのえだにしがみつくのじゃ。",hakase:"へやへのどあを　きれいにしてくれて　ありがとうじゃ。ドアのかいてきさが　まいにちのきもちを　かえるのじゃ。",q:"キャタピーの　とくせい「だっぴ」のこうかはなんじゃ？",choices:["じょうたいいじょうがなおる","こうげきがあがる","すばやさがあがる","HPがかいふくする"],answer:0,hint:"ぬけがらをのこすのじゃ…"},
+  {id:"011",place:"ゆか①",icon:"🟫",pokemon:"トランセル",bunrui:"さなぎポケモン",types:["mushi"],tokusei:"だっぴ",seikaku:"のんき",zukan:"キャタピーが　しんかした　さなぎのすがた。うごくことはできないが　かたいからだで　みをまもるのじゃ。",hakase:"ゆか①を　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"トランセルは　どのポケモンに　しんかするじゃ？",choices:["バタフリー","スピアー","ビードル","キャタピー"],answer:0,hint:"むしタイプじゃ…"},
+  {id:"012",place:"ゆか②",icon:"🟫",pokemon:"バタフリー",bunrui:"ちょうポケモン",types:["mushi","hikou"],tokusei:"ふくがん",seikaku:"おだやか",zukan:"トランセルが　しんかした　すがた。りんぷんを　まきちらして　てきをこんらんさせるのじゃ。",hakase:"ゆか②を　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"バタフリーの　とくせい「ふくがん」のこうかはなんじゃ？",choices:["わざのめいちゅうりつがあがる","めがみえなくなる","どくがきかない","ひこうタイプになる"],answer:0,hint:"めにかんけいするのじゃ…"},
+  {id:"013",place:"トイレットペーパーホルダー",icon:"🧻",pokemon:"ビードル",bunrui:"どくむしポケモン",types:["mushi","doku"],tokusei:"どくのとげ",seikaku:"やんちゃ",zukan:"あたまのするどいとげに　どくがあるポケモン。てきがちかづくと　とげをたてて　みをまもるのじゃ。",hakase:"トイレットペーパーを　きらさないようにしてくれて　ありがとうじゃ。きれたときのこまりかたは　たいへんなのじゃ。",q:"ビードルの　あたまのとげには　なにがあるじゃ？",choices:["みつ","どく","ほのお","でんき"],answer:1,hint:"きけんじゃ…"},
+  {id:"014",place:"トイレットペーパーホルダーカバー",icon:"🧻",pokemon:"コクーン",bunrui:"さなぎポケモン",types:["mushi","doku"],tokusei:"だっぴ",seikaku:"のんき",zukan:"ビードルが　しんかした　さなぎのすがた。からだのなかで　しんかのじゅんびを　しているのじゃ。",hakase:"トイレットペーパーホルダーカバーを　きれいにたもってくれて　ありがとうじゃ。こまかいところまで　きにしてくれてうれしいのじゃ。",q:"コクーンは　どのポケモンに　しんかするじゃ？",choices:["バタフリー","スピアー","ビードル","キャタピー"],answer:1,hint:"どくむしのさなぎじゃ…"},
+  {id:"015",place:"ごみいれ",icon:"🗑️",pokemon:"スピアー",bunrui:"どくばちポケモン",types:["mushi","doku"],tokusei:"どくのとげ",seikaku:"いじっぱり",zukan:"コクーンが　しんかした　すがた。おしりのどくばりで　てきをさすのじゃ。むれで　てきをおいかけるぞ。",hakase:"ごみいれを　きれいにたもってくれて　ありがとうじゃ。トイレのごみは　こまめにすてることが　だいじなのじゃ。",q:"スピアーの　どくばりは　どこにあるじゃ？",choices:["あたま","しっぽ","おしり","て"],answer:2,hint:"おしりがあぶないのじゃ…"},
+  {id:"016",place:"タンク",icon:"🔵",pokemon:"ポッポ",bunrui:"しょうちょうポケモン",types:["noormal","hikou"],tokusei:"ちどりあし",seikaku:"なつっこい",zukan:"じきゅうりょくに　すぐれた　ポケモン。どんなに　とおくても　じぶんのすに　かならずもどってくるのじゃ。",hakase:"タンクを　きれいにたもってくれて　ありがとうじゃ。みずまわりの　かんりは　とくにだいじなのじゃ。",q:"ポッポの　とくちょうはなんじゃ？",choices:["はやくとべる","じきゅうりょくがある","みずがとくい","どくをつかう"],answer:1,hint:"すにかえるのじゃ…"},
+  {id:"017",place:"タオルかけ",icon:"🪤",pokemon:"ピジョン",bunrui:"とりポケモン",types:["noormal","hikou"],tokusei:"ちどりあし",seikaku:"のんき",zukan:"ポッポが　しんかした　すがた。むれで　なわばりをまもり　てきがちかづくと　いっせいに　こうげきするのじゃ。",hakase:"タオルを　きれいにかけてくれて　ありがとうじゃ。きれいなタオルで　てをふくことが　きもちいいのじゃ。",q:"ピジョンは　なにタイプじゃ？",choices:["ひこう","ノーマル・ひこう","ノーマル","でんき・ひこう"],answer:1,hint:"そらをとぶのじゃ…"},
+  {id:"018",place:"トイレクリーナー",icon:"🧴",pokemon:"ピジョット",bunrui:"とりポケモン",types:["noormal","hikou"],tokusei:"ちどりあし",seikaku:"おだやか",zukan:"ピジョンが　しんかした　すがた。じそく　マッハ２で　とぶことが　できる　つよいポケモンじゃ。",hakase:"トイレを　きれいにそうじしてくれて　ありがとうじゃ。トイレがきれいだと　おうちぜんたいが　きもちよくなるのじゃ。",q:"ピジョットの　とぶはやさは　どのくらいじゃ？",choices:["じそくマッハ1","じそくマッハ2","じそくマッハ3","じそく100km"],answer:1,hint:"はやいのじゃ…"},
+  {id:"019",place:"たな",icon:"📦",pokemon:"コラッタ",bunrui:"ねずみポケモン",types:["noormal"],tokusei:"にげあし",seikaku:"やんちゃ",zukan:"どんなばしょでも　たおれこんで　すむことができるポケモン。すごくはやく　なんでもかじるのじゃ。",hakase:"たなを　せいりしてくれて　ありがとうじゃ。ものが　きちんとならんでいると　みつけやすくてべんりなのじゃ。",q:"コラッタの　とくちょうはなんじゃ？",choices:["みずがとくい","なんでもかじる","そらをとぶ","どくをつかう"],answer:1,hint:"かじるのがすきじゃ…"},
+  {id:"020",place:"せいりようひんいれ",icon:"🗃️",pokemon:"ラッタ",bunrui:"ねずみポケモン",types:["noormal"],tokusei:"にげあし",seikaku:"おだやか",zukan:"コラッタが　しんかした　すがた。つよいはと　きりのよいひげが　とくちょうのポケモンじゃ。",hakase:"せいりようひんを　かんりしてくれて　ありがとうじゃ。かくれていても　きちんとかんりされているのが　うれしいのじゃ。",q:"ラッタの　とくちょうはなんじゃ？",choices:["つよいは","おおきなみみ","みじかいしっぽ","ながいくび"],answer:0,hint:"はがつよいのじゃ…"},
+  {id:"021",place:"かんきせん",icon:"💨",pokemon:"オニスズメ",bunrui:"すずめポケモン",types:["noormal","hikou"],tokusei:"ちどりあし",seikaku:"やんちゃ",zukan:"なわばりいしきが　とくに　つよいポケモン。てきが　なわばりに　ちかづくと　めをつつくのじゃ。",hakase:"かんきせんを　つかってくれて　ありがとうじゃ。くうきをいれかえることが　きもちよくすごすためにだいじなのじゃ。",q:"オニスズメの　とくちょうはなんじゃ？",choices:["うたがうまい","なわばりいしきがつよい","みずがとくい","ちかにすむ"],answer:1,hint:"なわばりをまもるのじゃ…"},
+  {id:"022",place:"でんきスイッチ",icon:"💡",pokemon:"オニドリル",bunrui:"きりもみポケモン",types:["noormal","hikou"],tokusei:"ちどりあし",seikaku:"いじっぱり",zukan:"オニスズメが　しんかした　すがた。するどい　くちばしで　いわさえも　つきやぶるのじゃ。",hakase:"でんきスイッチを　てきせつに　つかってくれて　ありがとうじゃ。こまかいことも　きにしてくれると　うれしいのじゃ。",q:"オニドリルの　くちばしは　なにをつきやぶるじゃ？",choices:["き","いわ","こおり","はがね"],answer:1,hint:"つよいくちばしじゃ…"},
+  {id:"023",place:"どあ",icon:"🚪",pokemon:"アーボ",bunrui:"へびポケモン",types:["doku"],tokusei:"だっぴ",seikaku:"おくびょう",zukan:"しまもようが　とくちょうのポケモン。えものを　まるごとのみこむために　あごがはずれるのじゃ。",hakase:"どあを　きれいにたもってくれて　ありがとうじゃ。ドアは　まいにちつかうものだから　だいじにしたいのじゃ。",q:"アーボは　どうやって　えものをたべるじゃ？",choices:["かみちぎる","まるごとのみこむ","どくをかける","ながしこむ"],answer:1,hint:"あごがはずれるのじゃ…"},
+  {id:"024",place:"スリッパ",icon:"🥿",pokemon:"アーボック",bunrui:"コブラポケモン",types:["doku"],tokusei:"だっぴ",seikaku:"なまいき",zukan:"アーボが　しんかした　すがた。むねの　もようで　てきを　おどかすのじゃ。もようは　6しゅるいあるのじゃ。",hakase:"スリッパを　きれいにたもってくれて　ありがとうじゃ。はきものは　こころのゆとりを　あらわすのじゃ。",q:"アーボックの　むねのもようは　なんしゅるいあるじゃ？",choices:["4しゅるい","6しゅるい","8しゅるい","10しゅるい"],answer:1,hint:"もようがいろいろあるのじゃ…"},
+  {id:"025",place:"スノコ",icon:"🟫",pokemon:"ピカチュウ",bunrui:"ねずみポケモン",types:["denki"],tokusei:"せいでんき",seikaku:"やんちゃ",zukan:"ほっぺたに　でんきをためる　ぶくろがあるポケモン。ほっぺたが　あかくひかっていたら　きけんのサインじゃ。",hakase:"スノコを　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"ピカチュウの　ほっぺたには　なにがあるじゃ？",choices:["みつ","でんきをためるぶくろ","においだすぶくろ","ひみつの何か"],answer:1,hint:"ほっぺがひかるのじゃ…"},
+  {id:"026",place:"せんたくかご",icon:"🧺",pokemon:"ライチュウ",bunrui:"ねずみポケモン",types:["denki"],tokusei:"せいでんき",seikaku:"おだやか",zukan:"ピカチュウが　かみなりのいしで　しんかした　すがた。からだにためた　でんきで　ひとを　しびれさせるのじゃ。",hakase:"せんたくかごを　かんりしてくれて　ありがとうじゃ。せんたくものは　こまめに　あらうのが　きもちいいのじゃ。",q:"ライチュウに　しんかするには　なにがひつようじゃ？",choices:["みずのいし","ほのおのいし","かみなりのいし","つきのいし"],answer:2,hint:"いしがひつようじゃ…"},
+  {id:"027",place:"おしゃれぎかご",icon:"🧺",pokemon:"サンド",bunrui:"ねずみポケモン",types:["jimen"],tokusei:"すなかき",seikaku:"やんちゃ",zukan:"まるくなって　すなのなかを　ころがりながら　いどうするポケモン。からだのとげが　みをまもるのじゃ。",hakase:"おしゃれぎを　きちんと　かんりしてくれて　ありがとうじゃ。たいせつなふくを　まもってくれているのじゃ。",q:"サンドの　とくちょうはなんじゃ？",choices:["みずがとくい","まるくなってころがる","そらをとぶ","ほのおをはく"],answer:1,hint:"ころがるのじゃ…"},
+  {id:"028",place:"マット",icon:"🟫",pokemon:"サンドパン",bunrui:"ねずみポケモン",types:["jimen"],tokusei:"すなかき",seikaku:"いじっぱり",zukan:"サンドが　しんかした　すがた。するどい　つめで　じめんを　はやく　ほることができるのじゃ。",hakase:"マットを　きれいにたもってくれて　ありがとうじゃ。あしもとが　きれいだと　きもちがいいのじゃ。",q:"サンドパンの　とくちょうはなんじゃ？",choices:["つめでじめんをほる","そらをとぶ","みずのなかをおよぐ","ほのおをはく"],answer:0,hint:"つめがするどいのじゃ…"},
+  {id:"029",place:"せんたくき",icon:"👕",pokemon:"ニドラン♀",bunrui:"どくポケモン",types:["doku"],tokusei:"どくのとげ",seikaku:"おだやか",zukan:"あたまのつのに　どくがある　メスのポケモン。おとなしいが　こどもをまもるためには　つのでさすのじゃ。",hakase:"せんたくきを　きれいにつかってくれて　ありがとうじゃ。せんたくきは　まいにちかつやくする　だいじなどうぐなのじゃ。",q:"ニドラン♀の　つのには　なにがあるじゃ？",choices:["みつ","どく","ほのお","でんき"],answer:1,hint:"こどもをまもるのじゃ…"},
+  {id:"030",place:"ぼうすいパッド",icon:"🛡️",pokemon:"ニドリーナ",bunrui:"どくポケモン",types:["doku"],tokusei:"どくのとげ",seikaku:"しんちょう",zukan:"ニドラン♀が　しんかした　すがた。つのが　みじかくなるが　するどいつめで　てきをひっかくのじゃ。",hakase:"ぼうすいパッドを　かんりしてくれて　ありがとうじゃ。みずのトラブルをふせいでくれているのじゃ。",q:"ニドリーナは　ニドラン♀から　どのレベルで　しんかするじゃ？",choices:["レベル16","レベル18","レベル20","レベル25"],answer:1,hint:"はやめのしんかじゃ…"},
+  {id:"031",place:"たいじゅけい",icon:"⚖️",pokemon:"ニドクイン",bunrui:"ドリルポケモン",types:["doku","jimen"],tokusei:"どくのとげ",seikaku:"いじっぱり",zukan:"ニドリーナが　つきのいしで　しんかした　すがた。つのと　つめで　どくを　ちゅうにゅうするのじゃ。",hakase:"たいじゅけいを　つかってくれて　ありがとうじゃ。けんこうをきにすることが　だいじなのじゃ。",q:"ニドクインに　しんかするには　なにがひつようじゃ？",choices:["かみなりのいし","みずのいし","つきのいし","ほのおのいし"],answer:2,hint:"つきにかんけいするのじゃ…"},
+  {id:"032",place:"きゅうとうき",icon:"🔌",pokemon:"ニドラン♂",bunrui:"どくポケモン",types:["doku"],tokusei:"どくのとげ",seikaku:"やんちゃ",zukan:"あたまのつのに　どくがある　オスのポケモン。ニドラン♀より　つのが　おおきく　もうどくを　もつのじゃ。",hakase:"きゅうとうきを　かんりしてくれて　ありがとうじゃ。あたたかいおふろは　いやしになるのじゃ。",q:"ニドラン♂と　ニドラン♀の　ちがいはなんじゃ？",choices:["いろ","つののおおきさ","タイプ","どちらもおなじ"],answer:1,hint:"おすのほうがつのがおおきいのじゃ…"},
+  {id:"033",place:"せんめんだいのたな",icon:"📦",pokemon:"ニドリーノ",bunrui:"どくポケモン",types:["doku"],tokusei:"どくのとげ",seikaku:"やんちゃ",zukan:"ニドラン♂が　しんかした　すがた。つので　てきを　つきさして　もうどくを　ちゅうにゅうするのじゃ。",hakase:"せんめんだいのたなを　せいりしてくれて　ありがとうじゃ。きれいにならんでいると　きもちがいいのじゃ。",q:"ニドリーノの　つのには　なにがあるじゃ？",choices:["みつ","もうどく","ほのお","でんき"],answer:1,hint:"もうどくがきけんじゃ…"},
+  {id:"034",place:"せんめんき",icon:"🪥",pokemon:"ニドキング",bunrui:"ドリルポケモン",types:["doku","jimen"],tokusei:"どくのとげ",seikaku:"やんちゃ",zukan:"ニドリーノが　つきのいしで　しんかした　すがた。つので　いわをくだき　しっぽで　てきをはらうのじゃ。",hakase:"せんめんきを　きれいにつかってくれて　ありがとうじゃ。かおをあらう　だいじなどうぐなのじゃ。",q:"ニドキングの　たたかいかたの　とくちょうはなんじゃ？",choices:["つのとしっぽをつかう","みずをはっしゃする","そらからこうげき","どくをまきちらす"],answer:0,hint:"つのとしっぽじゃ…"},
+  {id:"035",place:"せんめんだい",icon:"🚰",pokemon:"ピッピ",bunrui:"フェアリーポケモン",types:["fearii"],tokusei:"メロメロボディ",seikaku:"なつっこい",zukan:"まんげつのよるに　おどるすがたが　みられるというポケモン。ゆびのさきから　ふしぎなひかりを　だすのじゃ。",hakase:"せんめんだいを　きれいにたもってくれて　ありがとうじゃ。みずまわりは　とくにきれいにしたいのじゃ。",q:"ピッピが　おどるのは　いつじゃ？",choices:["まいにちのよる","まんげつのよる","あさ","あめのひ"],answer:1,hint:"つきにかんけいするのじゃ…"},
+  {id:"036",place:"かがみ",icon:"🪞",pokemon:"ピクシー",bunrui:"フェアリーポケモン",types:["fearii"],tokusei:"マジックガード",seikaku:"おだやか",zukan:"ピッピが　つきのいしで　しんかした　すがた。ふわふわと　そらを　とんでいるポケモンじゃ。",hakase:"かがみを　きれいにふいてくれて　ありがとうじゃ。くもりのないかがみは　きもちがいいのじゃ。",q:"ピクシーの　かくれとくせい「マジックガード」のこうかはなんじゃ？",choices:["かんせつダメージをうけない","こうげきがあがる","みずがきかない","すばやさがあがる"],answer:0,hint:"かんせつダメージがきかないのじゃ…"},
+  {id:"037",place:"はみがきコップ",icon:"🥤",pokemon:"ロコン",bunrui:"きつねポケモン",types:["honoo"],tokusei:"ひでり",seikaku:"おだやか",zukan:"うまれたときは　しっぽが　1ほんだが　そだつにつれて　ふえていくポケモン。ひをあやつるのじゃ。",hakase:"はみがきコップを　きれいにしてくれて　ありがとうじゃ。まいにちつかうものは　きれいにたもちたいのじゃ。",q:"ロコンは　うまれたとき　しっぽが　なんぼんじゃ？",choices:["1ぽん","3ぼん","6ぼん","9ぼん"],answer:0,hint:"ふえていくのじゃ…"},
+  {id:"038",place:"はぶらしたて",icon:"🪥",pokemon:"キュウコン",bunrui:"きつねポケモン",types:["honoo"],tokusei:"ひでり",seikaku:"おだやか",zukan:"ロコンが　しんかした　すがた。9ほんの　しっぽを　もつ　うつくしいポケモン。ひをつかって　てきをあやつるのじゃ。",hakase:"はぶらしたてを　きれいにたもってくれて　ありがとうじゃ。こまかいところも　きにしてくれているのじゃ。",q:"キュウコンの　しっぽは　なんぼんじゃ？",choices:["3ぼん","6ぼん","9ぼん","12ぼん"],answer:2,hint:"きゅうほんじゃ…"},
+  {id:"039",place:"ワックス",icon:"✨",pokemon:"プリン",bunrui:"ふうせんポケモン",types:["noormal","fearii"],tokusei:"メロメロボディ",seikaku:"なつっこい",zukan:"うたをうたって　てきを　ねむらせるポケモン。うたっているあいだは　めをとじないのじゃ。",hakase:"ワックスで　かみをととのえてくれて　ありがとうじゃ。みだしなみは　じぶんへの　あいじょうなのじゃ。",q:"プリンは　なにをして　てきをねむらせるじゃ？",choices:["はなをもつ","うたをうたう","においをだす","ひかりをだす"],answer:1,hint:"うたがとくいじゃ…"},
+  {id:"040",place:"スイッチ",icon:"💡",pokemon:"プクリン",bunrui:"ふうせんポケモン",types:["noormal","fearii"],tokusei:"メロメロボディ",seikaku:"やんちゃ",zukan:"プリンが　つきのいしで　しんかした　すがた。よりおおきな　こえで　うたい　てきを　ねむらせるのじゃ。",hakase:"スイッチを　てきせつに　つかってくれて　ありがとうじゃ。エネルギーの　むだづかいをしないことが　だいじなのじゃ。",q:"プクリンに　しんかするには　なにがひつようじゃ？",choices:["かみなりのいし","つきのいし","みずのいし","ほのおのいし"],answer:1,hint:"つきのいしじゃ…"},
+  {id:"041",place:"ふろのどあ",icon:"🚿",pokemon:"ズバット",bunrui:"こうもりポケモン",types:["doku","hikou"],tokusei:"ないすいおん",seikaku:"おくびょう",zukan:"めがない　かわりに　ちょうおんぱで　まわりのものを　かんちするポケモン。くらいばしょを　このむのじゃ。",hakase:"ふろのどあを　きれいにたもってくれて　ありがとうじゃ。おふろは　いやしのばしょじゃから　きれいにしたいのじゃ。",q:"ズバットは　どうやって　まわりをかんちするじゃ？",choices:["め","ちょうおんぱ","においをかぐ","ひかりをだす"],answer:1,hint:"めがないのじゃ…"},
+  {id:"042",place:"せんざいいれ",icon:"🧴",pokemon:"ゴルバット",bunrui:"こうもりポケモン",types:["doku","hikou"],tokusei:"ないすいおん",seikaku:"やんちゃ",zukan:"ズバットが　しんかした　すがた。おおきな　くちで　てきのちを　すいとる　こわいポケモンじゃ。",hakase:"せんざいを　きらさないようにしてくれて　ありがとうじゃ。じゅんびがととのっていると　あんしんなのじゃ。",q:"ゴルバットの　とくちょうはなんじゃ？",choices:["みずをはく","ちをすいとる","でんきをだす","こおりをはく"],answer:1,hint:"ちをすうのじゃ…"},
+  {id:"043",place:"マット",icon:"🟫",pokemon:"ナゾノクサ",bunrui:"くさポケモン",types:["kusa","doku"],tokusei:"ようりょくそ",seikaku:"のんき",zukan:"ふたごの　めのような　ものが　あたまについているポケモン。ひるに　なると　あるきまわるのじゃ。",hakase:"マットを　きれいにたもってくれて　ありがとうじゃ。あしもとが　きれいだと　きもちがいいのじゃ。",q:"ナゾノクサの　あたまにあるのは　なんじゃ？",choices:["はな","ふたごのめ","きのこ","しっぽ"],answer:1,hint:"めのようなものじゃ…"},
+  {id:"044",place:"れいぞうこ",icon:"🧊",pokemon:"クサイハナ",bunrui:"くさポケモン",types:["kusa","doku"],tokusei:"ようりょくそ",seikaku:"おだやか",zukan:"ナゾノクサが　しんかした　すがた。はなから　でる　においで　てきを　ねむらせることができるのじゃ。",hakase:"れいぞうこを　きれいにたもってくれて　ありがとうじゃ。しょくざいを　だいじにかんりしてくれているのじゃ。",q:"クサイハナの　はなのはたらきはなんじゃ？",choices:["みつをだす","においでねむらせる","ひかりをだす","みずをだす"],answer:1,hint:"においがつよいのじゃ…"},
+  {id:"045",place:"やさいしつ",icon:"🥦",pokemon:"ラフレシア",bunrui:"わたぼこりポケモン",types:["kusa","doku"],tokusei:"ようりょくそ",seikaku:"のんき",zukan:"クサイハナが　しんかした　すがた。せかいで　いちばん　おおきな　はなをもつポケモンじゃ。においが　ひどいのじゃ。",hakase:"やさいを　きちんとかんりしてくれて　ありがとうじゃ。しんせんなやさいをたべることが　けんこうのもとなのじゃ。",q:"ラフレシアの　はなは　なにで　ゆうめいじゃ？",choices:["うつくしさ","においのひどさ","おおきさ","いろ"],answer:1,hint:"においがひどいのじゃ…"},
+  {id:"046",place:"れいとうこ",icon:"❄️",pokemon:"パラス",bunrui:"きのこポケモン",types:["mushi","kusa"],tokusei:"ほうし",seikaku:"のんき",zukan:"せなかに　きのこが　はえているポケモン。きのこが　からだから　えいようを　すいとっているのじゃ。",hakase:"れいとうこを　きれいにたもってくれて　ありがとうじゃ。こおりにほぞんすることで　しょくざいがながもちするのじゃ。",q:"パラスの　せなかにあるのは　なんじゃ？",choices:["いし","きのこ","はな","こうら"],answer:1,hint:"きのこがはえているのじゃ…"},
+  {id:"047",place:"かんきせん",icon:"💨",pokemon:"パラセクト",bunrui:"きのこポケモン",types:["mushi","kusa"],tokusei:"ほうし",seikaku:"のんき",zukan:"パラスが　しんかした　すがた。きのこが　からだを　しはいしているといわれている　こわいポケモンじゃ。",hakase:"かんきせんを　つかってくれて　ありがとうじゃ。くうきをいれかえることが　きもちよくすごすためにだいじなのじゃ。",q:"パラセクトの　からだを　しはいしているのは　なんじゃ？",choices:["のう","きのこ","むし","たましい"],answer:1,hint:"きのこがしはいするのじゃ…"},
+  {id:"048",place:"まないたかけ",icon:"🔪",pokemon:"コンパン",bunrui:"むしポケモン",types:["mushi","doku"],tokusei:"ふくがん",seikaku:"のんき",zukan:"おおきな　めで　まわりを　みわたすことが　できるポケモン。めから　りんぷんを　まきちらすのじゃ。",hakase:"まないたかけを　きれいにたもってくれて　ありがとうじゃ。まないたをきちんとかわかすことが　えいせいのきほんなのじゃ。",q:"コンパンの　おおきなめから　でるのはなんじゃ？",choices:["ひかり","りんぷん","どく","みず"],answer:1,hint:"めからだすのじゃ…"},
+  {id:"049",place:"だいふき",icon:"🧹",pokemon:"モルフォン",bunrui:"どくポケモン",types:["mushi","doku"],tokusei:"ふくがん",seikaku:"おだやか",zukan:"コンパンが　しんかした　すがた。はねから　まきちらす　りんぷんに　どくがあるのじゃ。",hakase:"だいふきで　そうじしてくれて　ありがとうじゃ。てをつかってそうじすると　こまかいところまで　きれいになるのじゃ。",q:"モルフォンの　りんぷんには　なにがあるじゃ？",choices:["みつ","どく","ほのお","でんき"],answer:1,hint:"どくりんぷんじゃ…"},
+  {id:"050",place:"からぶきふきん",icon:"🧻",pokemon:"ディグダ",bunrui:"もぐらポケモン",types:["jimen"],tokusei:"すなかき",seikaku:"のんき",zukan:"じめんの　なかを　はやく　ほりすすむポケモン。ほとんど　じめんの　そとに　でないのじゃ。",hakase:"からぶきふきんで　ふいてくれて　ありがとうじゃ。みずのこりをなくすことが　きれいをたもつひけつなのじゃ。",q:"ディグダは　どこにすんでいるじゃ？",choices:["うみのなか","じめんのなか","そらのうえ","きのうえ"],answer:1,hint:"もぐっているのじゃ…"},
+  {id:"051",place:"タッパー・ラップおきば",icon:"📦",pokemon:"ダグトリオ",bunrui:"もぐらポケモン",types:["jimen"],tokusei:"すなかき",seikaku:"のんき",zukan:"ディグダが　3ひき　あつまった　すがた。いっしょに　うごくことで　じしんを　おこすのじゃ。",hakase:"タッパーやラップを　きちんとかんりしてくれて　ありがとうじゃ。しょくざいをほぞんするために　たいせつなものなのじゃ。",q:"ダグトリオは　ディグダが　なんびき　あつまったすがたじゃ？",choices:["2ひき","3ひき","4ひき","5ひき"],answer:1,hint:"3ひきじゃ…"},
+  {id:"052",place:"べんとうばこおきば",icon:"🍱",pokemon:"ニャース",bunrui:"ひっかきポケモン",types:["noormal"],tokusei:"ものひろい",seikaku:"やんちゃ",zukan:"ひかるものを　あつめるくせが　あるポケモン。コインをおでこに　のせているのじゃ。",hakase:"べんとうばこを　きちんとかんりしてくれて　ありがとうじゃ。おべんとうをつくることは　あいじょうなのじゃ。",q:"ニャースの　おでこには　なにがのっているじゃ？",choices:["いし","コイン","はな","きのみ"],answer:1,hint:"ひかるものがすきじゃ…"},
+  {id:"053",place:"シンク",icon:"🫧",pokemon:"ペルシアン",bunrui:"ねこポケモン",types:["noormal"],tokusei:"ものひろい",seikaku:"しんちょう",zukan:"ニャースが　しんかした　すがた。ひたいの　ほうせきが　てきを　さそいこむ　きれいなポケモンじゃ。",hakase:"シンクを　きれいにたもってくれて　ありがとうじゃ。みずまわりがきれいだと　りょうりも　たのしくなるのじゃ。",q:"ペルシアンの　ひたいにあるのはなんじゃ？",choices:["コイン","ほうせき","はな","いし"],answer:1,hint:"ひたいにかがやくのじゃ…"},
+  {id:"054",place:"スポンジいれ",icon:"🟡",pokemon:"コダック",bunrui:"あひるポケモン",types:["mizu"],tokusei:"しめりけ",seikaku:"のんき",zukan:"いつも　あたまをかかえているポケモン。ずつうが　はげしくなると　ふしぎなちからが　めざめるのじゃ。",hakase:"スポンジを　こまめにかえてくれて　ありがとうじゃ。せいけつなスポンジで　あらうことが　えいせいのきほんなのじゃ。",q:"コダックの　ふしぎなちからは　なにのときにめざめるじゃ？",choices:["うれしいとき","ずつうがはげしいとき","ねむいとき","おなかがすいたとき"],answer:1,hint:"ずつうからちからがでるのじゃ…"},
+  {id:"055",place:"みずきりあみ",icon:"🫙",pokemon:"ゴルダック",bunrui:"あひるポケモン",types:["mizu"],tokusei:"しめりけ",seikaku:"いじっぱり",zukan:"コダックが　しんかした　すがた。みずを　じゆうに　あやつることが　できる　つよいポケモンじゃ。",hakase:"みずきりあみを　きれいにたもってくれて　ありがとうじゃ。みずをきることで　かびをふせぐことができるのじゃ。",q:"ゴルダックの　とくちょうはなんじゃ？",choices:["ほのおをつかう","みずをじゆうにあやつる","そらをとぶ","じめんをほる"],answer:1,hint:"みずのポケモンじゃ…"},
+  {id:"056",place:"タオルかけ",icon:"🪤",pokemon:"マンキー",bunrui:"ぶたざるポケモン",types:["kakutou"],tokusei:"やるき",seikaku:"やんちゃ",zukan:"すぐに　おこりだす　かんしゃくもちのポケモン。なにもないのに　いきなり　おこりだすのじゃ。",hakase:"タオルを　きれいにかけてくれて　ありがとうじゃ。きれいなタオルで　てをふくことが　きもちいいのじゃ。",q:"マンキーの　せいかくは　どんなじゃ？",choices:["おとなしい","かんしゃくもち","やさしい","のんびり"],answer:1,hint:"すぐおこるのじゃ…"},
+  {id:"057",place:"ごみばこ",icon:"🗑️",pokemon:"オコリザル",bunrui:"ぶたざるポケモン",types:["kakutou"],tokusei:"やるき",seikaku:"いじっぱり",zukan:"マンキーが　しんかした　すがた。おこると　かおが　まっかになり　もうれつな　こうげきを　するのじゃ。",hakase:"ごみを　こまめにすててくれて　ありがとうじゃ。ごみをためないことが　きもちよくすごすひけつなのじゃ。",q:"オコリザルが　おこると　かおが　どうなるじゃ？",choices:["あおくなる","まっかになる","きいろくなる","みどりになる"],answer:1,hint:"おこるとまっかじゃ…"},
+  {id:"058",place:"ざつがみいれ",icon:"📰",pokemon:"ガーディ",bunrui:"こいぬポケモン",types:["honoo"],tokusei:"もうか",seikaku:"やんちゃ",zukan:"からだから　ほのおを　だすことが　できるポケモン。むれで　せいかつし　なかまを　まもるのじゃ。",hakase:"ざつがみを　きちんとわけてくれて　ありがとうじゃ。リサイクルをすることが　ちきゅうのためになるのじゃ。",q:"ガーディの　からだから　でるのはなんじゃ？",choices:["みず","ほのお","でんき","こおり"],answer:1,hint:"ほのおをだすのじゃ…"},
+  {id:"059",place:"エプロン",icon:"👘",pokemon:"ウインディ",bunrui:"でんせつポケモン",types:["honoo"],tokusei:"もうか",seikaku:"おだやか",zukan:"ガーディが　しんかした　すがた。じそく　マッハ２で　はしることが　できる　うつくしいポケモンじゃ。",hakase:"エプロンをつけて　りょうりしてくれて　ありがとうじゃ。エプロンをつけるのは　りょうりへのきもちの　あらわれなのじゃ。",q:"ウインディの　はしるはやさは　どのくらいじゃ？",choices:["じそく100km","じそくマッハ1","じそくマッハ2","じそくマッハ3"],answer:2,hint:"はやいのじゃ…"},
+  {id:"060",place:"さらおきば",icon:"🍽️",pokemon:"ニョロモ",bunrui:"おたまじゃくしポケモン",types:["mizu"],tokusei:"しめりけ",seikaku:"すなお",zukan:"おなかの　うずまきは　ないぞうが　すけて　みえているのじゃ。みずのなかを　はやく　およぐのじゃ。",hakase:"さらを　きちんとかたしてくれて　ありがとうじゃ。ものが　きれいにならんでいると　つかいやすいのじゃ。",q:"ニョロモの　おなかのうずまきは　なんじゃ？",choices:["もようだけ","ないぞうがみえている","めだま","きず"],answer:1,hint:"すけているのじゃ…"},
+  {id:"061",place:"レンジ",icon:"🍳",pokemon:"ニョロゾ",bunrui:"おたまじゃくしポケモン",types:["mizu"],tokusei:"しめりけ",seikaku:"まじめ",zukan:"ニョロモが　しんかした　すがた。あしが　はえて　りくでも　かつどうできるようになったのじゃ。",hakase:"レンジを　きれいにつかってくれて　ありがとうじゃ。レンジをきれいにたもつことで　ながくつかえるのじゃ。",q:"ニョロゾは　なにタイプじゃ？",choices:["みず","みず・じめん","みず・かくとう","みず・こおり"],answer:0,hint:"みずのポケモンじゃ…"},
+  {id:"062",place:"すいはんき",icon:"🍚",pokemon:"ニョロボン",bunrui:"かいじんポケモン",types:["mizu","kakutou"],tokusei:"てんきや",seikaku:"いじっぱり",zukan:"ニョロゾが　こうかんで　しんかした　すがた。かくとうのうでまえは　プロボクサーに　かつほどじゃ。",hakase:"すいはんきで　おいしいごはんを　たいてくれて　ありがとうじゃ。まいにちのごはんが　げんきのもとなのじゃ。",q:"ニョロボンは　どうやって　しんかするじゃ？",choices:["レベルアップ","いしでしんか","こうかんでしんか","なつきでしんか"],answer:2,hint:"こうかんがひつようじゃ…"},
+  {id:"063",place:"ホットプレート",icon:"🥘",pokemon:"ケーシィ",bunrui:"ねんりきポケモン",types:["esupaa"],tokusei:"シンクロ",seikaku:"おくびょう",zukan:"ねむっているあいだも　スプーンを　もっているポケモン。ちかくに　いると　めまいがするのじゃ。",hakase:"ホットプレートを　きれいにたもってくれて　ありがとうじゃ。みんなでたべるじかんは　たのしいのじゃ。",q:"ケーシィが　いつも　もっているのはなんじゃ？",choices:["ほん","スプーン","ぼうし","かばん"],answer:1,hint:"スプーンをもつのじゃ…"},
+  {id:"064",place:"つまようじ",icon:"🪄",pokemon:"ユンゲラー",bunrui:"ねんりきポケモン",types:["esupaa"],tokusei:"シンクロ",seikaku:"おだやか",zukan:"ケーシィが　しんかした　すがた。2ほんの　スプーンを　もつようになり　のうりょくが　あがるのじゃ。",hakase:"つまようじを　じゅんびしてくれて　ありがとうじゃ。しょくじのあとの　こまかいはいりょが　うれしいのじゃ。",q:"ユンゲラーは　スプーンを　なんぼんもつじゃ？",choices:["1ぽん","2ほん","3ぼん","4ほん"],answer:1,hint:"スプーンがふえたのじゃ…"},
+  {id:"065",place:"クリップいれ",icon:"📎",pokemon:"フーディン",bunrui:"ねんりきポケモン",types:["esupaa"],tokusei:"シンクロ",seikaku:"しんちょう",zukan:"ユンゲラーが　こうかんで　しんかした　すがた。ちのうしすうが　5000もある　とてもかしこいポケモンじゃ。",hakase:"クリップを　かんりしてくれて　ありがとうじゃ。こまかいものを　きちんとかんりすることが　だいじなのじゃ。",q:"フーディンの　ちのうしすうは　いくつじゃ？",choices:["100","1000","5000","10000"],answer:2,hint:"とてもかしこいのじゃ…"},
+  {id:"066",place:"はしいれ",icon:"🥢",pokemon:"ワンリキー",bunrui:"かいりきポケモン",types:["kakutou"],tokusei:"こんじょう",seikaku:"いじっぱり",zukan:"うまれたときから　おとなのひとを　なんにんでも　なげとばせるほど　つよいポケモンじゃ。",hakase:"はしを　きれいにかんりしてくれて　ありがとうじゃ。たべるどうぐを　だいじにすることは　しょくじをたいせつにすることなのじゃ。",q:"ワンリキーは　うまれたときから　なにができるじゃ？",choices:["そらをとぶ","みずをおよぐ","おとなをなげとばす","どくをつかう"],answer:2,hint:"うまれつきつよいのじゃ…"},
+  {id:"067",place:"さらのたな",icon:"🍽️",pokemon:"ゴーリキー",bunrui:"かいりきポケモン",types:["kakutou"],tokusei:"こんじょう",seikaku:"いじっぱり",zukan:"ワンリキーが　しんかした　すがた。きんにくが　はったつして　なんでも　もちあげられるのじゃ。",hakase:"さらを　きれいにかんりしてくれて　ありがとうじゃ。しょっきだなが　せいとんされていると　りょうりがはかどるのじゃ。",q:"ゴーリキーの　とくちょうはなんじゃ？",choices:["はやくとべる","きんにくがはったつ","みずがとくい","どくをつかう"],answer:1,hint:"きんにくポケモンじゃ…"},
+  {id:"068",place:"しょくひんかご",icon:"🧺",pokemon:"カイリキー",bunrui:"かいりきポケモン",types:["kakutou"],tokusei:"こんじょう",seikaku:"いじっぱり",zukan:"ゴーリキーが　こうかんで　しんかした　すがた。4ほんのうでで　なんでも　もちあげられるのじゃ。",hakase:"しょくひんを　きちんとかんりしてくれて　ありがとうじゃ。しょくざいをむだにしないことが　たいせつなのじゃ。",q:"カイリキーは　うでが　なんぼんあるじゃ？",choices:["2ほん","3ぼん","4ほん","6ほん"],answer:2,hint:"4ほんのうでじゃ…"},
+  {id:"069",place:"きょうようぶのタオル・ふくろいれ",icon:"🛍️",pokemon:"マダツボミ",bunrui:"はなぼんポケモン",types:["kusa","doku"],tokusei:"ようりょくそ",seikaku:"のんき",zukan:"やせほそった　からだが　くにゃくにゃと　うごくポケモン。てきを　とりこんで　えいようにするのじゃ。",hakase:"きょうようぶのタオルを　かんりしてくれて　ありがとうじゃ。みんなでつかうものを　きちんとかんりしてくれているのじゃ。",q:"マダツボミの　からだの　とくちょうはなんじゃ？",choices:["かたい","くにゃくにゃ","おおきい","みじかい"],answer:1,hint:"くにゃくにゃうごくのじゃ…"},
+  {id:"070",place:"おもち",icon:"🍡",pokemon:"ウツドン",bunrui:"はなぼんポケモン",types:["kusa","doku"],tokusei:"ようりょくそ",seikaku:"のんき",zukan:"マダツボミが　しんかした　すがた。あまいかおりで　むしをさそいこんで　とらえるのじゃ。",hakase:"おもちを　じゅんびしてくれて　ありがとうじゃ。にほんのでんとうしょくを　たいせつにしてくれているのじゃ。",q:"ウツドンは　どうやって　えものをとるじゃ？",choices:["はやくおいかける","あまいかおりでさそう","みずをはく","じめんにもぐる"],answer:1,hint:"かおりでさそうのじゃ…"},
+  {id:"071",place:"しょるいぼっくす",icon:"📁",pokemon:"ウツボット",bunrui:"はなぼんポケモン",types:["kusa","doku"],tokusei:"ようりょくそ",seikaku:"のんき",zukan:"ウツドンが　しんかした　すがた。えものを　まるごと　とりこんで　えいようにするのじゃ。",hakase:"しょるいを　きちんとかんりしてくれて　ありがとうじゃ。だいじなしょるいが　すぐみつかるようにしてくれているのじゃ。",q:"ウツボットは　えものを　どうするじゃ？",choices:["かみちぎる","まるごとのみこむ","どくをかける","きりきざむ"],answer:1,hint:"まるごとのみこむのじゃ…"},
+  {id:"072",place:"くすりいれ",icon:"💊",pokemon:"メノクラゲ",bunrui:"くらげポケモン",types:["mizu","doku"],tokusei:"どくのとげ",seikaku:"おだやか",zukan:"ながい　しょくしゅで　てきを　もうどくに　するポケモン。しょくしゅに　さわると　きけんじゃ。",hakase:"くすりを　きちんとかんりしてくれて　ありがとうじゃ。けんこうのためのじゅんびが　ととのっているのじゃ。",q:"メノクラゲの　しょくしゅには　なにがあるじゃ？",choices:["みつ","もうどく","でんき","ほのお"],answer:1,hint:"しょくしゅがきけんじゃ…"},
+  {id:"073",place:"フェイスタオル・かみようタオルいれ",icon:"🧖",pokemon:"ドククラゲ",bunrui:"くらげポケモン",types:["mizu","doku"],tokusei:"どくのとげ",seikaku:"しんちょう",zukan:"メノクラゲが　しんかした　すがた。しょくしゅが　ながくなり　もうどくが　つよくなるのじゃ。",hakase:"タオルを　きちんとかんりしてくれて　ありがとうじゃ。きれいなタオルが　いつもつかえるのが　ありがたいのじゃ。",q:"ドククラゲに　なにタイプのポケモンが　こうかばつぐんじゃ？",choices:["みず","じめん","でんき","ほのお"],answer:2,hint:"でんきがつよいのじゃ…"},
+  {id:"074",place:"バスタオルいれ",icon:"🛁",pokemon:"イシツブテ",bunrui:"いわポケモン",types:["iwa","jimen"],tokusei:"がんじょう",seikaku:"やんちゃ",zukan:"まるいいわの　からだを　もつポケモン。じぶんのからだを　なげつけて　こうげきするのじゃ。",hakase:"バスタオルを　きちんとかんりしてくれて　ありがとうじゃ。おふろあがりの　きれいなタオルは　さいこうなのじゃ。",q:"イシツブテの　とくちょうはなんじゃ？",choices:["みずをはく","からだをなげつける","そらをとぶ","どくをつかう"],answer:1,hint:"なげつけるのじゃ…"},
+  {id:"075",place:"おかしいれ",icon:"🍬",pokemon:"ゴローン",bunrui:"いわポケモン",types:["iwa","jimen"],tokusei:"がんじょう",seikaku:"いじっぱり",zukan:"イシツブテが　しんかした　すがた。ころがりながら　こうげきする　つよいポケモンじゃ。",hakase:"おかしを　じゅんびしてくれて　ありがとうじゃ。ちょっとしたあまいものが　げんきを　くれるのじゃ。",q:"ゴローンの　たたかいかたの　とくちょうはなんじゃ？",choices:["とびかかる","ころがりながらこうげき","みずをはく","どくをまく"],answer:1,hint:"ころがるのじゃ…"},
+  {id:"076",place:"ごみぶくろいれ",icon:"🗑️",pokemon:"ゴローニャ",bunrui:"メガトンポケモン",types:["iwa","jimen"],tokusei:"がんじょう",seikaku:"のんき",zukan:"ゴローンが　こうかんで　しんかした　すがた。じばくすると　しゅうへん　1キロが　はかいされるのじゃ。",hakase:"ごみぶくろを　きらさないようにしてくれて　ありがとうじゃ。ごみをすてるじゅんびが　いつもととのっているのじゃ。",q:"ゴローニャが　じばくすると　しゅうへん　なんキロが　はかいされるじゃ？",choices:["100メートル","500メートル","1キロ","10キロ"],answer:2,hint:"じばくはきけんじゃ…"},
+  {id:"077",place:"じょきんシート・ルンバようひんいれ",icon:"🤖",pokemon:"ポニータ",bunrui:"うまポケモン",types:["honoo"],tokusei:"もうか",seikaku:"やんちゃ",zukan:"うまれたときから　ほのおの　たてがみを　もつポケモン。たてがみは　さわっても　やけどしないのじゃ。",hakase:"そうじようひんを　きちんとかんりしてくれて　ありがとうじゃ。きれいにするどうぐが　いつもあることで　すぐそうじできるのじゃ。",q:"ポニータの　たてがみは　どんなものじゃ？",choices:["こおり","ほのお","でんき","みず"],answer:1,hint:"ほのおのたてがみじゃ…"},
+  {id:"078",place:"ながし",icon:"🚰",pokemon:"ギャロップ",bunrui:"かえんポケモン",types:["honoo"],tokusei:"もうか",seikaku:"いじっぱり",zukan:"ポニータが　しんかした　すがた。じそく　240キロで　はしることが　できる　はやいポケモンじゃ。",hakase:"ながしを　きれいにたもってくれて　ありがとうじゃ。みずまわりがきれいだと　りょうりのやるきが　でるのじゃ。",q:"ギャロップの　はしるはやさは　どのくらいじゃ？",choices:["じそく100キロ","じそく240キロ","じそく500キロ","じそくマッハ1"],answer:1,hint:"はやいのじゃ…"},
+  {id:"079",place:"とけい",icon:"🕐",pokemon:"ヤドン",bunrui:"のんびりポケモン",types:["mizu","esupaa"],tokusei:"どんかん",seikaku:"のんき",zukan:"いたみを　かんじるのに　5びょうかかるポケモン。しっぽで　さかなを　つって　たべるのじゃ。",hakase:"とけいを　かんりしてくれて　ありがとうじゃ。じかんをきちんとかくにんすることが　せいかつのきほんなのじゃ。",q:"ヤドンが　いたみを　かんじるのに　どのくらいかかるじゃ？",choices:["すぐ","5びょう","5ふん","5じかん"],answer:1,hint:"のんびりしているのじゃ…"},
+  {id:"080",place:"インターホン",icon:"🔔",pokemon:"ヤドラン",bunrui:"ふたがいポケモン",types:["mizu","esupaa"],tokusei:"どんかん",seikaku:"のんき",zukan:"ヤドンの　しっぽに　シェルダーが　かみついて　しんかした　すがた。かみついたシェルダーは　はなれないのじゃ。",hakase:"インターホンを　かんりしてくれて　ありがとうじゃ。たずねてきたひとを　あんぜんにむかえられるのじゃ。",q:"ヤドランは　どうやって　しんかするじゃ？",choices:["レベルアップ","いしでしんか","シェルダーがかみつく","こうかんでしんか"],answer:2,hint:"シェルダーがひつようじゃ…"},
+  {id:"081",place:"エアコンのリモコン",icon:"📱",pokemon:"コイル",bunrui:"じしゃくポケモン",types:["denki","hagane"],tokusei:"じりょく",seikaku:"まじめ",zukan:"3つの　じしゃくが　くっついた　すがたのポケモン。でんじはを　だして　てきを　まひさせるのじゃ。",hakase:"リモコンを　きちんと　かんりしてくれて　ありがとうじゃ。てきせつなおんどで　せいかつできるのは　ありがたいのじゃ。",q:"コイルは　なにタイプじゃ？",choices:["でんき","でんき・はがね","でんき・ひこう","はがね"],answer:1,hint:"でんきとはがねじゃ…"},
+  {id:"082",place:"せんたくものほし",icon:"👕",pokemon:"レアコイル",bunrui:"じしゃくポケモン",types:["denki","hagane"],tokusei:"じりょく",seikaku:"しんちょう",zukan:"コイルが　3つ　くっついて　しんかした　すがた。でんじはが　つよくなり　きかいを　こわすこともあるのじゃ。",hakase:"せんたくものを　きれいにほしてくれて　ありがとうじゃ。ふくがきれいにかわくと　きもちがいいのじゃ。",q:"レアコイルは　コイルが　なんこ　くっついたすがたじゃ？",choices:["2こ","3こ","4こ","5こ"],answer:1,hint:"3こじゃ…"},
+  {id:"083",place:"ベッド",icon:"🛏️",pokemon:"カモネギ",bunrui:"かもポケモン",types:["noormal","hikou"],tokusei:"するどいめ",seikaku:"まじめ",zukan:"ながぎを　もって　あるくポケモン。このながぎは　えさにも　なるし　たたかいでも　つかうのじゃ。",hakase:"ベッドを　きれいにたもってくれて　ありがとうじゃ。きれいなねどこで　ゆっくりねむれるのじゃ。",q:"カモネギが　もっているのは　なんじゃ？",choices:["つえ","ながぎ","かさ","けん"],answer:1,hint:"ながぎをもつのじゃ…"},
+  {id:"084",place:"ソファ",icon:"🛋️",pokemon:"ドードー",bunrui:"とりポケモン",types:["noormal","hikou"],tokusei:"はやあし",seikaku:"のんき",zukan:"あたまが　2つある　ふしぎなポケモン。2つのあたまは　けんかばかり　しているのじゃ。",hakase:"ソファを　きれいにたもってくれて　ありがとうじゃ。くつろぐばしょが　きれいだと　リラックスできるのじゃ。",q:"ドードーの　あたまは　なんこあるじゃ？",choices:["1こ","2こ","3こ","4こ"],answer:1,hint:"あたまが2つじゃ…"},
+  {id:"085",place:"ゲームいれ",icon:"🎮",pokemon:"ドードリオ",bunrui:"とりポケモン",types:["noormal","hikou"],tokusei:"はやあし",seikaku:"いじっぱり",zukan:"ドードーが　しんかした　すがた。あたまが　3つになり　いっぺんに　3つの　ことを　かんがえられるのじゃ。",hakase:"ゲームを　きちんとかんりしてくれて　ありがとうじゃ。たいせつなゲームが　いつでもあそべるのじゃ。",q:"ドードリオの　あたまは　なんこあるじゃ？",choices:["2こ","3こ","4こ","5こ"],answer:1,hint:"あたまが3つじゃ…"},
+  {id:"086",place:"テレビだい",icon:"📺",pokemon:"パウワウ",bunrui:"あしかポケモン",types:["mizu"],tokusei:"あついしぼう",seikaku:"おだやか",zukan:"きりのような　ひげが　とくちょうのポケモン。みずのなかを　はやく　おようで　さかなを　とるのじゃ。",hakase:"テレビだいを　きれいにたもってくれて　ありがとうじゃ。テレビまわりがすっきりすると　きもちがいいのじゃ。",q:"パウワウの　とくちょうはなんじゃ？",choices:["とぶのがはやい","みずのなかをはやくおよぐ","じめんをほる","どくをだす"],answer:1,hint:"みずポケモンじゃ…"},
+  {id:"087",place:"Wi-Fiルーター",icon:"📡",pokemon:"ジュゴン",bunrui:"あしかポケモン",types:["mizu","koori"],tokusei:"あついしぼう",seikaku:"おだやか",zukan:"パウワウが　しんかした　すがた。こおりの　うみでも　すいすいと　おようで　さかなを　とるのじゃ。",hakase:"Wi-Fiを　かんりしてくれて　ありがとうじゃ。インターネットがつながることで　べんりなせいかつができるのじゃ。",q:"ジュゴンは　なにタイプじゃ？",choices:["みず","みず・こおり","みず・じめん","こおり"],answer:1,hint:"みずとこおりじゃ…"},
+  {id:"088",place:"Wii",icon:"🎮",pokemon:"ベトベター",bunrui:"どくポケモン",types:["doku"],tokusei:"ねんちゃく",seikaku:"やんちゃ",zukan:"よごれた　ばしょを　このんで　すみかとするポケモン。からだから　どくを　だして　まわりを　よごすのじゃ。",hakase:"Wiiを　かんりしてくれて　ありがとうじゃ。ゲームでたのしむじかんも　だいじなのじゃ。",q:"ベトベターの　からだは　なにでできているじゃ？",choices:["みず","どろ","ヘドロ","すな"],answer:2,hint:"においがするのじゃ…"},
+  {id:"089",place:"Switch",icon:"🎮",pokemon:"ベトベトン",bunrui:"どくポケモン",types:["doku"],tokusei:"ねんちゃく",seikaku:"やんちゃ",zukan:"ベトベターが　しんかした　すがた。からだが　おおきくなり　どくも　つよくなったのじゃ。",hakase:"Switchを　かんりしてくれて　ありがとうじゃ。これからも　たのしいゲームじかんを　たいせつにしてほしいのじゃ。",q:"ベトベトンは　なにタイプじゃ？",choices:["ノーマル","どく","みず","じめん"],answer:1,hint:"どくポケモンじゃ…"},
+  {id:"090",place:"ろくがき",icon:"📼",pokemon:"シェルダー",bunrui:"にまいがいポケモン",types:["mizu"],tokusei:"だっぴ",seikaku:"のんき",zukan:"おおきな　かいがらで　みをまもるポケモン。したで　てきを　なめると　かじかんでしまうのじゃ。",hakase:"ろくがきを　かんりしてくれて　ありがとうじゃ。たいせつなきろくを　のこしてくれているのじゃ。",q:"シェルダーの　したが　あたると　どうなるじゃ？",choices:["もえる","かじかむ","ねむくなる","まひする"],answer:1,hint:"したがつめたいのじゃ…"},
+  {id:"091",place:"テレビ",icon:"📺",pokemon:"パルシェン",bunrui:"2まいがいポケモン",types:["mizu","koori"],tokusei:"だっぴ",seikaku:"やんちゃ",zukan:"シェルダーが　しんかした　すがた。かいがらが　とても　かたく　たいほうのたまでも　はじくのじゃ。",hakase:"テレビを　きれいにたもってくれて　ありがとうじゃ。じょうほうをえるための　だいじなどうぐなのじゃ。",q:"パルシェンの　かいがらは　どのくらいかたいじゃ？",choices:["やわらかい","たいほうのたまでもはじく","ふつう","こわれやすい"],answer:1,hint:"かたいのじゃ…"},
+  {id:"092",place:"はいせんぶぶん",icon:"🔌",pokemon:"ゴース",bunrui:"ガスポケモン",types:["goosuto","doku"],tokusei:"ふゆう",seikaku:"おくびょう",zukan:"ガスのような　からだを　もつポケモン。ちかづくと　きぶんが　わるくなってしまうのじゃ。",hakase:"はいせんを　きれいにかんりしてくれて　ありがとうじゃ。あんぜんなせいかつのために　だいじなのじゃ。",q:"ゴースに　ちかづくと　どうなるじゃ？",choices:["げんきになる","きぶんがわるくなる","ねむくなる","うれしくなる"],answer:1,hint:"きけんなガスじゃ…"},
+  {id:"093",place:"コロコロ",icon:"🪣",pokemon:"ゴースト",bunrui:"ガスポケモン",types:["goosuto","doku"],tokusei:"ふゆう",seikaku:"おくびょう",zukan:"ゴースが　しんかした　すがた。てきを　こわがらせるのが　とくいなポケモンじゃ。",hakase:"コロコロで　そうじしてくれて　ありがとうじゃ。こまめなそうじが　きれいなおうちのひみつなのじゃ。",q:"ゴーストが　とくいなのは　なんじゃ？",choices:["はやくはしる","こわがらせる","みずをあやつる","ほのおをだす"],answer:1,hint:"こわがらせるのがすきじゃ…"},
+  {id:"094",place:"ルンバ",icon:"🤖",pokemon:"ゲンガー",bunrui:"かげポケモン",types:["goosuto","doku"],tokusei:"のろわれボディ",seikaku:"やんちゃ",zukan:"ゴーストが　こうかんで　しんかした　すがた。かべの　かげに　かくれて　てきを　おどかすのじゃ。",hakase:"ルンバを　うまくつかってくれて　ありがとうじゃ。かしこいそうじきを　じょうずにつかいこなしているのじゃ。",q:"ゲンガーは　どこに　かくれるじゃ？",choices:["みずのなか","かべのかげ","じめんのなか","そらのうえ"],answer:1,hint:"かげにひそむのじゃ…"},
+  {id:"095",place:"ルンバのタンク",icon:"🤖",pokemon:"イワーク",bunrui:"へびポケモン",types:["iwa","jimen"],tokusei:"がんじょう",seikaku:"のんき",zukan:"いわで　できた　からだを　もつポケモン。じめんを　はって　ほりすすみ　すをつくるのじゃ。",hakase:"ルンバのタンクを　かんりしてくれて　ありがとうじゃ。こまめなメンテナンスが　ながくつかうひけつなのじゃ。",q:"イワークの　からだは　なにでできているじゃ？",choices:["はがね","いわ","こおり","もく"],answer:1,hint:"いわのからだじゃ…"},
+  {id:"096",place:"ごみばこ",icon:"🗑️",pokemon:"スリープ",bunrui:"さいみんポケモン",types:["esupaa"],tokusei:"ふみん",seikaku:"のんき",zukan:"ふりこのような　ものを　ゆらして　てきを　ねむらせるポケモン。じぶんは　ねむらないのじゃ。",hakase:"ごみを　こまめにすててくれて　ありがとうじゃ。ごみをためないことが　きもちよくすごすひけつなのじゃ。",q:"スリープは　なにを　ゆらして　てきをねむらせるじゃ？",choices:["はな","ふりこ","いし","きのみ"],answer:1,hint:"ふりこをゆらすのじゃ…"},
+  {id:"097",place:"いす",icon:"💺",pokemon:"スリーパー",bunrui:"さいみんポケモン",types:["esupaa"],tokusei:"ふみん",seikaku:"のんき",zukan:"スリープが　しんかした　すがた。ふりこを　もって　あるく　ふしぎなポケモンじゃ。",hakase:"いすを　きれいにたもってくれて　ありがとうじゃ。すわるばしょが　きれいだと　くつろげるのじゃ。",q:"スリーパーが　もっているのは　なんじゃ？",choices:["つえ","ふりこ","ほん","かさ"],answer:1,hint:"ふりこをもつのじゃ…"},
+  {id:"098",place:"つくえ",icon:"🖥️",pokemon:"クラブ",bunrui:"かにポケモン",types:["mizu"],tokusei:"すいすい",seikaku:"やんちゃ",zukan:"おおきな　ハサミで　てきを　はさむポケモン。ハサミのちからは　きけんなほどつよいのじゃ。",hakase:"つくえを　きれいにたもってくれて　ありがとうじゃ。せいとんされたつくえは　やるきをたかめるのじゃ。",q:"クラブの　ハサミは　なにがとくちょうじゃ？",choices:["みじかい","きけんなほどつよい","きれいなみどり","やわらかい"],answer:1,hint:"ハサミがつよいのじゃ…"},
+  {id:"099",place:"ストーブ",icon:"🔥",pokemon:"キングラー",bunrui:"はさみポケモン",types:["mizu"],tokusei:"すいすい",seikaku:"いじっぱり",zukan:"クラブが　しんかした　すがた。ハサミが　おおきくなりすぎて　じぶんでは　もちあげられないのじゃ。",hakase:"ストーブを　あんぜんにつかってくれて　ありがとうじゃ。あたたかくすごせるのは　ストーブのおかげなのじゃ。",q:"キングラーの　ハサミが　おおきすぎて　どうなるじゃ？",choices:["こわれやすい","じぶんでもちあげられない","みずがでる","でんきがでる"],answer:1,hint:"おもすぎるのじゃ…"},
+  {id:"100",place:"カーテン",icon:"🌅",pokemon:"ビリリダマ",bunrui:"ボールポケモン",types:["denki"],tokusei:"せいでんき",seikaku:"やんちゃ",zukan:"モンスターボールに　にた　すがたの　ポケモン。しげきをうけると　じばくするのじゃ。",hakase:"カーテンを　きれいにたもってくれて　ありがとうじゃ。カーテンでへやのふんいきが　かわるのじゃ。",q:"ビリリダマが　しげきをうけると　どうなるじゃ？",choices:["にげる","ねむる","じばくする","うたう"],answer:2,hint:"じばくするのじゃ…"},
+  {id:"101",place:"ドライヤー",icon:"💨",pokemon:"マルマイン",bunrui:"ボールポケモン",types:["denki"],tokusei:"せいでんき",seikaku:"やんちゃ",zukan:"ビリリダマが　しんかした　すがた。じばくするちからが　つよくなり　きけんが　たかまったのじゃ。",hakase:"ドライヤーを　きれいにかんりしてくれて　ありがとうじゃ。かみをきちんとかわかすことが　だいじなのじゃ。",q:"マルマインは　なにタイプじゃ？",choices:["ノーマル","でんき","ほのお","みず"],answer:1,hint:"でんきポケモンじゃ…"},
+  {id:"102",place:"けしょうだい",icon:"🪞",pokemon:"タマタマ",bunrui:"たまごポケモン",types:["kusa","esupaa"],tokusei:"ようりょくそ",seikaku:"のんき",zukan:"6この　たまごが　あつまった　すがたのポケモン。それぞれの　たまごが　かんがえているのじゃ。",hakase:"けしょうだいを　きれいにたもってくれて　ありがとうじゃ。まいにちのじぶんをととのえるばしょは　たいせつなのじゃ。",q:"タマタマは　たまごが　なんこ　あつまったすがたじゃ？",choices:["4こ","6こ","8こ","12こ"],answer:1,hint:"6こじゃ…"},
+  {id:"103",place:"かがみ",icon:"🪞",pokemon:"ナッシー",bunrui:"やしのきポケモン",types:["kusa","esupaa"],tokusei:"ようりょくそ",seikaku:"おだやか",zukan:"タマタマが　しんかした　すがた。3つの　あたまが　それぞれ　かってに　かんがえているのじゃ。",hakase:"かがみを　きれいにふいてくれて　ありがとうじゃ。くもりのないかがみは　きもちがいいのじゃ。",q:"ナッシーの　あたまは　なんこあるじゃ？",choices:["1こ","2こ","3こ","4こ"],answer:2,hint:"あたまが3つじゃ…"},
+  {id:"104",place:"でんげんタップ",icon:"🔌",pokemon:"カラカラ",bunrui:"ほねポケモン",types:["jimen"],tokusei:"いわはこび",seikaku:"やんちゃ",zukan:"あたまに　かぶった　がいこつは　しんだ　おかあさんの　ほねだといわれているポケモンじゃ。",hakase:"でんげんタップを　あんぜんにつかってくれて　ありがとうじゃ。でんきのあんぜんかんりは　とてもだいじなのじゃ。",q:"カラカラが　あたまに　かぶっているのは　なんじゃ？",choices:["かぶと","がいこつ","いわ","かいがら"],answer:1,hint:"おかあさんのほねじゃ…"},
+  {id:"105",place:"ペンたて",icon:"✏️",pokemon:"ガラガラ",bunrui:"ほねポケモン",types:["jimen"],tokusei:"いわはこび",seikaku:"やんちゃ",zukan:"カラカラが　しんかした　すがた。ほねを　ぶきとして　つかって　たたかうのじゃ。",hakase:"ペンたてを　きれいにかんりしてくれて　ありがとうじゃ。ものをかくどうぐが　いつもあることが　べんりなのじゃ。",q:"ガラガラは　なにを　ぶきとして　つかうじゃ？",choices:["いわ","ほね","つの","はがね"],answer:1,hint:"ほねをぶきにするのじゃ…"},
+  {id:"106",place:"ゆわかしポット",icon:"☕",pokemon:"サワムラー",bunrui:"けりポケモン",types:["kakutou"],tokusei:"きずなのちから",seikaku:"いじっぱり",zukan:"あしを　つかった　けりわざが　とくいなポケモン。あしが　ひじょうに　はったつしているのじゃ。",hakase:"ゆわかしポットを　きれいにかんりしてくれて　ありがとうじゃ。あたたかいのみものは　こころを　あたためるのじゃ。",q:"サワムラーの　とくいな　たたかいかたはなんじゃ？",choices:["パンチ","けりわざ","かみつき","みずをはく"],answer:1,hint:"けりがとくいじゃ…"},
+  {id:"107",place:"リスのたな",icon:"🐿️",pokemon:"エビワラー",bunrui:"パンチポケモン",types:["kakutou"],tokusei:"きずなのちから",seikaku:"いじっぱり",zukan:"てを　つかった　パンチわざが　とくいなポケモン。こぶしが　ひじょうに　かたいのじゃ。",hakase:"リスのたなを　きれいにたもってくれて　ありがとうじゃ。たなのかざりつけで　へやが　かわいくなるのじゃ。",q:"エビワラーの　とくいな　たたかいかたはなんじゃ？",choices:["けりわざ","パンチわざ","みずをはく","どくをだす"],answer:1,hint:"パンチがとくいじゃ…"},
+  {id:"108",place:"ねこいます",icon:"🐱",pokemon:"ベロリンガ",bunrui:"なめるポケモン",types:["noormal"],tokusei:"じきゅうりょく",seikaku:"のんき",zukan:"ながい　したで　なんでも　なめるポケモン。したを　のばして　とおくの　えさを　とるのじゃ。",hakase:"ねこのいますを　きれいにたもってくれて　ありがとうじゃ。ねこがきもちよくすごせるのは　きみのおかげなのじゃ。",q:"ベロリンガの　したは　なにがとくちょうじゃ？",choices:["みじかい","ながい","かたい","にじいろ"],answer:1,hint:"したがながいのじゃ…"},
+  {id:"109",place:"エアコン",icon:"❄️",pokemon:"ドガース",bunrui:"どくガスポケモン",types:["doku"],tokusei:"ふゆう",seikaku:"やんちゃ",zukan:"からだから　どくガスを　だして　まわりを　よごすポケモン。ちかくにいると　きぶんが　わるくなるのじゃ。",hakase:"エアコンを　てきせつにつかってくれて　ありがとうじゃ。かいてきなおんどでくらせるのは　エアコンのおかげなのじゃ。",q:"ドガースの　からだから　でるのは　なんじゃ？",choices:["ほのお","どくガス","みず","でんき"],answer:1,hint:"ガスがでるのじゃ…"},
+  {id:"110",place:"でんき",icon:"💡",pokemon:"マタドガス",bunrui:"どくガスポケモン",types:["doku"],tokusei:"ふゆう",seikaku:"やんちゃ",zukan:"ドガースが　しんかした　すがた。2つの　からだが　くっついて　よりつよい　どくガスを　だすのじゃ。",hakase:"でんきを　てきせつにつかってくれて　ありがとうじゃ。むだをへらすことが　かんきょうのためになるのじゃ。",q:"マタドガスは　ドガースが　なんこ　くっついたすがたじゃ？",choices:["1こ","2こ","3こ","4こ"],answer:1,hint:"2こじゃ…"},
+  {id:"111",place:"まど①",icon:"🪟",pokemon:"サイホーン",bunrui:"とげかわポケモン",types:["jimen","iwa"],tokusei:"がんじょう",seikaku:"のんき",zukan:"いちど　はしりだすと　とまれないポケモン。ものすごいちからで　てっきんコンクリートも　こわすのじゃ。",hakase:"まどを　きれいにたもってくれて　ありがとうじゃ。きれいなまどからみえるけしきは　きもちがいいのじゃ。",q:"サイホーンが　はしりだすと　どうなるじゃ？",choices:["すぐとまる","とまれない","ゆっくりになる","そらをとぶ"],answer:1,hint:"とまれないのじゃ…"},
+  {id:"112",place:"まど②",icon:"🪟",pokemon:"サイドン",bunrui:"ドリルポケモン",types:["jimen","iwa"],tokusei:"がんじょう",seikaku:"いじっぱり",zukan:"サイホーンが　しんかした　すがた。つのが　おおきくなり　よりつよく　なったポケモンじゃ。",hakase:"まどを　きれいにたもってくれて　ありがとうじゃ。そとのひかりがはいると　へやがあかるくなるのじゃ。",q:"サイドンは　なにタイプじゃ？",choices:["いわ","じめん・いわ","じめん","ほのお・いわ"],answer:1,hint:"じめんといわじゃ…"},
+  {id:"113",place:"カーテン①",icon:"🌅",pokemon:"ラッキー",bunrui:"たまごポケモン",types:["noormal"],tokusei:"しぜんかいふく",seikaku:"おだやか",zukan:"ふくろに　いれた　たまごが　たべた　ひとを　しあわせにするポケモン。めったに　みられないのじゃ。",hakase:"カーテンを　きれいにたもってくれて　ありがとうじゃ。プライバシーをまもることも　たいせつなのじゃ。",q:"ラッキーが　もっているたまごを　たべると　どうなるじゃ？",choices:["きぶんがわるくなる","しあわせになる","ねむくなる","びょうきになる"],answer:1,hint:"しあわせになるのじゃ…"},
+  {id:"114",place:"カーテン②",icon:"🌅",pokemon:"モンジャラ",bunrui:"つたポケモン",types:["kusa"],tokusei:"ようりょくそ",seikaku:"のんき",zukan:"いっぱいに　はえた　つるで　てきを　しばりあげるポケモン。つるは　どんどん　のびるのじゃ。",hakase:"カーテンを　きれいにたもってくれて　ありがとうじゃ。カーテンのいろで　へやのふんいきがかわるのじゃ。",q:"モンジャラの　とくちょうはなんじゃ？",choices:["はやくとべる","つるでてきをしばる","みずをはく","どくをだす"],answer:1,hint:"つるでしばるのじゃ…"},
+  {id:"115",place:"いす①",icon:"💺",pokemon:"ガルーラ",bunrui:"こやしポケモン",types:["noormal"],tokusei:"きもったま",seikaku:"おだやか",zukan:"おなかの　ふくろで　こどもを　そだてるポケモン。こどもを　まもるためなら　どんなてきにも　たちむかうのじゃ。",hakase:"いすを　きれいにたもってくれて　ありがとうじゃ。すわりごこちのいいいすは　まいにちのつかれをいやすのじゃ。",q:"ガルーラが　こどもを　そだてる　ばしょはどこじゃ？",choices:["きのうえ","おなかのふくろ","じめんのなか","ほらあな"],answer:1,hint:"ふくろでそだてるのじゃ…"},
+  {id:"116",place:"いす②",icon:"💺",pokemon:"タッツー",bunrui:"みずへびポケモン",types:["mizu"],tokusei:"すいすい",seikaku:"おだやか",zukan:"たつのおとしごの　すがたを　した　ポケモン。みずのなかで　なわばりを　まもるのじゃ。",hakase:"いすを　きれいにたもってくれて　ありがとうじゃ。きれいなすわるばしょが　くつろぎをつくるのじゃ。",q:"タッツーは　なにタイプじゃ？",choices:["ドラゴン","みず","みず・ドラゴン","ノーマル"],answer:1,hint:"みずポケモンじゃ…"},
+  {id:"117",place:"ソファのあし",icon:"🛋️",pokemon:"シードラ",bunrui:"りゅうポケモン",types:["mizu"],tokusei:"すいすい",seikaku:"おだやか",zukan:"タッツーが　しんかした　すがた。するどい　とげと　はを　もち　てきを　おいはらうのじゃ。",hakase:"ソファのあしを　きれいにたもってくれて　ありがとうじゃ。こまかいところも　きにしてくれているのじゃ。",q:"シードラの　とくちょうはなんじゃ？",choices:["するどいとげとは","おおきなつの","ながいしっぽ","そらをとぶ"],answer:0,hint:"とげがするどいのじゃ…"},
+  {id:"118",place:"ソファのうら",icon:"🛋️",pokemon:"トサキント",bunrui:"さかなポケモン",types:["mizu"],tokusei:"すいすい",seikaku:"のんき",zukan:"きんいろの　うろこが　うつくしいポケモン。ながれの　はやいかわに　すんでいるのじゃ。",hakase:"ソファのうらまで　きれいにしてくれて　ありがとうじゃ。みえないところも　きれいにするのが　さすがなのじゃ。",q:"トサキントの　うろこの　いろは　なんじゃ？",choices:["あか","きんいろ","あお","みどり"],answer:1,hint:"きれいなうろこじゃ…"},
+  {id:"119",place:"せんたくものほし（上）",icon:"👕",pokemon:"アズマオウ",bunrui:"さかなポケモン",types:["mizu"],tokusei:"すいすい",seikaku:"いじっぱり",zukan:"トサキントが　しんかした　すがた。みずを　とびこえて　ほしをめざすと　いわれているのじゃ。",hakase:"せんたくものほしを　きれいにかんりしてくれて　ありがとうじゃ。うえのほうまで　きれいにしてくれているのじゃ。",q:"アズマオウは　なにタイプじゃ？",choices:["みず","みず・ひこう","みず・エスパー","みず・ドラゴン"],answer:0,hint:"みずポケモンじゃ…"},
+  {id:"120",place:"せんたくものほし（下）",icon:"👕",pokemon:"ヒトデマン",bunrui:"ほしがたポケモン",types:["mizu"],tokusei:"てんねん",seikaku:"のんき",zukan:"まんなかの　コアに　えいようをためている　ポケモン。コアが　わかれて　ふえることがあるのじゃ。",hakase:"せんたくものほしを　きれいにかんりしてくれて　ありがとうじゃ。したのほうも　きれいにたもってくれているのじゃ。",q:"ヒトデマンの　えいようをためているのは　どこじゃ？",choices:["しっぽ","コア","あたま","てあし"],answer:1,hint:"まんなかにあるのじゃ…"},
+  {id:"121",place:"ストーブ（左）",icon:"🔥",pokemon:"スターミー",bunrui:"なぞめいたポケモン",types:["mizu","esupaa"],tokusei:"てんねん",seikaku:"おだやか",zukan:"ヒトデマンが　しんかした　すがた。まんなかの　コアが　7しょくに　ひかり　うちゅうから　きたといわれるのじゃ。",hakase:"ストーブを　あんぜんにかんりしてくれて　ありがとうじゃ。ひだりがわも　きちんとたもってくれているのじゃ。",q:"スターミーの　コアは　なんしょくに　ひかるじゃ？",choices:["3しょく","5しょく","7しょく","12しょく"],answer:2,hint:"なないろにひかるのじゃ…"},
+  {id:"122",place:"ストーブ（右）",icon:"🔥",pokemon:"バリヤード",bunrui:"ポケモン",types:["noormal"],tokusei:"？？？",seikaku:"のんき",zukan:"ふしぎなポケモンじゃ。",hakase:"ストーブを　あんぜんにかんりしてくれて　ありがとうじゃ。みぎがわも　きちんとたもってくれているのじゃ。",q:"このポケモンは　なにタイプじゃ？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
+  {id:"123",place:"ゆか①",icon:"🟫",pokemon:"ストライク",bunrui:"ポケモン",types:["noormal"],tokusei:"？？？",seikaku:"のんき",zukan:"ふしぎなポケモンじゃ。",hakase:"ゆか①を　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"このポケモンは　なにタイプじゃ？",choices:["？？？","？？？","？？？","？？？"],answer:0,hint:"よくかんがえるのじゃ…"},
+  {id:"124",place:"ゆか②",icon:"🟫",pokemon:"ルージュラ",bunrui:"ヒトガタポケモン",types:["koori","esupaa"],tokusei:"ふみん",seikaku:"なまいき",zukan:"あかいくちびると　きんいろの　かみが　とくちょうのポケモン。キスをするのが　だいすきなのじゃ。",hakase:"ゆか②を　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"ルージュラの　とくちょうはなんじゃ？",choices:["おおきなつの","あかいくちびる","みどりのかみ","ながいしっぽ"],answer:1,hint:"くちびるがあかいのじゃ…"},
+  {id:"125",place:"そうじき",icon:"🧹",pokemon:"エレブー",bunrui:"でんきポケモン",types:["denki"],tokusei:"せいでんき",seikaku:"いじっぱり",zukan:"からだから　つよい　でんきを　はっする　ポケモン。しまもようが　とくちょうなのじゃ。",hakase:"そうじきを　きれいにかんりしてくれて　ありがとうじゃ。そうじきで　ほこりをとることが　けんこうのためになるのじゃ。",q:"エレブーの　からだの　とくちょうはなんじゃ？",choices:["ほのおがでる","しまもよう","みずがでる","つばさがある"],answer:1,hint:"しまもようじゃ…"},
+  {id:"126",place:"カーテン",icon:"🌅",pokemon:"ブーバー",bunrui:"ほのおポケモン",types:["honoo"],tokusei:"もうか",seikaku:"やんちゃ",zukan:"からだの　おんどが　1200ど　もある　ほのおポケモン。ほのおを　はいて　こうげきするのじゃ。",hakase:"カーテンを　きれいにたもってくれて　ありがとうじゃ。カーテンでへやのふんいきが　かわるのじゃ。",q:"ブーバーの　からだの　おんどは　なんどじゃ？",choices:["100ど","500ど","1200ど","3000ど"],answer:2,hint:"あついのじゃ…"},
+  {id:"127",place:"ベッド",icon:"🛏️",pokemon:"カイロス",bunrui:"はさみポケモン",types:["mushi","kakutou"],tokusei:"むしのしらせ",seikaku:"いじっぱり",zukan:"2ほんの　ハサミで　なんでも　きりさく　ポケモン。ハサミのちからは　ものすごいのじゃ。",hakase:"ベッドを　きれいにたもってくれて　ありがとうじゃ。きれいなねどこで　ゆっくりねむれるのじゃ。",q:"カイロスの　ハサミは　なんぼんあるじゃ？",choices:["1ぽん","2ほん","3ぼん","4ほん"],answer:1,hint:"2ほんのハサミじゃ…"},
+  {id:"128",place:"コートかけ",icon:"🧥",pokemon:"ケンタロス",bunrui:"けもうしポケモン",types:["noormal"],tokusei:"いかく",seikaku:"やんちゃ",zukan:"3ほんの　しっぽを　ふりまわして　てきを　こうげきするポケモン。はしるのが　とくいなのじゃ。",hakase:"コートかけを　きれいにたもってくれて　ありがとうじゃ。ふくを　きちんとかけることで　ながもちするのじゃ。",q:"ケンタロスの　しっぽは　なんぼんじゃ？",choices:["1ぽん","2ほん","3ぼん","4ほん"],answer:2,hint:"3ぼんじゃ…"},
+  {id:"129",place:"ソファ",icon:"🛋️",pokemon:"コイキング",bunrui:"さかなポケモン",types:["mizu"],tokusei:"すいすい",seikaku:"のんき",zukan:"はねるだけしか　できない　よわいポケモン。しかし　しんかすると　つよいポケモンに　なるのじゃ。",hakase:"ソファを　きれいにたもってくれて　ありがとうじゃ。くつろぐばしょが　きれいだと　リラックスできるのじゃ。",q:"コイキングが　できる　ことはなんじゃ？",choices:["ほのおをはく","はねるだけ","そらをとぶ","じしんをおこす"],answer:1,hint:"はねるだけじゃ…"},
+  {id:"130",place:"ごみばこ",icon:"🗑️",pokemon:"ギャラドス",bunrui:"きょうあくポケモン",types:["mizu","hikou"],tokusei:"いかく",seikaku:"いじっぱり",zukan:"コイキングが　しんかした　すがた。ひとたび　あばれだすと　まちひとつを　ほろぼすほどの　つよさじゃ。",hakase:"ごみを　こまめにすててくれて　ありがとうじゃ。ごみをためないことが　きもちよくすごすひけつなのじゃ。",q:"ギャラドスは　なにタイプじゃ？",choices:["みず","みず・ドラゴン","みず・ひこう","ドラゴン"],answer:2,hint:"みずとひこうじゃ…"},
+  {id:"131",place:"ティッシュカバー",icon:"🧻",pokemon:"ラプラス",bunrui:"ゆそうポケモン",types:["mizu","koori"],tokusei:"ちょすい",seikaku:"おだやか",zukan:"ひとを　せなかに　のせて　うみを　わたる　やさしいポケモン。ほとんど　みられない　めずらしいポケモンじゃ。",hakase:"ティッシュカバーを　きれいにたもってくれて　ありがとうじゃ。こまかいインテリアにも　きをつかってくれているのじゃ。",q:"ラプラスは　なにが　とくいじゃ？",choices:["はやくとぶ","ひとをのせてうみをわたる","じめんをほる","ほのおをはく"],answer:1,hint:"うみをわたるのじゃ…"},
+  {id:"132",place:"つくえ",icon:"🖥️",pokemon:"メタモン",bunrui:"へんしんポケモン",types:["noormal"],tokusei:"じゅうなん",seikaku:"のんき",zukan:"あいての　ポケモンに　へんしんして　たたかう　ふしぎなポケモン。どんなポケモンにも　なれるのじゃ。",hakase:"つくえを　きれいにたもってくれて　ありがとうじゃ。せいとんされたつくえは　やるきをたかめるのじゃ。",q:"メタモンの　とくちょうはなんじゃ？",choices:["みずをあやつる","なんでもへんしんできる","ほのおをはく","そらをとぶ"],answer:1,hint:"へんしんするのじゃ…"},
+  {id:"133",place:"クローゼット（S）",icon:"👗",pokemon:"イーブイ",bunrui:"しんかポケモン",types:["noormal"],tokusei:"てきおうりょく",seikaku:"すなお",zukan:"しんかのかたちが　たくさんある　ふしぎなポケモン。かんきょうに　あわせて　しんかするのじゃ。",hakase:"クローゼットを　きれいにかんりしてくれて　ありがとうじゃ。ふくがきちんとかんりされていると　まいにちたのしくなるのじゃ。",q:"イーブイは　なんしゅるいに　しんかできるじゃ？",choices:["3しゅるい","5しゅるい","7しゅるい","8しゅるい"],answer:3,hint:"たくさんしんかできるのじゃ…"},
+  {id:"134",place:"クローゼット（T）",icon:"👔",pokemon:"シャワーズ",bunrui:"みずポケモン",types:["mizu"],tokusei:"ちょすい",seikaku:"おだやか",zukan:"イーブイが　みずのいしで　しんかした　すがた。からだから　きれいな　みずを　ふりそそぐのじゃ。",hakase:"クローゼットを　きれいにかんりしてくれて　ありがとうじゃ。ふくをたいせつにかんりしてくれているのじゃ。",q:"シャワーズに　しんかするには　なにがひつようじゃ？",choices:["かみなりのいし","みずのいし","ほのおのいし","つきのいし"],answer:1,hint:"みずにかんけいするのじゃ…"},
+  {id:"135",place:"たんす（S）",icon:"🗄️",pokemon:"サンダース",bunrui:"でんきポケモン",types:["denki"],tokusei:"ちくでん",seikaku:"やんちゃ",zukan:"イーブイが　かみなりのいしで　しんかした　すがた。からだから　でんきを　だして　てきを　まひさせるのじゃ。",hakase:"たんすを　きれいにかんりしてくれて　ありがとうじゃ。ふくをきちんとしまうことで　みつけやすくなるのじゃ。",q:"サンダースに　しんかするには　なにがひつようじゃ？",choices:["かみなりのいし","みずのいし","ほのおのいし","つきのいし"],answer:0,hint:"かみなりにかんけいするのじゃ…"},
+  {id:"136",place:"たんす（T）",icon:"🗄️",pokemon:"ブースター",bunrui:"ほのおポケモン",types:["honoo"],tokusei:"もうか",seikaku:"いじっぱり",zukan:"イーブイが　ほのおのいしで　しんかした　すがた。からだの　おんどが　900どにも　なるのじゃ。",hakase:"たんすを　きれいにかんりしてくれて　ありがとうじゃ。たいせつなふくを　きちんとかんりしてくれているのじゃ。",q:"ブースターに　しんかするには　なにがひつようじゃ？",choices:["かみなりのいし","みずのいし","ほのおのいし","つきのいし"],answer:2,hint:"ほのおにかんけいするのじゃ…"},
+  {id:"137",place:"スーツケース",icon:"🧳",pokemon:"ポリゴン",bunrui:"バーチャルポケモン",types:["noormal"],tokusei:"トレース",seikaku:"まじめ",zukan:"コンピューターの　プログラムで　つくられた　さいしょの　じんこうポケモン。データで　できているのじゃ。",hakase:"スーツケースを　きちんとかんりしてくれて　ありがとうじゃ。たびのじゅんびが　いつもできているのじゃ。",q:"ポリゴンは　どうやって　つくられたじゃ？",choices:["しぜんにうまれた","プログラムでつくられた","ほかのポケモンからしんか","うちゅうからきた"],answer:1,hint:"じんこうポケモンじゃ…"},
+  {id:"138",place:"スノコ",icon:"🟫",pokemon:"オムナイト",bunrui:"らせんポケモン",types:["iwa","mizu"],tokusei:"すいすい",seikaku:"のんき",zukan:"かせきから　よみがえった　こだいのポケモン。たくさんの　しょくしゅで　えさを　とるのじゃ。",hakase:"スノコを　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"オムナイトは　なにから　よみがえったじゃ？",choices:["たまご","かせき","いし","こおり"],answer:1,hint:"かせきポケモンじゃ…"},
+  {id:"139",place:"しゅうかつかばん",icon:"👜",pokemon:"オムスター",bunrui:"らせんポケモン",types:["iwa","mizu"],tokusei:"すいすい",seikaku:"おだやか",zukan:"オムナイトが　しんかした　すがた。おおきな　こうらと　たくさんの　しょくしゅを　もつのじゃ。",hakase:"しゅうかつかばんを　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"オムスターは　なにタイプじゃ？",choices:["いわ","いわ・みず","みず","じめん・いわ"],answer:1,hint:"いわとみずじゃ…"},
+  {id:"140",place:"ぼうちゅうざい",icon:"🧴",pokemon:"カブト",bunrui:"こうかポケモン",types:["iwa","mizu"],tokusei:"すいすい",seikaku:"やんちゃ",zukan:"かせきから　よみがえった　こだいのポケモン。こうらで　みをまもりながら　みずのなかを　うごくのじゃ。",hakase:"ぼうちゅうざいを　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"カブトは　なにから　よみがえったじゃ？",choices:["たまご","かせき","いし","こおり"],answer:1,hint:"かせきポケモンじゃ…"},
+  {id:"141",place:"かばん",icon:"👜",pokemon:"カブトプス",bunrui:"らんぼうポケモン",types:["iwa","mizu"],tokusei:"すいすい",seikaku:"いじっぱり",zukan:"カブトが　しんかした　すがた。するどい　かまで　えものを　きりさく　らんぼうなポケモンじゃ。",hakase:"かばんを　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"カブトプスの　かまは　なにがとくちょうじゃ？",choices:["やわらかい","するどい","おおきい","みじかい"],answer:1,hint:"するどいかまじゃ…"},
+  {id:"142",place:"パソコン",icon:"💻",pokemon:"プテラ",bunrui:"かせきポケモン",types:["iwa","hikou"],tokusei:"プレッシャー",seikaku:"やんちゃ",zukan:"かせきから　よみがえった　こだいのポケモン。おおぞらを　とんで　えものを　おそったのじゃ。",hakase:"パソコンを　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"プテラは　なにタイプじゃ？",choices:["ひこう","いわ・ひこう","ドラゴン・ひこう","いわ"],answer:1,hint:"いわとひこうじゃ…"},
+  {id:"143",place:"まど",icon:"🪟",pokemon:"カビゴン",bunrui:"ねむりポケモン",types:["noormal"],tokusei:"めんえき",seikaku:"のんき",zukan:"1にち　400キロも　たべる　おおぐいポケモン。たべたら　すぐ　ねてしまうのじゃ。",hakase:"まどを　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"カビゴンは　1にち　なんキロ　たべるじゃ？",choices:["10キロ","100キロ","400キロ","1トン"],answer:2,hint:"たくさんたべるのじゃ…"},
+  {id:"144",place:"カーテン（ベッドルーム）",icon:"🌅",pokemon:"フリーザー",bunrui:"れいとうポケモン",types:["koori","hikou"],tokusei:"プレッシャー",seikaku:"おだやか",zukan:"でんせつの　こおりポケモン。こおりの　うみに　すんでいると　いわれているのじゃ。",hakase:"カーテン（ベッドルーム）を　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"フリーザーは　どこに　すんでいるとされているじゃ？",choices:["かざんのなか","こおりのうみ","さばく","うちゅう"],answer:1,hint:"こおりのうみじゃ…"},
+  {id:"145",place:"ベッド（まくらがわ）",icon:"🛏️",pokemon:"サンダー",bunrui:"でんきポケモン",types:["denki","hikou"],tokusei:"プレッシャー",seikaku:"やんちゃ",zukan:"でんせつの　でんきポケモン。かみなりを　あやつる　ちからを　もつのじゃ。",hakase:"ベッド（まくらがわ）を　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"サンダーは　なにタイプじゃ？",choices:["でんき","でんき・ひこう","でんき・はがね","ひこう"],answer:1,hint:"でんきとひこうじゃ…"},
+  {id:"146",place:"ベッド（あしがわ）",icon:"🛏️",pokemon:"ファイヤー",bunrui:"かえんポケモン",types:["honoo","hikou"],tokusei:"プレッシャー",seikaku:"いじっぱり",zukan:"でんせつの　ほのおポケモン。かがやく　つばさを　ひろげて　おおぞらを　とぶのじゃ。",hakase:"ベッド（あしがわ）を　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"ファイヤーは　なにタイプじゃ？",choices:["ほのお","ほのお・ひこう","ほのお・ドラゴン","ひこう"],answer:1,hint:"ほのおとひこうじゃ…"},
+  {id:"147",place:"つくえ（てんばん）",icon:"🖥️",pokemon:"ミニリュウ",bunrui:"ドラゴンポケモン",types:["dragon"],tokusei:"だっぴ",seikaku:"すなお",zukan:"ドラゴンポケモンの　なかでも　よわいすがた。しんかすると　ものすごく　つよくなるのじゃ。",hakase:"つくえ（てんばん）を　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"ミニリュウは　なにタイプじゃ？",choices:["みず","ひこう","ドラゴン","エスパー"],answer:2,hint:"ドラゴンじゃ…"},
+  {id:"148",place:"つくえ（あし）",icon:"🖥️",pokemon:"ハクリュー",bunrui:"ドラゴンポケモン",types:["dragon"],tokusei:"だっぴ",seikaku:"おだやか",zukan:"ミニリュウが　しんかした　すがた。からだが　おおきくなり　ちからも　あがったのじゃ。",hakase:"つくえ（あし）を　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"ハクリューは　なんレベルで　カイリューに　しんかするじゃ？",choices:["レベル30","レベル40","レベル50","レベル55"],answer:3,hint:"レベル55じゃ…"},
+  {id:"149",place:"つくえ（うら）",icon:"🖥️",pokemon:"カイリュー",bunrui:"ドラゴンポケモン",types:["dragon","hikou"],tokusei:"だっぴ",seikaku:"やんちゃ",zukan:"ハクリューが　しんかした　すがた。おおぞらを　じそく　マッハ２で　とびまわる　つよいポケモンじゃ。",hakase:"つくえ（うら）を　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"カイリューの　とぶはやさは　どのくらいじゃ？",choices:["じそく100キロ","じそくマッハ1","じそくマッハ2","じそくマッハ3"],answer:2,hint:"じそくマッハ2じゃ…"},
+  {id:"150",place:"ゆか①",icon:"🟫",pokemon:"ミュウツー",bunrui:"いでんしポケモン",types:["esupaa"],tokusei:"プレッシャー",seikaku:"やんちゃ",zukan:"ミュウの　いでんしを　もとに　つくられた　じんこうポケモン。せかいで　もっとも　つよいと　いわれるのじゃ。",hakase:"ゆか①を　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"ミュウツーは　どうやって　うまれたじゃ？",choices:["しぜんにうまれた","ミュウのいでんしからつくられた","かせきからよみがえった","うちゅうからきた"],answer:1,hint:"じんこうポケモンじゃ…"},
+  {id:"151",place:"ゆか②",icon:"🟫",pokemon:"ミュウ",bunrui:"しんわポケモン",types:["esupaa"],tokusei:"シンクロ",seikaku:"おだやか",zukan:"すべての　ポケモンの　いでんしを　もつ　でんせつのポケモン。めったに　すがたを　みせないのじゃ。",hakase:"ゆか②を　きれいにたもってくれて　ありがとうじゃ。きみのおかげで　おうちが　きもちよいのじゃ。",q:"ミュウは　どんな　ポケモンのいでんしを　もつじゃ？",choices:["みずポケモンだけ","すべてのポケモン","でんきポケモンだけ","くさポケモンだけ"],answer:1,hint:"すべてのいでんしをもつのじゃ…"},
 ];
 
 // 最終問題
@@ -1192,8 +753,7 @@ const finalQuiz = {
 };
 
 let seen = JSON.parse(localStorage.getItem('kaji_seen2')||'[]');
-let penaltyActive=false; // ペナルティ廃止
-let currentHeal=parseInt(localStorage.getItem('kaji_penalty_heal')||'5');
+let penaltyActive=localStorage.getItem('kaji_penalty')==='1';
 let caught = JSON.parse(localStorage.getItem('kaji_caught2')||'[]');
 let currentEntry = null;
 let answerLocked = false;
@@ -1213,45 +773,13 @@ makeStars();
 function getUrlId(){return new URLSearchParams(window.location.search).get('id');}
 
 
-
-function skipOpening(){
-  // オープニングスキップ→御三家選択へ
-  if(typeTimer) clearInterval(typeTimer);
-  if(!isStarted){
-    showScreen('starterScreen');
-  } else {
-    goToDex();
-  }
-}
-
 window.onload=function(){
   if(isHakase){goToDex();return;}
 
   // 解除QRチェック（タイムスタンプ方式、1分有効）
   const params=new URLSearchParams(window.location.search);
-  const isDemo=params.get('demo')==='1';
   const unlockCode=params.get('unlock');
   const unlockTs=params.get('ts');
-  
-  // デモバトルQR：unlock処理をスキップしてそのままクイズへ
-  if(isDemo && unlockCode && unlockTs){
-    const now=Date.now();
-    const ts=parseInt(unlockTs);
-    const usedCodes=JSON.parse(localStorage.getItem('kaji_used_demo')||'[]');
-    if((now-ts)<=60000 && !usedCodes.includes(unlockCode)){
-      usedCodes.push(unlockCode);
-      localStorage.setItem('kaji_used_demo',JSON.stringify(usedCodes));
-      // デモバトルは通常のid処理に流す（下のid処理で処理される）
-    } else if((now-ts)>60000){
-      alert('このQRはきれんしているのじゃ！SはかせにあたらしいデモバトルQRをもらうのじゃ！');
-      showScreen('titleScreen');
-      return;
-    } else {
-      alert('このQRはもうつかわれたのじゃ！SはかせにあたらしいデモバトルQRをもらうのじゃ！');
-      showScreen('titleScreen');
-      return;
-    }
-  }
   if(unlockCode&&unlockTs){
     const now=Date.now();
     const ts=parseInt(unlockTs);
@@ -1277,38 +805,6 @@ window.onload=function(){
     }
   }
 
-  // 図鑑が開かれたことがあればオープニングスキップ
-  if(isStarted){
-    earnedBadges = JSON.parse(localStorage.getItem('kaji_badges')||'[]');
-    renderBadgeRow();
-    // ペナルティ中かチェック
-    if(localStorage.getItem('kaji_penalty')==='1'){
-      const savedId=localStorage.getItem('kaji_penalty_entry');
-      const savedEx=localStorage.getItem('kaji_penalty_ex');
-      const savedHint=localStorage.getItem('kaji_penalty_hint');
-      if(savedId){
-        currentEntry=entries.find(x=>x.id===savedId);
-        currentHint=savedHint||'';
-        answerLocked=true;
-      }
-      if(currentEntry){
-        showScreen('quizScreen');
-        document.getElementById('quizTitle').textContent='No.'+currentEntry.id+' '+currentEntry.place;
-        document.getElementById('quizNum').textContent='No.'+currentEntry.id;
-        document.getElementById('quizIcon').textContent=currentEntry.icon;
-        document.getElementById('quizQ').textContent=currentEntry.q;
-        document.getElementById('quizResult').textContent='';
-        document.getElementById('quizHint').textContent='';
-        document.getElementById('quizChoices').innerHTML='';
-      }
-      // penaltyEx廃止
-      // penaltyOverlay廃止
-      return;
-    }
-    goToDex();
-    return;
-  }
-
   // ペナルティ状態を復元
   if(localStorage.getItem('kaji_penalty')==='1'){
     const savedId=localStorage.getItem('kaji_penalty_entry');
@@ -1330,8 +826,8 @@ window.onload=function(){
       document.getElementById('quizHint').textContent='';
       document.getElementById('quizChoices').innerHTML='';
     }
-    // penaltyEx廃止
-    // penaltyOverlay廃止
+    document.getElementById('penaltyEx').textContent=savedEx||'スクワット10かい！';
+    document.getElementById('penaltyOverlay').classList.add('show');
     return;
   }
 
@@ -1348,111 +844,184 @@ function showScreen(id){
   document.getElementById(id).classList.add('active');
 }
 
-// ===== OPENING =====
-const openingLines = [
-  {speaker:'Sはかせ', text:'やあ！　このせかいへ　ようこそ！'},
-  {speaker:'Sはかせ', text:'わたしの　なまえは　S。\nみんなからは　Sはかせと　したわれておるよ。'},
-  {speaker:'Sはかせ', text:'ところで　きみは　ぼうけんは\nはじめてかな？\nまずは　わしが　このせかいのことを\nおしえよう！'},
-  {speaker:'Sはかせ', text:'このせかいには　ポケットモンスター、\nちぢめて　ポケモンと\nよばれている　いきものたちが　いる。\nそのポケモンたちが　おうちの\nいたるところで　きになる　ぶぶんを\nそんざいしている。\nそのポケモンたちが　おうちの\nいたるところで　きになる　ぶぶんを\nおしえてくれようと　している。'},
-  {speaker:'Sはかせ', text:'きみは　いつも　このおうちのために\nたくさんのことを　してくれている。\nそれは　Sはかせが　いちばん\nよく　しっている。'},
-  {speaker:'Sはかせ', text:'でも　このぼうけんは　そこから\nさらに　すすむための　たびだ。\nなぞをとき　うごいて\nおうちのすみずみまで　りかいすること。\nそれが　かじますたーへの　みち。'},
-  {speaker:'Sはかせ', text:'ずかんをうめることが　もくてきではない。\nたびのなかで　このおうちを\nふかく　しることが\nこのぼうけんの　いちばんおおきな\nもくてきなのじゃ。'},
-  {speaker:'Sはかせ', text:'では　ぼうけんを　はじめよう！\nいってらっしゃい！'},
-];
-
-let openingIndex = 0;
-let isTyping = false;
-let typeTimer = null;
-
-function startOpening(){
-  showScreen('openingScreen');
-  openingIndex = 0;
-  // キャラとボックスをフェードイン
-  setTimeout(()=>{
-    document.getElementById('hakaseChar').style.opacity='1';
-  },300);
-  setTimeout(()=>{
-    document.getElementById('openingBox').style.opacity='1';
-    document.getElementById('openingBtn').style.opacity='1';
-    typeText(openingLines[0]);
-  },800);
+function goToDex(){
+  if(!isHakase) localStorage.setItem('kaji_started','1');
+  if(!caught.includes('first_battle')){
+    caught.push('first_battle');
+    localStorage.setItem('kaji_caught2',JSON.stringify(caught));
+  }
+  checkBadges();renderDex();renderBadgeRow();showScreen('dexScreen');
+  const sf=document.getElementById('scanFab');if(sf)sf.classList.add('show');
+  const bf=document.getElementById('bagFab');if(bf)bf.classList.add('show');
+  const hpBar=document.getElementById('hpBarWrap');if(hpBar)hpBar.style.display=isHakase?'none':'';
+  if(playerPokemon){const hpIcon=document.getElementById('hpPokeIcon');if(hpIcon)hpIcon.textContent=playerPokemon.icon;updateHPBar();}
+  setTimeout(showBadgeIfPending,400);
 }
 
-function typeText(line){
-  isTyping=true;
-  document.getElementById('speakerName').textContent=line.speaker;
-  document.getElementById('openingNext').style.display='none';
-  const el=document.getElementById('openingText');
-  el.innerHTML='';
-  // 改行コードをbrタグに変換してから1文字ずつ表示
-  const text=line.text;
-  const chars=text.split('');
-  let i=0;
-  let html='';
-  if(typeTimer)clearInterval(typeTimer);
-  typeTimer=setInterval(()=>{
-    if(i<chars.length){
-      if(chars[i]==='\n'){
-        html+='<br>';
+function renderDex(){
+  updateProgress();
+  const dexList=document.getElementById('dexList');
+  dexList.innerHTML='';
+  rooms.forEach(room=>{
+    const sec=document.createElement('div');sec.className='room-section';
+    const label=document.createElement('div');label.className='room-label';label.textContent=room.name;
+    const list=document.createElement('div');list.className='entry-list';
+    room.ids.forEach(id=>{
+      const e=entries.find(x=>x.id===id);
+      if(!e) return;
+      const isSeen=seen.includes(id),isCaught=caught.includes(id);
+      const row=document.createElement('div');
+      if(isHakase){
+        row.className='entry-row'+(isCaught?' caught':isSeen?' seen':'');
+        if(isHakase){ row.className='entry-row caught'; row.onclick=()=>showDetail(id); }
+      else { row.className='entry-row'+(isCaught?' caught':isSeen?' seen':' locked');
+        row.onclick=()=>{if(isCaught)showDetail(id);else if(isSeen)showQuiz(id);}; }
       } else {
-        html+=chars[i];
+        row.className='entry-row'+(isCaught?' caught':isSeen?' seen':' locked');
+        row.onclick=()=>{if(isCaught)showDetail(id);else if(isSeen)showQuiz(id);};
       }
-      el.innerHTML=html;
-      i++;
+      let badge=`<span class="entry-badge">みはっけん</span>`;
+      if(isCaught)badge=`<span class="entry-badge caught-badge">かんりょう</span>`;
+      else if(isSeen)badge=`<span class="entry-badge seen-badge">ちょうせんちゅう</span>`;
+      const displayIcon=isHakase||isSeen||isCaught?e.icon:'❓';
+      row.innerHTML=`<div class="entry-top"><span class="entry-num">No.${id}</span><span class="entry-icon">${displayIcon}</span><span class="entry-name">${isHakase||isSeen||isCaught?e.place:'？？？'}</span>${badge}</div>`;
+      list.appendChild(row);
+    });
+    sec.appendChild(label);sec.appendChild(list);
+    dexList.appendChild(sec);
+  });
+}
+
+function updateProgress(){
+  const n=caught.length;
+  document.getElementById('progFill').style.width=(n/entries.length*100)+'%';
+  document.getElementById('progCount').textContent=n+' / '+entries.length;
+}
+
+function showQuiz(id){
+  let e=entries.find(x=>x.id===id);
+  if(!e){
+    const starter=starters.find(s=>'starter_'+s.id===id);
+    if(starter){e={id:id,place:starter.name,icon:starter.icon,pokemon:starter.name,
+      bunrui:'さいしょのポケモン',types:[starter.type],tokusei:'？？？',seikaku:'？？？',
+      zukan:starter.zukanText||'さいしょのポケモンじゃ！',hakase:'きみのさいしょのなかまになりえたポケモンじゃ。',
+      q:starter.name+'は　なにタイプじゃ？',
+      choices:starter.type==='kusa'?['くさ','ほのお','みず','ノーマル']:
+               starter.type==='honoo'?['みず','くさ','ほのお','ノーマル']:
+               ['ほのお','みず','くさ','ノーマル'],
+      answer:2,hint:'みため　から　かんがえるのじゃ…'};}
+  }
+  if(!e) return;
+  currentEntry=e;answerLocked=false;
+  if(!seen.includes(id)){seen.push(id);localStorage.setItem('kaji_seen2',JSON.stringify(seen));}
+
+  // 最後の問題かどうか
+  const isLast=(id==='050'&&caught.length>=49);
+  const qData=isLast?finalQuiz:e;
+
+  document.getElementById('quizTitle').textContent='No.'+e.id+' '+e.place;
+  document.getElementById('quizNum').textContent='No.'+e.id;
+  document.getElementById('quizIcon').textContent=e.icon;
+  document.getElementById('quizQ').textContent=qData.q;
+  document.getElementById('quizResult').textContent='';
+  document.getElementById('quizHint').textContent='';
+
+  const choicesEl=document.getElementById('quizChoices');
+  choicesEl.innerHTML='';
+  const nums=['１','２','３','４'];
+  qData.choices.forEach((c,i)=>{
+    const btn=document.createElement('button');
+    btn.className='choice-btn';
+    btn.innerHTML=`<span class="choice-num">${nums[i]}</span>${c}`;
+    btn.onclick=()=>selectAnswer(i,qData.answer,qData.hint,qData.choices);
+    choicesEl.appendChild(btn);
+  });
+  showScreen('quizScreen');
+  if(playerHP<=0&&!isHakase){
+    document.getElementById('quizChoices').innerHTML='<div class="hp-zero-msg">HPが　0じゃ！<br>かばんから　かいふくしてから<br>ちょうせんするのじゃ！</div>';
+  }
+}
+
+function selectAnswer(selected,correct,hint,choices){
+  if(answerLocked)return;
+  answerLocked=true;
+  const btns=document.querySelectorAll('.choice-btn');
+
+  if(selected===correct){
+    // 正解時だけ正解ハイライト
+    btns.forEach((b,i)=>{
+      b.classList.add('disabled');
+      if(i===correct)b.classList.add('correct');
+    });
+    document.getElementById('quizResult').style.color='#88ff88';
+    document.getElementById('quizResult').textContent='せいかい！！ポケモンのデータをかくとくじゃ！';
+    if(!caught.includes(currentEntry.id)){
+      caught.push(currentEntry.id);
+      localStorage.setItem('kaji_caught2',JSON.stringify(caught));
+    }
+    setTimeout(()=>showFanfare(currentEntry),800);
+  } else {
+    btns.forEach((b,i)=>{b.classList.add('disabled');if(i===selected)b.classList.add('wrong');});
+    const defTypes=currentEntry?currentEntry.types:['noormal'];
+    const dmg=getDamage(defTypes);
+    const label=getDamageLabel(defTypes);
+    showDamagePopup(dmg,defTypes);
+    playerHP=Math.max(0,playerHP-dmg);
+    localStorage.setItem('kaji_starter',JSON.stringify({id:playerPokemon?playerPokemon.id:'',hp:playerHP}));
+    updateHPBar();
+    let msg='ちがうようじゃ…';if(label) msg+='　'+label;
+    document.getElementById('quizResult').style.color='#ff6666';
+    document.getElementById('quizResult').textContent=msg;
+    if(playerHP<=0){
+      setTimeout(()=>{
+        document.getElementById('quizResult').textContent='HPが　0に　なったのじゃ！　かばんから　かいふくするのじゃ！';
+      },800);
     } else {
-      clearInterval(typeTimer);
-      isTyping=false;
-      document.getElementById('openingNext').style.display='block';
+      setTimeout(()=>{
+        answerLocked=false;
+        btns.forEach(b=>{b.classList.remove('disabled','wrong','correct');});
+        document.getElementById('quizResult').textContent='';
+        document.getElementById('quizHint').textContent='ヒント：'+hint;
+      },1800);
     }
-  },40);
+  }
 }
 
-function nextOpening(){
-  if(isTyping){
-    // タイピング中はスキップ
-    clearInterval(typeTimer);
-    isTyping=false;
-    if(openingIndex < openingLines.length){
-      document.getElementById('openingText').innerHTML=openingLines[openingIndex].text.replace(/\n/g,'<br>');
-    }
-    document.getElementById('openingNext').style.display='block';
-    return;
-  }
-  openingIndex++;
-  if(openingIndex>=openingLines.length){
-    showScreen('starterScreen');
-    return;
-  }
-  typeText(openingLines[openingIndex]);
+function showFanfare(e){
+  checkBadges();
+  const isLast=e.id==='050';
+  document.getElementById('fanfareIcon').textContent=e.icon;
+  document.getElementById('fanfareText').innerHTML=isLast
+    ?'まぼろしのポケモンを<br>ゲットした！！'
+    :'No.'+e.id+'<br>'+e.place+'の<br>なぞをといた！';
+  document.getElementById('fanfareSub').innerHTML=isLast
+    ?'Sはかせより<br>おくりものがあるのじゃ！<br>みつけてみるのじゃ！'
+    :e.pokemon+'の<br>データをかくとくしたのじゃ！';
+  document.getElementById('fanfare').classList.add('show');
 }
 
-// ===== 御三家データ =====
+function closeFanfare(){
+  document.getElementById('fanfare').classList.remove('show');
+  if(currentEntry) showDetail(currentEntry.id);
+  else goToDex();
+}
+
+
+// ===== 御三家 =====
 const starters = [
-  {
-    id:'fushigidane', name:'フシギダネ', icon:'🌿', type:'kusa',
-    desc:'くさタイプの　フシギダネじゃ！\nおだやかで　しんぼうづよい\nせいかくをしておる。\nあいてのこうげきを　うけながしながら\nたたかうのがとくいじゃ。',
-    zukanId:'starter_fushigidane',
-    zukanText:'うまれたときから　せなかに　たねがあるポケモン。そのたねが　なんなのかは　いまだに　なぞじゃ。',
-  },
-  {
-    id:'hitokage', name:'ヒトカゲ', icon:'🔥', type:'honoo',
-    desc:'ほのおタイプの　ヒトカゲじゃ！\nねっけつかんで　まえにすすむ\nせいかくをしておる。\nつよいこうげきで　おしきるのがとくいじゃ。',
-    zukanId:'starter_hitokage',
-    zukanText:'しっぽのさきにほのおがともっているポケモン。このほのおがきえると　いのちもきえるといわれておる。',
-  },
-  {
-    id:'zenigame', name:'ゼニガメ', icon:'💧', type:'mizu',
-    desc:'みずタイプの　ゼニガメじゃ！\nどっしりとして　おちついた\nせいかくをしておる。\nあいてのすきをついて　はんげきするのがとくいじゃ。',
-    zukanId:'starter_zenigame',
-    zukanText:'こうらにはいって　みをまもることができるポケモン。こうらはとてもかたく、たいていのこうげきをはじきかえすのじゃ。',
-  },
+  {id:'fushigidane', name:'フシギダネ', icon:'🌿', type:'kusa',
+   desc:'くさタイプの　フシギダネじゃ！\nおだやかで　しんぼうづよい\nせいかくをしておる。',
+   zukanText:'うまれたときから　せなかに　たねがあるポケモン。'},
+  {id:'hitokage', name:'ヒトカゲ', icon:'🔥', type:'honoo',
+   desc:'ほのおタイプの　ヒトカゲじゃ！\nねっけつかんで　まえにすすむ\nせいかくをしておる。',
+   zukanText:'しっぽのさきにほのおがともっているポケモン。'},
+  {id:'zenigame', name:'ゼニガメ', icon:'💧', type:'mizu',
+   desc:'みずタイプの　ゼニガメじゃ！\nどっしりとして　おちついた\nせいかくをしておる。',
+   zukanText:'こうらにはいって　みをまもることができるポケモン。'},
 ];
 
-// プレイヤータイプ→デモバトル相手（プレイヤー有利）
 const demoOpponentMap = {
-  'fushigidane': 'hitokage',   // くさ→ほのおにバツグン→ヒトカゲ
-  'hitokage':    'zenigame',   // ほのお→みずにバツグン→ゼニガメ
-  'zenigame':    'fushigidane', // みず→くさにバツグン→フシギダネ
+  'fushigidane':'hitokage','hitokage':'zenigame','zenigame':'fushigidane'
 };
 
 let selectedStarterIndex = -1;
@@ -1460,202 +1029,131 @@ let playerPokemon = null;
 let playerHP = 10;
 const MAX_HP = 10;
 
-// スターター復元（starters・demoOpponentMap定義後に実行）
 const savedStarter = JSON.parse(localStorage.getItem('kaji_starter')||'null');
 if(savedStarter && savedStarter.id){
-  playerPokemon = starters.find(s=>s.id===savedStarter.id) || null;
+  playerPokemon = starters.find(s=>s.id===savedStarter.id)||null;
   playerHP = savedStarter.hp !== undefined ? savedStarter.hp : MAX_HP;
 }
 
-// タイプ相性テーブル（攻撃側タイプ→防御側タイプ→倍率）
+// タイプ相性
 const typeChart = {
-  kusa:   {kusa:0.5,honoo:0.5,mizu:2,jimen:2,iwa:2,hikou:0.5,mushi:0.5,doku:0.5,dragon:0.5},
-  honoo:  {kusa:2,honoo:0.5,mizu:0.5,iwa:0.5,mushi:2,hagane:2,koori:2,dragon:0.5},
-  mizu:   {kusa:0.5,honoo:2,mizu:0.5,iwa:2,jimen:2,dragon:0.5},
-  noormal:{goosuto:0},
-  denki:  {mizu:2,denki:0.5,kusa:0.5,jimen:0,hikou:2,dragon:0.5},
-  koori:  {kusa:2,mizu:0.5,jimen:2,hikou:2,dragon:2,koori:0.5},
-  kakutou:{noormal:2,koori:2,iwa:2,aku:2,hagane:2,doku:0.5,hikou:0.5,esupaa:0.5,mushi:0.5,goosuto:0,fearii:0.5},
-  doku:   {kusa:2,doku:0.5,jimen:0.5,iwa:0.5,goosuto:0.5,fearii:2},
-  jimen:  {honoo:2,denki:2,doku:2,iwa:2,hagane:2,kusa:0.5,mushi:0.5,hikou:0},
-  hikou:  {kusa:2,kakutou:2,mushi:2,denki:0.5,iwa:0.5,hagane:0.5},
-  esupaa: {kakutou:2,doku:2,esupaa:0.5,hagane:0.5,goosuto:0,aku:0},
-  mushi:  {kusa:2,esupaa:2,aku:2,honoo:0.5,kakutou:0.5,hikou:0.5,goosuto:0.5,hagane:0.5,fearii:0.5},
-  iwa:    {honoo:2,koori:2,hikou:2,mushi:2,kakutou:0.5,jimen:0.5,hagane:0.5},
-  goosuto:{esupaa:2,goosuto:2,noormal:0,aku:0.5},
-  dragon: {dragon:2,hagane:0.5,fearii:0},
-  aku:    {esupaa:2,goosuto:2,aku:0.5,kakutou:0.5,fearii:0.5},
-  hagane: {koori:2,iwa:2,fearii:2,honoo:0.5,mizu:0.5,denki:0.5,hagane:0.5},
-  fearii: {kakutou:2,dragon:2,aku:2,honoo:0.5,doku:0.5,hagane:0.5},
-  mushi:  {},
-  mushi:  {},
+  kusa:{kusa:.5,honoo:.5,mizu:2,jimen:2,iwa:2,hikou:.5,mushi:.5,doku:.5,dragon:.5},
+  honoo:{kusa:2,honoo:.5,mizu:.5,iwa:.5,mushi:2,hagane:2,koori:2,dragon:.5},
+  mizu:{kusa:.5,honoo:2,mizu:.5,iwa:2,jimen:2,dragon:.5},
 };
-
-function getTypeMultiplier(attackerType, defenderTypes){
-  let mult = 1;
-  defenderTypes.forEach(dt => {
-    const row = typeChart[attackerType];
-    if(row && row[dt] !== undefined) mult *= row[dt];
-  });
-  return mult;
-}
-
-function getDamage(defenderTypes){
+function getDamage(defTypes){
   if(!playerPokemon) return 2;
-  const mult = getTypeMultiplier(playerPokemon.type, defenderTypes);
-  if(mult >= 2) return 4;      // ばつぐん
-  if(mult <= 0.5) return 1;    // こうかあんまり
-  if(mult === 0) return 0;     // こうかなし
-  return 2;                    // ふつう
+  let mult=1;
+  defTypes.forEach(dt=>{const row=typeChart[playerPokemon.type];if(row&&row[dt]!==undefined)mult*=row[dt];});
+  if(mult>=2) return 4;
+  if(mult<=0.5) return 1;
+  return 2;
 }
-
-function getDamageLabel(defenderTypes){
+function getDamageLabel(defTypes){
   if(!playerPokemon) return '';
-  const mult = getTypeMultiplier(playerPokemon.type, defenderTypes);
-  if(mult >= 2) return 'ばつぐんだ！';
-  if(mult === 0) return 'こうかがないようだ…';
-  if(mult <= 0.5) return 'こうかはいまひとつのようだ…';
+  let mult=1;
+  defTypes.forEach(dt=>{const row=typeChart[playerPokemon.type];if(row&&row[dt]!==undefined)mult*=row[dt];});
+  if(mult>=2) return 'ばつぐんだ！';
+  if(mult<=0.5) return 'こうかはいまひとつのようだ…';
   return '';
 }
-
-function showDamagePopup(dmg, defenderTypes){
-  const mult = getTypeMultiplier(playerPokemon ? playerPokemon.type : 'noormal', defenderTypes);
-  const popup = document.createElement('div');
-  popup.className = 'damage-popup' + (mult >= 2 ? ' batsugun' : mult <= 0.5 ? ' kouka' : '');
-  popup.textContent = '-' + dmg;
-  document.body.appendChild(popup);
-  setTimeout(()=>popup.remove(), 900);
+function showDamagePopup(dmg,defTypes){
+  let mult=1;
+  if(playerPokemon) defTypes.forEach(dt=>{const row=typeChart[playerPokemon.type];if(row&&row[dt]!==undefined)mult*=row[dt];});
+  const p=document.createElement('div');
+  p.className='damage-popup'+(mult>=2?' batsugun':mult<=0.5?' kouka':'');
+  p.textContent='-'+dmg;
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),900);
 }
-
 function updateHPBar(){
-  const pct = Math.max(0, playerHP / MAX_HP * 100);
-  const fill = document.getElementById('hpFill');
-  const num = document.getElementById('hpNum');
+  const pct=Math.max(0,playerHP/MAX_HP*100);
+  const fill=document.getElementById('hpFill');
+  const num=document.getElementById('hpNum');
   if(!fill) return;
-  fill.style.width = pct + '%';
-  fill.className = 'hp-fill' + (pct <= 25 ? ' low' : pct <= 50 ? ' mid' : '');
-  if(num) num.textContent = playerHP + '/' + MAX_HP;
+  fill.style.width=pct+'%';
+  fill.className='hp-fill'+(pct<=25?' low':pct<=50?' mid':'');
+  if(num) num.textContent=playerHP+'/'+MAX_HP;
 }
 
 // 御三家選択
-function selectStarter(index){
-  selectedStarterIndex = index;
-  const s = starters[index];
-  // ボール見た目更新
-  [0,1,2].forEach(i => {
-    document.getElementById('ball'+i).className = 'ball' + (i===index ? ' selected opened' : '');
-    document.getElementById('ballLabel'+i).className = 'ball-label' + (i===index ? ' selected' : '');
-    document.getElementById('ballLabel'+i).textContent = i===index ? s.name : '？？？';
+function selectStarter(idx){
+  selectedStarterIndex=idx;
+  const s=starters[idx];
+  [0,1,2].forEach(i=>{
+    document.getElementById('ball'+i).className='ball'+(i===idx?' selected opened':'');
+    document.getElementById('ballLabel'+i).className='ball-label'+(i===idx?' selected':'');
+    document.getElementById('ballLabel'+i).textContent=i===idx?s.name:'？？？';
   });
-  // 情報ボックス
-  document.getElementById('starterInfoBox').innerHTML =
+  document.getElementById('starterInfoBox').innerHTML=
     '<div class="starter-poke-icon">'+s.icon+'</div>'+
-    '<div class="starter-poke-info">'+
-    '<div class="starter-poke-name">'+s.name+'</div>'+
+    '<div><div class="starter-poke-name">'+s.name+'</div>'+
     '<div class="starter-poke-type">'+typeNames[s.type]+'タイプ</div>'+
-    '<div class="starter-poke-desc">'+s.desc.replace(/\n/g,'<br>')+'</div>'+
-    '</div>';
-  // はかせセリフ
-  document.getElementById('starterHakaseText').innerHTML =
-    s.desc.replace(/\\n/g,'<br>');
-  // 確定ボタン有効化
-  document.getElementById('starterConfirmBtn').className = 'starter-confirm-btn active';
+    '<div class="starter-poke-desc">'+s.desc.replace(/\n/g,'<br>')+'</div></div>';
+  document.getElementById('starterHakaseText').innerHTML=s.desc.replace(/\n/g,'<br>');
+  document.getElementById('starterConfirmBtn').className='starter-confirm-btn active';
 }
 
 function confirmStarter(){
-  if(selectedStarterIndex < 0) return;
-  playerPokemon = starters[selectedStarterIndex];
-  playerHP = MAX_HP;
-  localStorage.setItem('kaji_starter', JSON.stringify({id:playerPokemon.id, hp:playerHP}));
-
-  // 選んだポケモンを図鑑に登録済みに
-  if(!caught.includes('starter_' + playerPokemon.id)){
-    caught.push('starter_' + playerPokemon.id);
-    localStorage.setItem('kaji_caught2', JSON.stringify(caught));
+  if(selectedStarterIndex<0) return;
+  playerPokemon=starters[selectedStarterIndex];
+  playerHP=MAX_HP;
+  localStorage.setItem('kaji_starter',JSON.stringify({id:playerPokemon.id,hp:playerHP}));
+  if(!caught.includes('starter_'+playerPokemon.id)){
+    caught.push('starter_'+playerPokemon.id);
+    localStorage.setItem('kaji_caught2',JSON.stringify(caught));
   }
-  // 残り2匹をseenに（謎解き対象）
-  starters.forEach((s,i) => {
-    if(i !== selectedStarterIndex && !seen.includes('starter_' + s.id)){
-      seen.push('starter_' + s.id);
-      localStorage.setItem('kaji_seen2', JSON.stringify(seen));
-    }
-  });
-
-  // HPアイコン更新
-  const hpIcon = document.getElementById('hpPokeIcon');
-  if(hpIcon) hpIcon.textContent = playerPokemon.icon;
+  const hpIcon=document.getElementById('hpPokeIcon');
+  if(hpIcon) hpIcon.textContent=playerPokemon.icon;
   updateHPBar();
   showStarterMessage();
 }
 
+// 御三家確定後メッセージ
 function showStarterMessage(){
-  const starterName = playerPokemon ? playerPokemon.name : 'ポケモン';
-  const finalLines = [
-    starterName+'を　えらんだのじゃな！\nよいえらびじゃ！',
-    'まずは　げんじつの　Sはかせの\nところに　いこう！',
+  const name=playerPokemon?playerPokemon.name:'ポケモン';
+  const lines=[
+    name+'を　えらんだのじゃな！よいえらびじゃ！',
+    'まずは　げんじつの　Sさんの　ところに　いこう！',
     'レッツゴー！',
   ];
-  let idx=0;
-  let isMsgTyping=false;
-  let msgTimer=null;
-
-  function typeMsg(text){
-    isMsgTyping=true;
+  let cur=0;
+  function showLine(){
+    if(cur>=lines.length){
+      // 全セリフ終わり→PW overlay表示
+      const btn=document.getElementById('starterMsgBtn');
+      btn.style.display='none';
+      document.getElementById('starterMsgNext').style.display='none';
+      document.getElementById('starterMsgText').innerHTML=
+        lines[lines.length-1]+'<br><br>'+
+        '<span style="color:#7ab8e8;font-size:.7rem;">SさんからPWをもらって\nにゅうりょくするのじゃ！</span>';
+      setTimeout(()=>{
+        document.getElementById('readyPwOverlay').classList.add('show');
+      },800);
+      return;
+    }
+    const text=lines[cur];cur++;
     const el=document.getElementById('starterMsgText');
-    el.innerHTML='';
+    el.textContent='';
     document.getElementById('starterMsgNext').style.display='none';
-    let html='';
     let i=0;
-    if(msgTimer) clearInterval(msgTimer);
-    msgTimer=setInterval(()=>{
-      if(i<text.length){
-        if(text[i]==='\n') html+='<br>';
-        else html+=text[i];
-        el.innerHTML=html;
-        i++;
-      } else {
-        clearInterval(msgTimer);
-        isMsgTyping=false;
-        if(idx>=finalLines.length){
-          document.getElementById('starterMsgNext').style.display='none';
-          document.getElementById('starterMsgBtn').textContent='つぎへ　▶';
-        } else {
-          document.getElementById('starterMsgNext').style.display='block';
-        }
-      }
+    const t=setInterval(()=>{
+      if(i<text.length){el.textContent+=text[i];i++;}
+      else{clearInterval(t);document.getElementById('starterMsgNext').style.display='block';}
     },40);
+    document.getElementById('starterMsgBtn').onclick=()=>{
+      clearInterval(t);
+      el.textContent=text;
+      document.getElementById('starterMsgNext').style.display='block';
+      document.getElementById('starterMsgBtn').onclick=showLine;
+    };
   }
-
-  function showNext(){
-    if(isMsgTyping){
-      clearInterval(msgTimer);
-      isMsgTyping=false;
-      const text=finalLines[idx-1];
-      document.getElementById('starterMsgText').innerHTML=text.replace(/\n/g,'<br>');
-      document.getElementById('starterMsgNext').style.display=idx<finalLines.length?'block':'none';
-      return;
-    }
-    if(idx>=finalLines.length){
-      // PW overlay表示
-      document.getElementById('starterMsgBtn').onclick=null;
-      document.getElementById('readyPwOverlay').classList.add('show');
-      return;
-    }
-    typeMsg(finalLines[idx]);
-    idx++;
-  }
-
-  document.getElementById('starterMsgBtn').onclick=showNext;
+  const btn=document.getElementById('starterMsgBtn');
+  btn.style.display='block';
+  btn.textContent='つぎへ　▶';
+  btn.onclick=showLine;
   showScreen('starterMsgScreen');
-  showNext();
-}
-
-
-function waitForHakaseReady(){
-  // openingBtnのonclickを無効化
-  const btn = document.getElementById('openingBtn');
-  if(btn) btn.onclick = null;
-  document.getElementById('readyPwOverlay').classList.add('show');
+  showLine();
 }
 
 function checkReadyPw(){
@@ -1669,75 +1167,427 @@ function checkReadyPw(){
   }
 }
 
+// ===== バッジ =====
+let earnedBadges=JSON.parse(localStorage.getItem('kaji_badges')||'[]');
+let pendingBadge=null;
+const badgeData=[
+  {room:'さいしょのしょうぶ',ids:['first_battle'],number:'⚔️',first:true},
+  {room:'たびだちのひろば',ids:['001','002','003','004','005','006','007','008','009','010','011','012'],number:4},
+  {room:'Sのしま',ids:['013','014','015','016','017','018','019','020','021','022','023','024'],number:3},
+  {room:'あわあわシティ',ids:['025','026','027','028','029','030','031','032','033','034','035','036','037','038','039','040','041','042'],number:7},
+  {room:'りょうりこうげん',ids:['043','044','045','046','047','048','049','050','051','052','053','054','055','056','057','058','059','060','061','062','063','064','065','066','067','068','069','070','071','072','073','074','075','076','077','078'],number:5},
+  {room:'くつろぎシティ',ids:['079','080','081','082','083','084','085','086','087','088','089','090','091','092','093','094','095','096','097','098','099','100','101','102','103','104','105','106','107','108','109','110','111','112','113','114','115','116','117','118','119','120','121','122','123','124'],number:9},
+  {room:'ねむりのもり',ids:['125','126','127','128','129','130','131','132','133','134','135','136','137','138','139','140','141','142','143','144','145','146','147','148','149','150','151'],number:2},
+  {room:'さいしゅうしけん',ids:['final_exam'],number:'🏆',final:true},
+];
 
-// ===== PENALTY & PW =====
-let currentHint='';
-let currentPw='';
-let usedPws=JSON.parse(localStorage.getItem('kaji_used_pws')||'[]');
-
-function showPenalty(ex){
-  penaltyActive=true;
-  localStorage.setItem('kaji_penalty','1');
-  localStorage.setItem('kaji_penalty_ex',ex);
-  localStorage.setItem('kaji_penalty_hint',currentHint);
-  localStorage.setItem('kaji_penalty_entry',currentEntry.id);
-  localStorage.setItem('kaji_penalty_entry_bak',currentEntry.id);
-  document.getElementById('penaltyEx').textContent=ex;
-  // penaltyOverlay廃止
-}
-
-function showPwInput(){
-  document.getElementById('penaltyOverlay').classList.remove('show');
-  document.getElementById('pwInput').value='';
-  document.getElementById('pwWrong').textContent='';
-  document.getElementById('pwOverlay').classList.add('show');
-}
-
-function checkPw(){
-  const input=document.getElementById('pwInput').value.trim();
-  if(input===currentPw&&!usedPws.includes(currentPw)){
-    usedPws.push(currentPw);
-    localStorage.setItem('kaji_used_pws',JSON.stringify(usedPws));
-    document.getElementById('pwOverlay').classList.remove('show');
-    // 再挑戦
-    penaltyActive=false;
-    localStorage.removeItem('kaji_penalty');
-    localStorage.removeItem('kaji_penalty_ex');
-    localStorage.removeItem('kaji_penalty_hint');
-    localStorage.removeItem('kaji_penalty_entry');
-    localStorage.removeItem('kaji_penalty_heal');
-    // HP回復
-    currentHeal=parseInt(localStorage.getItem('kaji_penalty_heal')||'5');
-    playerHP = Math.min(MAX_HP, playerHP + currentHeal);
-    localStorage.setItem('kaji_starter', JSON.stringify({id: playerPokemon ? playerPokemon.id : '', hp: playerHP}));
-    updateHPBar();
-    answerLocked=false;
-    const btns=document.querySelectorAll('.choice-btn');
-    btns.forEach(b=>{b.classList.remove('disabled','wrong','correct');});
-    document.getElementById('quizResult').textContent='';
-    document.getElementById('quizHint').textContent='ヒント：'+currentHint;
-  } else if(usedPws.includes(input)){
-    document.getElementById('pwWrong').textContent='そのPWはもうつかわれたのじゃ！';
-  } else {
-    document.getElementById('pwWrong').textContent='まちがいじゃ…Sはかせにもういちどきくのじゃ。';
-  }
-}
-
-// hakaseページからlocalStorageでPWを受け取る
-function checkForNewPw(){
-  const stored=localStorage.getItem('kaji_current_pw');
-  if(stored){
-    const data=JSON.parse(stored);
-    if(!usedPws.includes(data.pw)){
-      currentPw=data.pw;
+function checkBadges(){
+  badgeData.forEach((b,i)=>{
+    if(earnedBadges.includes(i)) return;
+    if(b.ids.length===0) return;
+    if(b.ids.every(id=>caught.includes(id))){
+      earnedBadges.push(i);
+      localStorage.setItem('kaji_badges',JSON.stringify(earnedBadges));
+      pendingBadge=b;
     }
+  });
+}
+
+function showBadgeIfPending(){
+  if(!pendingBadge) return;
+  const b=pendingBadge;pendingBadge=null;
+  document.getElementById('badgeTitle').textContent=b.room+'の　バッジをてにいれた！';
+  document.getElementById('badgeNumber').textContent=b.first?'⚔️':b.final?'🏆':b.number;
+  document.getElementById('badgeAreaName').textContent=b.room;
+  const total=earnedBadges.length;
+  const validTotal=badgeData.filter(b=>b.ids.length>0).length;
+  document.getElementById('badgeSub').innerHTML='バッジ：'+total+' / '+validTotal+'<br>'+(total>=validTotal?'ぜんバッジかいつう！':'のこり　'+(validTotal-total)+'こじゃ！');
+  document.getElementById('badgeOverlay').classList.add('show');
+  renderBadgeRow();
+}
+
+function closeBadge(){
+  document.getElementById('badgeOverlay').classList.remove('show');
+  const validTotal=badgeData.filter(b=>b.ids.length>0).length;
+  if(earnedBadges.length>=validTotal) showAllBadgesClear();
+}
+
+function showAllBadgesClear(){
+  // バッジ全収集→ポケモンリーグへ
+  document.getElementById('fanfareIcon').textContent='🏅';
+  document.getElementById('fanfareText').innerHTML='コンプリート！！';
+  document.getElementById('fanfareSub').innerHTML='ぜんバッジを　あつめたのじゃ！<br>チャンピオンロードへ　いこう！';
+  document.getElementById('fanfare').querySelector('button').textContent='チャンピオンロードへ！';
+  document.getElementById('fanfare').querySelector('button').onclick=()=>{
+    document.getElementById('fanfare').classList.remove('show');
+    document.getElementById('fanfare').querySelector('button').textContent='ずかんをみる';
+    document.getElementById('fanfare').querySelector('button').onclick=closeFanfare;
+    showLeague();
+  };
+  document.getElementById('fanfare').classList.add('show');
+}
+
+// ===== ポケモンリーグ =====
+const e4Data = [
+  {name:'ケンジ', icon:'👨‍🔬', title:'しかいしゃ', area:'たびだちのひろば',
+   ids:['001','002','003','004','005','006','007','008','009','010','011','012']},
+  {name:'ミカ',  icon:'👩‍🎓', title:'しかいしゃ', area:'Sのしま',
+   ids:['013','014','015','016','017','018','019','020','021','022','023','024']},
+  {name:'アヤネ',icon:'🕵️‍♀️', title:'しかいしゃ', area:'あわあわシティ',
+   ids:['025','026','027','028','029','030','031','032','033','034','035','036','037','038','039','040','041','042']},
+  {name:'リョウ',icon:'🤵‍♂️', title:'しかいしゃ', area:'りょうりこうげん',
+   ids:['043','044','045','046','047','048','049','050','051','052','053','054','055','056','057','058','059','060','061','062','063','064','065','066','067','068','069','070','071','072','073','074','075','076','077','078']},
+  {name:'S',     icon:'👩‍🔬', title:'チャンピオン', area:'くつろぎシティ＋ねむりのもり',
+   ids:['079','080','081','082','083','084','085','086','087','088','089','090','091','092','093','094','095','096','097','098','099','100','101','102','103','104','105','106','107','108','109','110','111','112','113','114','115','116','117','118','119','120','121','122','123','124','125','126','127','128','129','130','131','132','133','134','135','136','137','138','139','140','141','142','143','144','145','146','147','148','149','150','151']},
+];
+
+let leagueCleared = JSON.parse(localStorage.getItem('kaji_league')||'[]');
+let currentBattleIdx = -1;
+let battleQuestions = [];
+let battleQIdx = 0;
+let battleLocked = false;
+
+function showLeague(){
+  leagueCleared = JSON.parse(localStorage.getItem('kaji_league')||'[]');
+  // カードの状態更新
+  e4Data.forEach((e,i)=>{
+    const card = i<4 ? document.getElementById('e4card'+i) : document.getElementById('champCard');
+    const status = document.getElementById('e4status'+i);
+    const cleared = leagueCleared.includes(i);
+    const available = i===0 || leagueCleared.includes(i-1);
+    const champAvail = i===4 && leagueCleared.filter(x=>x<4).length===4;
+    if(cleared){
+      card.className=(i<4?'e4-card':'champ-card')+' cleared';
+      status.textContent='✅';
+    } else if(i<4 && available || champAvail){
+      card.className=(i<4?'e4-card':'champ-card')+' available';
+      status.textContent='';
+    } else {
+      card.className=(i<4?'e4-card':'champ-card')+' locked';
+      status.textContent='🔒';
+    }
+  });
+  const allE4 = leagueCleared.filter(x=>x<4).length===4;
+  document.getElementById('leagueSub').textContent=
+    leagueCleared.includes(4)?'ぜんいん　クリアしたのじゃ！':
+    allE4?'チャンピオンに　ちょうせんするのじゃ！':
+    'しかいしゃに　ちょうせんするのじゃ！　('+(leagueCleared.filter(x=>x<4).length)+'/4)';
+  showScreen('leagueScreen');
+}
+
+function startBattle(idx){
+  const cleared = leagueCleared.includes(idx);
+  const available = idx===0 || leagueCleared.includes(idx-1);
+  const champAvail = idx===4 && leagueCleared.filter(x=>x<4).length===4;
+  if(!cleared && !available && !champAvail) return;
+  if(cleared && idx<4) return; // クリア済みはスキップ不可
+
+  currentBattleIdx = idx;
+  const opp = e4Data[idx];
+
+  // 問題収集（エリアのentries）
+  battleQuestions = opp.ids
+    .map(id=>entries.find(x=>x.id===id))
+    .filter(e=>e && e.q && e.choices && e.q!=='このポケモンの　なまえは？');
+
+  if(battleQuestions.length===0){
+    alert('このしかいしゃの　もんだいは　まだ　じゅんびちゅうじゃ！');
+    return;
+  }
+
+  // シャッフル
+  battleQuestions = battleQuestions.sort(()=>Math.random()-.5);
+  battleQIdx = 0;
+  battleLocked = false;
+
+  // ヘッダー設定
+  document.getElementById('battleOpponentIcon').textContent=opp.icon;
+  document.getElementById('battleOpponentName').textContent=opp.name;
+  document.getElementById('battleOpponentTitle').textContent=opp.title;
+  document.getElementById('battleHpIcon').textContent=playerPokemon?playerPokemon.icon:'❓';
+  updateBattleHp();
+  showBattleQuestion();
+  showScreen('battleScreen');
+}
+
+function updateBattleHp(){
+  const pct=Math.max(0,playerHP/MAX_HP*100);
+  const fill=document.getElementById('battleHpFill');
+  const num=document.getElementById('battleHpNum');
+  if(fill){fill.style.width=pct+'%';fill.className='hp-fill'+(pct<=25?' low':pct<=50?' mid':'');}
+  if(num) num.textContent=playerHP+'/'+MAX_HP;
+}
+
+function showBattleQuestion(){
+  if(battleQIdx>=battleQuestions.length){
+    // クリア！
+    battleClear();return;
+  }
+  const q=battleQuestions[battleQIdx];
+  battleLocked=false;
+  document.getElementById('battleQText').textContent=q.q;
+  document.getElementById('battleProgress').textContent=(battleQIdx+1)+' / '+battleQuestions.length;
+  document.getElementById('battleResult').textContent='';
+  const choicesEl=document.getElementById('battleChoices');
+  choicesEl.innerHTML='';
+  q.choices.forEach((c,i)=>{
+    const btn=document.createElement('button');
+    btn.className='battle-choice';
+    btn.textContent=c;
+    btn.onclick=()=>battleAnswer(i,q.answer,q.hint,q.types||['noormal']);
+    choicesEl.appendChild(btn);
+  });
+}
+
+function battleAnswer(selected,correct,hint,defTypes){
+  if(battleLocked) return;
+  battleLocked=true;
+  const btns=document.querySelectorAll('.battle-choice');
+  if(selected===correct){
+    btns.forEach((b,i)=>{b.classList.add('disabled');if(i===correct)b.classList.add('correct');});
+    document.getElementById('battleResult').style.color='#88ff88';
+    document.getElementById('battleResult').textContent='せいかい！！';
+    battleQIdx++;
+    setTimeout(showBattleQuestion,1000);
+  } else {
+    btns.forEach((b,i)=>{b.classList.add('disabled');if(i===selected)b.classList.add('wrong');});
+    // ダメージ5固定
+    playerHP=Math.max(0,playerHP-5);
+    localStorage.setItem('kaji_starter',JSON.stringify({id:playerPokemon?playerPokemon.id:'',hp:playerHP}));
+    updateBattleHp();
+    updateHPBar();
+    document.getElementById('battleResult').style.color='#ff6666';
+    document.getElementById('battleResult').textContent='ちがう！　HP-5';
+    setTimeout(()=>{
+      if(playerHP<=0){
+        document.getElementById('battleResult').textContent='HPが　0じゃ！　かばんで　かいふくするのじゃ！';
+        // HP0でも続けられる（ペナルティなし）
+      }
+      battleLocked=false;
+      btns.forEach(b=>b.classList.remove('disabled','wrong','correct'));
+      document.getElementById('battleResult').textContent='ヒント：'+(hint||'よくかんがえるのじゃ…');
+    },1800);
   }
 }
-setInterval(checkForNewPw,1000);
 
+function battleClear(){
+  if(!leagueCleared.includes(currentBattleIdx)){
+    leagueCleared.push(currentBattleIdx);
+    localStorage.setItem('kaji_league',JSON.stringify(leagueCleared));
+  }
+  const opp=e4Data[currentBattleIdx];
+  const isChamp=currentBattleIdx===4;
+  document.getElementById('fanfareIcon').textContent=opp.icon;
+  document.getElementById('fanfareText').innerHTML=opp.name+(isChamp?'を　たおした！！':'を　たおした！');
+  document.getElementById('fanfareSub').innerHTML=isChamp?
+    'きみは　かじますたーに　なった！！<br>たくはいボックスのばんごうを<br>Sに　きくのじゃ！':
+    opp.area+'の　クリアじゃ！<br>'+(leagueCleared.filter(x=>x<4).length)+' / 4 クリア';
+  // closeFanfareをleague用に
+  document.getElementById('fanfare').querySelector('button').onclick=()=>{
+    document.getElementById('fanfare').classList.remove('show');
+    document.getElementById('fanfare').querySelector('button').onclick=closeFanfare;
+    if(isChamp) showMasterEnding();
+    else showLeague();
+  };
+  document.getElementById('fanfare').classList.add('show');
+}
+
+function showMasterEnding(){
+  const pw=badgeData.slice(1,7).map(b=>b.number).join('');
+  document.getElementById('fanfareIcon').textContent='🏆';
+  document.getElementById('fanfareText').innerHTML='かじますたー　にんてい！！';
+  document.getElementById('fanfareSub').innerHTML=
+    'おめでとう！<br>あんしょうばんごうは<br>'+
+    '<span style="font-size:1.6rem;color:#f7c948;letter-spacing:4px;">'+pw+'</span><br>'+
+    'たくはいボックスのばんごうは<br>Sに　きくのじゃ！';
+  document.getElementById('fanfare').querySelector('button').onclick=()=>{
+    document.getElementById('fanfare').classList.remove('show');
+    document.getElementById('fanfare').querySelector('button').onclick=closeFanfare;
+    goToDex();
+  };
+  document.getElementById('fanfare').classList.add('show');
+}
+
+
+function renderBadgeRow(){
+  const row=document.getElementById('badgeRow');
+  if(!row) return;
+  row.innerHTML=badgeData.map((b,i)=>{
+    const earned=earnedBadges.includes(i);
+    const inner=b.first?(earned?'⚔️':'？'):b.final?(earned?'🏆':'？'):(earned?b.number:'？');
+    return '<div class="badge-mini'+(earned?' earned':'')+'"><div class="badge-mini-inner">'+inner+'</div></div>';
+  }).join('');
+}
+
+// ===== かばん =====
+function openBag(){
+  const info=document.getElementById('bagHpInfo');
+  if(info) info.textContent='HP: '+playerHP+' / '+MAX_HP;
+  document.getElementById('bagOverlay').classList.add('show');
+}
+function closeBag(){document.getElementById('bagOverlay').classList.remove('show');}
+function useBagItem(key,heal){
+  closeBag();
+  localStorage.setItem('kaji_heal_pending',heal);
+  const labels={squat:'スクワット10かい',haikin:'はいきん10かい',pushup:'うでたて10かい',massage:'かたもみ30びょう'};
+  showHealMessage(labels[key]||key,heal);
+}
+function showHealMessage(label,heal){
+  // starterMsgScreenを再利用
+  document.getElementById('starterMsgText').innerHTML=
+    'Sさんのまえで<br>'+label+'を　やってみせて！<br><br>'+
+    '<span style="color:#7ab8e8;font-size:.65rem;">おわったら　SさんにかいふくQRを<br>だしてもらうのじゃ！</span>';
+  document.getElementById('starterMsgNext').style.display='none';
+  document.getElementById('starterMsgBtn').textContent='もどる';
+  document.getElementById('starterMsgBtn').onclick=()=>{
+    localStorage.removeItem('kaji_heal_pending');
+    goToDex();
+  };
+  showScreen('starterMsgScreen');
+}
+
+// ===== QRスキャン =====
+let qrScanStream=null;let qrScanInterval=null;
+async function openQrScan(){
+  const modal=document.getElementById('qrScanModal');
+  modal.classList.add('show');
+  document.getElementById('qrScanStatus').textContent='カメラをQRコードに　むけるのじゃ…';
+  try{
+    qrScanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
+    const video=document.getElementById('qrVideo');
+    video.srcObject=qrScanStream;video.play();
+    startQrDecode(video);
+  }catch(e){document.getElementById('qrScanStatus').textContent='カメラのきょかが　ひつようじゃ…';}
+}
+function startQrDecode(video){
+  if(qrScanInterval) clearInterval(qrScanInterval);
+  const canvas=document.createElement('canvas');const ctx=canvas.getContext('2d');
+  qrScanInterval=setInterval(()=>{
+    if(video.readyState!==video.HAVE_ENOUGH_DATA) return;
+    canvas.width=video.videoWidth;canvas.height=video.videoHeight;
+    ctx.drawImage(video,0,0);
+    if('BarcodeDetector' in window){
+      const detector=new BarcodeDetector({formats:['qr_code']});
+      detector.detect(canvas).then(barcodes=>{
+        if(barcodes.length>0){closeQrScan();handleQrUrl(barcodes[0].rawValue);}
+      });
+    }
+  },300);
+}
+function closeQrScan(){
+  document.getElementById('qrScanModal').classList.remove('show');
+  if(qrScanInterval){clearInterval(qrScanInterval);qrScanInterval=null;}
+  if(qrScanStream){qrScanStream.getTracks().forEach(t=>t.stop());qrScanStream=null;}
+}
+function handleQrUrl(url){
+  try{
+    const urlObj=new URL(url);
+    const id=urlObj.searchParams.get('id');
+    const unlock=urlObj.searchParams.get('unlock');
+    const ts=urlObj.searchParams.get('ts');
+    const demo=urlObj.searchParams.get('demo');
+    const heal=parseInt(urlObj.searchParams.get('heal')||'0');
+    const now=Date.now();
+
+    if(unlock&&ts){
+      const tsNum=parseInt(ts);
+      if(demo==='1'){
+        const used=JSON.parse(localStorage.getItem('kaji_used_demo')||'[]');
+        if((now-tsNum)<=60000&&!used.includes(unlock)){
+          used.push(unlock);localStorage.setItem('kaji_used_demo',JSON.stringify(used));
+          if(id) showQuiz(id);
+        } else alert((now-tsNum)>60000?'このQRはきれんしているのじゃ！':'このQRはもうつかわれたのじゃ！');
+        return;
+      }
+      // かいふくQR
+      const used=JSON.parse(localStorage.getItem('kaji_used_unlock')||'[]');
+      if((now-tsNum)<=60000&&!used.includes(unlock)){
+        used.push(unlock);localStorage.setItem('kaji_used_unlock',JSON.stringify(used));
+        if(heal>0){
+          playerHP=Math.min(MAX_HP,playerHP+heal);
+          localStorage.setItem('kaji_starter',JSON.stringify({id:playerPokemon?playerPokemon.id:'',hp:playerHP}));
+          localStorage.removeItem('kaji_heal_pending');
+          updateHPBar();
+          document.getElementById('fanfareIcon').textContent='💊';
+          document.getElementById('fanfareText').innerHTML='HPが　かいふくしたのじゃ！';
+          document.getElementById('fanfareSub').innerHTML='HP: '+playerHP+' / '+MAX_HP;
+          document.getElementById('fanfare').classList.add('show');
+        }
+      } else alert((now-tsNum)>60000?'このQRはきれんしているのじゃ！':'このQRはもうつかわれたのじゃ！');
+      return;
+    }
+    if(id){
+      const e=entries.find(x=>x.id===id);
+      if(e){if(caught.includes(id))showDetail(id);else showQuiz(id);return;}
+      const starter=starters.find(s=>'starter_'+s.id===id);
+      if(starter){if(caught.includes(id))showDetail(id);else showQuiz(id);return;}
+    }
+  }catch(e){console.log('QR error:',e);}
+}
+
+// ===== オープニング =====
+const openingLines=[
+  {speaker:'Sはかせ',text:'やあ！　このせかいへ　ようこそ！'},
+  {speaker:'Sはかせ',text:'わたしの　なまえは　S。\nみんなからは　Sはかせと　したわれておるよ。'},
+  {speaker:'Sはかせ',text:'ところで　きみは　ぼうけんは\nはじめてかな？\nまずは　わしが　このせかいのことを\nおしえよう！'},
+  {speaker:'Sはかせ',text:'このせかいには　ポケットモンスター、\nちぢめて　ポケモンと　よばれている\nいきものたちが　そんざいしている。\nそのポケモンたちが　おうちの\nいたるところで　きになる　ぶぶんを\nおしえてくれようと　している。'},
+  {speaker:'Sはかせ',text:'きみは　いつも　このおうちのために\nたくさんのことを　してくれている。\nそれは　Sはかせが　いちばん\nよく　しっている。'},
+  {speaker:'Sはかせ',text:'でも　このぼうけんは　そこから\nさらに　すすむための　たびだ。\nなぞをとき　うごいて\nおうちのすみずみまで　りかいすること。\nそれが　かじますたーへの　みち。'},
+  {speaker:'Sはかせ',text:'ずかんをうめることが　もくてきではない。\nたびのなかで　このおうちを\nふかく　しることが\nこのぼうけんの　いちばんおおきな\nもくてきなのじゃ。'},
+  {speaker:'Sはかせ',text:'たー！　じゅんびは　いいかな？\nいろいろ　これから\nきみだけの　ものがたりが　はじまる！'},
+];
+let openingIndex=0;let isTyping=false;let typeTimer=null;
+
+function startOpening(){
+  openingIndex=0;
+  setTimeout(()=>{document.getElementById('hakaseChar').style.opacity='1';},300);
+  setTimeout(()=>{
+    document.getElementById('openingBox').style.opacity='1';
+    document.getElementById('openingBtn').style.opacity='1';
+    typeText(openingLines[0]);
+  },800);
+  showScreen('openingScreen');
+}
+
+function typeText(line){
+  isTyping=true;
+  document.getElementById('speakerName').textContent=line.speaker;
+  document.getElementById('openingNext').style.display='none';
+  const el=document.getElementById('openingText');
+  el.innerHTML='';let html='';let i=0;
+  if(typeTimer) clearInterval(typeTimer);
+  typeTimer=setInterval(()=>{
+    if(i<line.text.length){
+      if(line.text[i]==='\n') html+='<br>'; else html+=line.text[i];
+      el.innerHTML=html;i++;
+    } else {
+      clearInterval(typeTimer);isTyping=false;
+      document.getElementById('openingNext').style.display='block';
+    }
+  },40);
+}
+
+function nextOpening(){
+  if(isTyping){
+    clearInterval(typeTimer);isTyping=false;
+    if(openingIndex<openingLines.length)
+      document.getElementById('openingText').innerHTML=openingLines[openingIndex].text.replace(/\n/g,'<br>');
+    document.getElementById('openingNext').style.display='block';
+    return;
+  }
+  openingIndex++;
+  if(openingIndex>=openingLines.length){showScreen('starterScreen');return;}
+  typeText(openingLines[openingIndex]);
+}
+
+function skipOpening(){
+  if(typeTimer) clearInterval(typeTimer);
+  if(!isStarted) showScreen('starterScreen');
+  else goToDex();
+}
 function showDetail(id){
   const e=entries.find(x=>x.id===id);
-  document.getElementById('detailTitle').textContent='No.'+e.id+' '+e.pokemon;
+  document.getElementById('detailTitle').textContent=e.pokemon+'＠'+e.place;
   const typeBadges=e.types.map(t=>`<span class="type-badge ${typeColors[t]}">${typeNames[t]}</span>`).join('');
   document.getElementById('detailBody').innerHTML=`
     <div class="dex-entry-card">
