@@ -884,7 +884,7 @@ function renderDex(){
       if(isCaught)badge=`<span class="entry-badge caught-badge">かんりょう</span>`;
       else if(isSeen)badge=`<span class="entry-badge seen-badge">ちょうせんちゅう</span>`;
       const displayIcon=isHakase||isSeen||isCaught?e.icon:'❓';
-      row.innerHTML=`<div class="entry-top"><span class="entry-num">No.${id}</span><span class="entry-icon">${displayIcon}</span><span class="entry-name">${isHakase||isSeen||isCaught?e.place:'？？？'}</span>${badge}</div>`;
+      row.innerHTML=`<div class="entry-top"><span class="entry-num">No.${id}</span><span class="entry-icon">${displayIcon}</span><span class="entry-name">${isHakase||isSeen||isCaught?(e.pokemon!='？？？'?e.pokemon+'＠'+e.place:e.place):'？？？'}</span>${badge}</div>`;
       list.appendChild(row);
     });
     sec.appendChild(label);sec.appendChild(list);
