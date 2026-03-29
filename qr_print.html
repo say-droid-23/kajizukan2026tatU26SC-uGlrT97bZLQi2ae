@@ -20,10 +20,11 @@ h1{font-size:.9rem;text-align:center;margin-bottom:12px;color:#333;}
 .qr-card .place{font-size:.55rem;color:#333;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}
 .qr-card img{display:block;margin:2px auto;width:80px;height:80px;}
 @media print{
-  body{padding:0;background:white;}
-  .controls{display:none;}
+  body{padding:0;background:white;margin:0;}
+  h1,.controls{display:none!important;}
+  #printArea{padding:0;}
   .grid{grid-template-columns:repeat(5,1fr)!important;gap:3px!important;}
-  .qr-card{border:1px solid #aaa!important;padding:3px!important;}
+  .qr-card{border:1px solid #aaa!important;padding:3px!important;page-break-inside:avoid;break-inside:avoid;}
   -webkit-print-color-adjust:exact;
   print-color-adjust:exact;
 }
