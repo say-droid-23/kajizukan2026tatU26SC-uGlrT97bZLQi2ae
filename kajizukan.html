@@ -877,6 +877,10 @@ function showScreen(id){
 }
 
 function goToDex(){
+  // localStorageから最新状態を再読み込み（iPhoneで別タブから戻ったとき対策）
+  caught = JSON.parse(localStorage.getItem('kaji_caught2')||'[]');
+  seen = JSON.parse(localStorage.getItem('kaji_seen2')||'[]');
+  earnedBadges = JSON.parse(localStorage.getItem('kaji_badges')||'[]');
   if(!isHakase) localStorage.setItem('kaji_started','1');
   const isFirstVisit = !caught.includes('first_battle');
   if(isFirstVisit){
