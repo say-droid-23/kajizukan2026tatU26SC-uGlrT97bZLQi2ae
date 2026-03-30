@@ -893,7 +893,7 @@ function goToDex(){
     updateHPBar();
   }
   // 初回訪問時は少し長めに待ってからバッジ演出
-  setTimeout(showBadgeIfPending, isFirstVisit ? 800 : 400);
+  setTimeout(showBadgeIfPending, isFirstVisit ? 1200 : 400);
 }
 
 function renderDex(){
@@ -1045,6 +1045,10 @@ function showFanfare(e){
 
 function closeFanfare(){
   document.getElementById('fanfare').classList.remove('show');
+  if(pendingBadge){
+    setTimeout(showBadgeIfPending, 300);
+    return;
+  }
   if(currentEntry) showDetail(currentEntry.id);
   else goToDex();
 }
@@ -1249,7 +1253,7 @@ function checkReadyPw(){
   if(!input) return;
   if(input.value.trim()==='たちゃはおんなのこ'){
     document.getElementById('readyPwOverlay').classList.remove('show');
-    goToDex();
+    setTimeout(goToDex, 600);
   } else {
     document.getElementById('readyPwWrong').textContent='ちがうようじゃ…Sさんにきくのじゃ。';
   }
