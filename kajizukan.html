@@ -820,10 +820,44 @@ window.onload=function(){
   }
   if(isHakase){goToDex();return;}
 
-  // 解除QRチェック（タイムスタンプ方式、1分有効）
+  // おねがいQRチェック
   const params=new URLSearchParams(window.location.search);
+  const onegaiParam=params.get('onegai');
   const unlockCode=params.get('unlock');
   const unlockTs=params.get('ts');
+  if(onegaiParam&&unlockCode&&unlockTs){
+    const now2=Date.now();
+    const ts2=parseInt(unlockTs);
+    const used2=JSON.parse(localStorage.getItem('kaji_used_onegai')||'[]');
+    if((now2-ts2)<=600000&&!used2.includes(unlockCode)){
+      used2.push(unlockCode);localStorage.setItem('kaji_used_onegai',JSON.stringify(used2));
+      const cleared=JSON.parse(localStorage.getItem('kaji_onegai_cleared')||'[]');
+      if(!cleared.includes(onegaiParam)){
+        cleared.push(onegaiParam);
+        localStorage.setItem('kaji_onegai_cleared',JSON.stringify(cleared));
+      }
+      const allCleared=onegaiIds.every(id=>cleared.includes(id));
+      // ゲームが始まっていればgoToDexして結果表示
+      if(localStorage.getItem('kaji_started')==='1'){
+        caught=JSON.parse(localStorage.getItem('kaji_caught2')||'[]');
+        earnedBadges=JSON.parse(localStorage.getItem('kaji_badges')||'[]');
+        goToDex();
+        setTimeout(()=>{
+          document.getElementById('healResultOverlay').classList.add('show');
+          document.getElementById('healResultHp').innerHTML=allCleared
+            ?'🍣 おねがいぜんぶクリア！<br>おすしにつれていくのじゃ！'
+            :'おねがいクリア！ ('+cleared.length+'/'+onegaiIds.length+')';
+        },600);
+      } else {
+        alert('おねがいクリア！ ('+cleared.length+'/'+onegaiIds.length+')');
+      }
+    } else {
+      alert('このQRはすでにつかわれたのじゃ！');
+    }
+    return;
+  }
+
+  // 解除QRチェック（タイムスタンプ方式、1分有効）
   if(unlockCode&&unlockTs){
     const now=Date.now();
     const ts=parseInt(unlockTs);
@@ -1648,6 +1682,28 @@ function handleQrUrl(url){
     const heal=parseInt(urlObj.searchParams.get('heal')||'0');
     const now=Date.now();
 
+    const onegaiClear = urlObj.searchParams.get('onegai');
+    if(onegaiClear && unlock){
+      const used2 = JSON.parse(localStorage.getItem('kaji_used_onegai')||'[]');
+      if(!used2.includes(unlock)){
+        used2.push(unlock); localStorage.setItem('kaji_used_onegai', JSON.stringify(used2));
+        const cleared = JSON.parse(localStorage.getItem('kaji_onegai_cleared')||'[]');
+        if(!cleared.includes(onegaiClear)){
+          cleared.push(onegaiClear);
+          localStorage.setItem('kaji_onegai_cleared', JSON.stringify(cleared));
+        }
+        const allCleared = onegaiIds.every(id=>cleared.includes(id));
+        document.getElementById('healResultOverlay').classList.add('show');
+        document.getElementById('healResultHp').innerHTML = allCleared
+          ? '🍣 おねがいぜんぶクリア！<br>おすしにつれていくのじゃ！'
+          : 'おねがいクリア！ ('+cleared.length+'/'+onegaiIds.length+')';
+        updateOnegaiProgressDex();
+        goToDex();
+      } else {
+        alert('このQRはすでにつかわれたのじゃ！');
+      }
+      return;
+    }
     if(unlock&&ts){
       const tsNum=parseInt(ts);
       if(demo==='1'){
@@ -1675,30 +1731,7 @@ function handleQrUrl(url){
       return;
     }
     // おねがいクリアQR
-    const onegaiClear = urlObj.searchParams.get('onegai');
-    if(onegaiClear && unlock && ts){
-      const tsNum2 = parseInt(ts);
-      const used2 = JSON.parse(localStorage.getItem('kaji_used_onegai')||'[]');
-      if((now-tsNum2)<=60000 && !used2.includes(unlock)){
-        used2.push(unlock); localStorage.setItem('kaji_used_onegai', JSON.stringify(used2));
-        const cleared = JSON.parse(localStorage.getItem('kaji_onegai_cleared')||'[]');
-        if(!cleared.includes(onegaiClear)){
-          cleared.push(onegaiClear);
-          localStorage.setItem('kaji_onegai_cleared', JSON.stringify(cleared));
-        }
-        // 全クリア確認
-        const allCleared = onegaiIds.every(id=>cleared.includes(id));
-        document.getElementById('healResultOverlay').classList.add('show');
-        document.getElementById('healResultHp').innerHTML = allCleared
-          ? '🍣 おねがいぜんぶクリア！<br>おすしにつれていくのじゃ！'
-          : 'おねがいクリア！ ('+cleared.length+'/'+onegaiIds.length+')';
-        updateOnegaiProgressDex();
-        if(currentEntry) showDetail(currentEntry.id);
-      } else {
-        alert('このQRはすでにつかわれたのじゃ！');
-      }
-      return;
-    }
+
     if(id){
       const e=entries.find(x=>x.id===id);
       if(e){if(caught.includes(id))showDetail(id);else showQuiz(id);return;}
